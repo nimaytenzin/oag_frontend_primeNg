@@ -1,14 +1,4 @@
 <div class="layout-topbar">
-    <a class="layout-topbar-logo" routerLink="">
-        <img
-            src="assets/logo/{{
-                layoutService.config().colorScheme === 'light' ? 'logo' : 'logo'
-            }}.png"
-            alt="logo"
-        />
-        <span>ZHICHAR</span>
-    </a>
-
     <button
         #menubutton
         class="p-link layout-menu-button layout-topbar-button"
@@ -16,6 +6,11 @@
     >
         <i class="pi pi-bars"></i>
     </button>
+    <a class="layout-topbar-logo" routerLink="">
+        <span>
+            {{ companyName }}
+        </span>
+    </a>
 
     <button
         #topbarmenubutton
@@ -34,8 +29,8 @@
         }"
     >
         <button class="p-link layout-topbar-button">
-            <i class="pi pi-calendar"></i>
-            <span>Calendar</span>
+            <i class="pi pi-bell"></i>
+            <span>Notificatoin</span>
         </button>
         <button class="p-link layout-topbar-button">
             <i class="pi pi-user"></i>

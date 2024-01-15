@@ -24,27 +24,32 @@ export class AdminMenuComponent implements OnInit {
                 ],
             },
             {
-                label: 'Database',
+                label: 'Master',
                 items: [
                     {
-                        label: 'Plan Inventory',
+                        label: 'Buildings & Units',
                         icon: 'pi pi-fw pi-th-large',
                         routerLink: ['/plans'],
                     },
                     {
-                        label: 'Plots Inventory',
-                        icon: 'pi pi-fw pi-building',
-                        routerLink: ['/plots'],
-                    },
-                    {
-                        label: 'Buildings Inventory',
+                        label: 'Landlords',
                         icon: 'pi pi-fw pi-building',
                         routerLink: ['/admin/building-inventory'],
+                    },
+                    {
+                        label: 'Tenants',
+                        icon: 'pi pi-fw pi-building',
+                        routerLink: ['/admin/building-inventory'],
+                    },
+                    {
+                        label: 'Lease Agreements',
+                        icon: 'pi pi-fw pi-building',
+                        routerLink: ['/plots'],
                     },
                 ],
             },
             {
-                label: 'Master',
+                label: 'Transactions',
                 items: [
                     {
                         label: 'Dzongkhags',

@@ -119,6 +119,7 @@ export class AdminLayoutService {
     }
 
     changeTheme() {
+        console.log('CHANGING THEME');
         const config = this.config();
         const themeLink = <HTMLLinkElement>document.getElementById('theme-css');
         const themeLinkHref = themeLink.getAttribute('href')!;
