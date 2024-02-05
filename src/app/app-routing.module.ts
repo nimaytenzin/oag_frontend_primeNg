@@ -1,8 +1,8 @@
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { NotfoundComponent } from './demo/components/notfound/notfound.component';
-import { AppLayoutComponent } from './layout/app.layout.component';
-import { AdminLayoutComponent } from './layout/admin/admin-layout.component';
+import { AppLayoutComponent } from './presentations/layout/app.layout.component';
+import { AdminLayoutComponent } from './presentations/layout/admin/admin-layout.component';
 
 @NgModule({
     imports: [
@@ -59,7 +59,7 @@ import { AdminLayoutComponent } from './layout/admin/admin-layout.component';
                 {
                     path: 'auth',
                     loadChildren: () =>
-                        import('./demo/components/auth/auth.module').then(
+                        import('./presentations/auth/auth.module').then(
                             (m) => m.AuthModule
                         ),
                 },
@@ -79,37 +79,50 @@ import { AdminLayoutComponent } from './layout/admin/admin-layout.component';
                             path: '',
                             loadChildren: () =>
                                 import(
-                                    './admin/admin-dashboard/admin-dashboard.module'
+                                    './presentations/admin/admin-dashboard/admin-dashboard.module'
                                 ).then((m) => m.AdminDashboardModule),
                         },
+                        {
+                            path: 'master-properties',
+                            loadChildren: () =>
+                                import(
+                                    './presentations/admin/properties/admin-master-properties-routing.module'
+                                ).then(
+                                    (m) => m.AdminMasterPropertiesRoutingModule
+                                ),
+                        },
+                        {
+                            path: 'master-locations',
+                            loadChildren: () =>
+                                import(
+                                    './presentations/admin/locations/admin-master-locations-routing.module'
+                                ).then(
+                                    (m) => m.AdminMasterPropertiesRoutingModule
+                                ),
+                        },
+
                         {
                             path: 'building-inventory',
                             loadChildren: () =>
                                 import(
-                                    './admin/admin-building-inventory/admin-building-inventory.module'
+                                    './presentations/admin/admin-building-inventory/admin-building-inventory.module'
                                 ).then((m) => m.AdminBuildingInventoryModule),
                         },
                         {
                             path: 'master-medianrents',
                             loadChildren: () =>
                                 import(
-                                    './admin/admin-master-medianrent/admin-master-medianrent-routing.module'
+                                    './presentations/admin/admin-master-medianrent/admin-master-medianrent-routing.module'
                                 ).then(
                                     (m) => m.AdminMasterMedianrentRoutingModule
                                 ),
                         },
-                        {
-                            path: 'master-dzongkhags',
-                            loadChildren: () =>
-                                import(
-                                    './admin/admin-master-dzongkhags/admin-master-dzongkhags.module'
-                                ).then((m) => m.AdminMasterDzongkhagsModule),
-                        },
+
                         {
                             path: 'master-admzones',
                             loadChildren: () =>
                                 import(
-                                    './admin/admin-master-administrativezones/admin-master-administrativezones.module'
+                                    './presentations/admin/admin-master-administrativezones/admin-master-administrativezones.module'
                                 ).then(
                                     (m) =>
                                         m.AdminMasterAdministrativezonesModule
@@ -119,7 +132,7 @@ import { AdminLayoutComponent } from './layout/admin/admin-layout.component';
                             path: 'master-subadmzones',
                             loadChildren: () =>
                                 import(
-                                    './admin/admin-master-sub-administrativezones/admin-master-sub-administrativezones.module'
+                                    './presentations/admin/admin-master-sub-administrativezones/admin-master-sub-administrativezones.module'
                                 ).then(
                                     (m) =>
                                         m.AdminMasterSubAdministrativezonesModule

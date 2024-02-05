@@ -1,0 +1,105 @@
+<div>
+    <p>To implement</p>
+    <ul>
+        <li>Pagination for buildings</li>
+        <li>Dzongkhag wise view</li>
+        <li>Thromde wise view</li>
+        <li>Locality wise view</li>
+    </ul>
+</div>
+
+<p-table
+    [value]="buildingsPaginated"
+    class="p-datatable-sm"
+    [tableStyle]="{ 'min-width': '50rem' }"
+>
+    <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between">
+            Buildings
+            <p-button
+                icon="pi pi-plus"
+                (click)="openAddBuildingModal()"
+            ></p-button>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>ID</th>
+            <th>Building</th>
+            <th>Appearance</th>
+            <th>Ownership</th>
+            <th></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-building>
+        <tr>
+            <td>
+                <div class="text-center">
+                    <qrcode
+                        *ngIf="building?.zhicharQrUuid"
+                        [qrdata]="getQr(building?.zhicharQrUuid)"
+                        [errorCorrectionLevel]="'M'"
+                        [allowEmptyString]="true"
+                        [cssClass]="'center'"
+                        [errorCorrectionLevel]="'high'"
+                        [colorDark]="'#111827'"
+                        [colorLight]="'#FFFFFF00'"
+                        [elementType]="'svg'"
+                        [errorCorrectionLevel]="'H'"
+                        [scale]="1"
+                        [title]="'BuildingQr'"
+                        [width]="100"
+                        class="m-0 p-0"
+                    ></qrcode>
+                    <small> ID: {{ building.id }} </small>
+                </div>
+            </td>
+            <td>
+                {{ building.name }} <br />
+
+                <strong>
+                    {{
+                        getBuildingFloorConfiguration(
+                            building.regularFloorCount,
+                            building.basementCount,
+                            building.stiltCount,
+                            building.atticCount,
+                            building.jamthogCount
+                        )
+                    }}
+                </strong>
+                <br />
+                <small> Type: {{ building.buildingType }} </small>
+            </td>
+            <td>
+                buildingNumber: {{ building.buildingNumber }} <br />
+                streetName:
+                {{ building.streetName }}
+                <br />
+                {{ building.dzongkhag.name }}
+                {{ building.thromde.name }}
+                {{ building.locality.name }}
+            </td>
+
+            <td>Ownership not mapped</td>
+
+            <td>
+                <p-button
+                    icon="pi pi-pencil"
+                    (click)="openEditBuildingModal(building)"
+                ></p-button>
+                <p-button
+                    icon="pi pi-eye"
+                    (click)="openViewBuildingDetails(building)"
+                ></p-button>
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">
+            Showing {{ buildingsPaginated.length }} Buildings
+        </div>
+        <div></div>
+    </ng-template>
+</p-table>
