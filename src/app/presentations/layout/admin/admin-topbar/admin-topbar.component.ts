@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { LayoutService } from '../../service/app.layout.service';
 import { AdminLayoutService } from '../service/admin-layout.service';
-import { COMPANY_NAME } from 'src/app/core/dataservice/constants';
+import { COMPANY_NAME } from 'src/app/core/constants/constants';
 
 @Component({
     selector: 'app-admin-topbar',

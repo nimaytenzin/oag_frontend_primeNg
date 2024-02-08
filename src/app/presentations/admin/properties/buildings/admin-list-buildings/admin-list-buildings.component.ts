@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { BuildingDataService } from 'src/app/core/dataservice/building.dataservice';
+import { BuildingDataService } from 'src/app/core/dataservice/building/building.dataservice';
 import { BuildingDTO } from 'src/app/core/dto/properties/building.dto';
 import { PARSEBUILDINGFLOORS } from 'src/app/core/utility/helper.function';
 import { AdminAddBuildingComponent } from '../crud-modal/admin-add-building/admin-add-building.component';
@@ -21,6 +21,7 @@ import { TableModule } from 'primeng/table';
         GalleriaModule,
         TableModule,
         QRCodeModule,
+        RouterModule,
     ],
     providers: [DialogService],
     templateUrl: './admin-list-buildings.component.html',
@@ -89,8 +90,7 @@ export class AdminListBuildingsComponent {
     openAddBuildingModal() {
         this.ref = this.dialogService.open(AdminAddBuildingComponent, {
             header: 'Add Building',
-
-            width: '50vw',
+            width: '600px',
         });
         this.ref.onClose.subscribe((res) => {
             if (res.added) {
@@ -102,7 +102,7 @@ export class AdminListBuildingsComponent {
     openEditBuildingModal(data: BuildingDTO) {
         this.ref = this.dialogService.open(AdminEditBuildingComponent, {
             header: 'Edit Building',
-            width: '50vw',
+            width: '600px',
             data: {
                 ...data,
             },

@@ -1,7 +1,50 @@
-<h1>selected Unit ID {{ unitId }}</h1>
-<p>Unit Detail, toilet bath ,bed,</p>
-<p>Unit Area</p>
-<p>Unit Image</p>
-<p>Unit Amenities</p>
-<p>Unit Surcharges</p>
-<p>Total monthly rent inclusive of unit surcharges + building surcharges</p>
+<div class="flex gap-2 align-items-center justify-content-between border-2">
+    <div class="flex align-items-end">
+        <qrcode
+            [qrdata]="'random'"
+            [errorCorrectionLevel]="'M'"
+            [allowEmptyString]="true"
+            [cssClass]="'center'"
+            [errorCorrectionLevel]="'high'"
+            [colorDark]="'#111827'"
+            [colorLight]="'#FFFFFF00'"
+            [elementType]="'svg'"
+            [errorCorrectionLevel]="'H'"
+            [scale]="1"
+            [title]="'BuildingQr'"
+            [width]="60"
+            class="m-0 p-0"
+        ></qrcode>
+        <div class="">
+            <h4 class="m-0 p-0">
+                {{ unit?.floorLevel }}- {{ unit.unitNumber }}
+            </h4>
+            <p class="m-0 p-0">
+                {{ parseFloorLevel(unit.floorLevel) }}
+            </p>
+        </div>
+    </div>
+    <p-button label="Show All Units" size="small" (click)="goBack()">
+    </p-button>
+</div>
+<p-tabView>
+    <p-tabPanel header="Unit Details">
+        <h2>
+            Beds: {{ unit.bedroomCount }} <br />
+            Baths: {{ unit.toiletCount }} <br />
+            Balconies: {{ unit.balconyCount }}
+            <br />
+            Area: {{ unit.floorArea }} SQM
+        </h2>
+
+        <div>
+            <p>active LEase: link</p>
+            <p>Current Tenant</p>
+
+            <p>Net Payable, building surcharges,</p>
+        </div>
+    </p-tabPanel>
+    <p-tabPanel header="Lease Agreements"> </p-tabPanel>
+    <p-tabPanel header="Tenants"> </p-tabPanel>
+    <p-tabPanel header="Transactions"> </p-tabPanel>
+</p-tabView>

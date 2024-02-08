@@ -4,6 +4,7 @@ import { AdminViewBuildingComponent } from './buildings/admin-view-building/admi
 import { AdminListBuildingsComponent } from './buildings/admin-list-buildings/admin-list-buildings.component';
 import { AdminViewUnitComponent } from './units/admin-view-unit/admin-view-unit.component';
 import { AdminMasterPropertiesComponent } from './admin-master-properties.component';
+import { AdminListUnitsComponent } from './units/admin-list-units/admin-list-units.component';
 
 const routes: Routes = [
     {
@@ -17,8 +18,15 @@ const routes: Routes = [
             {
                 path: 'building/:buildingId',
                 component: AdminViewBuildingComponent,
+                children: [
+                    {
+                        path: '',
+                        component: AdminListUnitsComponent,
+                    },
+
+                    { path: 'unit/:unitId', component: AdminViewUnitComponent },
+                ],
             },
-            { path: 'unit/:unitId', component: AdminViewUnitComponent },
         ],
     },
 ];

@@ -1,1 +1,111 @@
-<p>admin-add-unit works!</p>
+<form [formGroup]="createUnitForm" class="p-fluid p-2">
+    <div class="grid">
+        <div class="field col-12 md:col-6">
+            <label for="attic">Zhichar Unit Id</label>
+            <p-inputNumber
+                inputId="integeronly"
+                formControlName="zhicharUnitId"
+            ></p-inputNumber>
+        </div>
+        <div class="field col-12 md:col-6">
+            <label for="attic">Zhichar QrUuid</label>
+            <p-inputNumber
+                inputId="integeronly"
+                formControlName="zhicharQrUuid"
+            ></p-inputNumber>
+        </div>
+        <div class="field col-12 md:col-6">
+            <label for="attic">Floor Level</label>
+            <p-dropdown
+                [options]="floorLevels"
+                formControlName="floorLevel"
+            ></p-dropdown>
+        </div>
+        <div class="field col-12 md:col-6">
+            <label for="zhichar">Unit Number</label>
+            <input
+                pInputText
+                id="zhichar"
+                formControlName="unitNumber"
+                type="text"
+            />
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="attic">Bed Rooms</label>
+            <p-inputNumber
+                inputId="integeronly"
+                formControlName="bedroomCount"
+            ></p-inputNumber>
+        </div>
+        <div class="field col-12 md:col-6">
+            <label for="attic"> Toilets </label>
+            <p-inputNumber
+                inputId="integeronly"
+                formControlName="toiletCount"
+            ></p-inputNumber>
+        </div>
+        <div class="field col-12 md:col-6">
+            <label for="attic"> Balcony </label>
+            <p-inputNumber
+                inputId="integeronly"
+                formControlName="balconyCount"
+            ></p-inputNumber>
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="attic"> Floor Area </label>
+            <p-inputNumber
+                inputId="integeronly"
+                formControlName="floorArea"
+            ></p-inputNumber>
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="zhichar">BPC consumer ID</label>
+            <input
+                pInputText
+                id="zhichar"
+                formControlName="powerConsumerId"
+                type="text"
+            />
+        </div>
+
+        <!--       
+
+        <div class="field col-12 md:col-6">
+            <label for="buildingArea">Unit Area</label>
+
+            <p-inputGroup>
+                <input pInputText id="buildingArea" formControlName="areaSqM" />
+                <p-inputGroupAddon> Sq. M </p-inputGroupAddon>
+            </p-inputGroup>
+        </div> -->
+
+        <!-- <div class="field col-12 md:col-4">
+            <label for="dzongkhag">Dzongkhag*</label>
+            <p-dropdown
+                [options]="dzongkhags"
+                optionLabel="name"
+                optionValue="id"
+                (onChange)="dzongkhagSelected($event)"
+                formControlName="dzongkhagId"
+            ></p-dropdown>
+        </div>
+
+        <div class="field col-12 md:col-4">
+            <label for="thromde">Thromde*</label>
+            <p-dropdown
+                [options]="thromdes"
+                optionLabel="name"
+                optionValue="id"
+                (onChange)="thromdeSelected($event)"
+                formControlName="thromdeId"
+            ></p-dropdown>
+        </div> -->
+
+        <!-- </div> -->
+    </div>
+
+    <p-button (click)="createUnit()" label="Create Building"></p-button>
+</form>

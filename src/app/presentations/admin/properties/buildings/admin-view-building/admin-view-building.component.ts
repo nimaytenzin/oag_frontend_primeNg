@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { QRCodeModule } from 'angularx-qrcode';
 import { MenuItem } from 'primeng/api';
 import { TabViewModule } from 'primeng/tabview';
-import { BuildingDataService } from 'src/app/core/dataservice/building.dataservice';
+import { BuildingDataService } from 'src/app/core/dataservice/building/building.dataservice';
 import { BuildingDTO } from 'src/app/core/dto/properties/building.dto';
 import { CommonModule } from '@angular/common';
 import { GalleriaModule } from 'primeng/galleria';
 import { PARSEBUILDINGFLOORS } from 'src/app/core/utility/helper.function';
 import { ButtonModule } from 'primeng/button';
 import { AdminListUnitsComponent } from '../../units/admin-list-units/admin-list-units.component';
+import { AdminBuildingDetailsCardComponent } from '../components/admin-building-details-card/admin-building-details-card.component';
+import { AdminBuildingSurchargesComponent } from '../components/admin-building-surcharges/admin-building-surcharges.component';
 
 @Component({
     selector: 'app-admin-view-building',
@@ -21,6 +23,9 @@ import { AdminListUnitsComponent } from '../../units/admin-list-units/admin-list
         GalleriaModule,
         ButtonModule,
         AdminListUnitsComponent,
+        AdminBuildingDetailsCardComponent,
+        AdminBuildingSurchargesComponent,
+        RouterModule,
     ],
     templateUrl: './admin-view-building.component.html',
     styleUrl: './admin-view-building.component.scss',
@@ -53,11 +58,6 @@ export class AdminViewBuildingComponent implements OnInit {
         'Trash must be disposed of in designated areas',
         'No soliciting in the building premises',
         'Residents must comply with recycling guidelines',
-    ];
-
-    buildingCharges = [
-        { item: 'Cleaning Charges', amount: 200 },
-        { item: 'App Service Charge', amount: 50 },
     ];
 
     responsiveOptions: any[] = [

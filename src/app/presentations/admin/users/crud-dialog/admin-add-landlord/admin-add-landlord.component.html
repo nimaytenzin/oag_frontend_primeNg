@@ -1,0 +1,108 @@
+<form [formGroup]="createLandlordForm" class="p-fluid p-2">
+    <div class="grid">
+        <div class="field col-12 md:col-6">
+            <label for="buildingArea">Phone Number*</label>
+
+            <p-inputGroup>
+                <p-inputGroupAddon> +975</p-inputGroupAddon>
+                <input
+                    pInputText
+                    id="buildingArea"
+                    formControlName="phoneNumber"
+                />
+            </p-inputGroup>
+        </div>
+        <div class="field col-12 md:col-6">
+            <label for="buildingArea">CID</label>
+            <p-inputGroup>
+                <input
+                    pInputText
+                    id="buildingArea"
+                    formControlName="phoneNumber"
+                />
+            </p-inputGroup>
+        </div>
+        <div class="field col-12 md:col-4">
+            <label for="qrId">First Name*</label>
+            <input
+                pInputText
+                id="qrId"
+                type="text"
+                formControlName="firstName"
+            />
+        </div>
+        <div class="field col-12 md:col-4">
+            <label for="qrId">Middle Name</label>
+            <input
+                pInputText
+                id="qrId"
+                type="text"
+                formControlName="middleName"
+            />
+        </div>
+        <div class="field col-12 md:col-4">
+            <label for="qrId">Last Name</label>
+            <input
+                pInputText
+                id="qrId"
+                type="text"
+                formControlName="lastName"
+            />
+        </div>
+
+        <div class="field col-12">
+            <label for="latitude">Email</label>
+            <input
+                pInputText
+                id="latitude"
+                type="text"
+                formControlName="email"
+            />
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="buildingType">Bank Name</label>
+            <p-dropdown
+                [options]="bankNames"
+                formControlName="bankName"
+            ></p-dropdown>
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="longitude">Account Number* </label>
+            <input
+                pInputText
+                id="longitude"
+                type="text"
+                formControlName="accountNumber"
+            />
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="longitude">Profile Picture </label>
+            <p-fileUpload
+                mode="basic"
+                chooseLabel="Upload Profile"
+                name="demo[]"
+                url="https://www.primefaces.org/cdn/api/upload.php"
+                accept="image/*"
+                maxFileSize="1000000"
+                (onUpload)="onUpload($event)"
+            ></p-fileUpload>
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="longitude">Signature* </label>
+            <p-fileUpload
+                mode="basic"
+                chooseLabel="Upload Signature"
+                name="demo[]"
+                url="https://www.primefaces.org/cdn/api/upload.php"
+                accept="image/*"
+                maxFileSize="1000000"
+                (onUpload)="onUpload($event)"
+            ></p-fileUpload>
+        </div>
+    </div>
+    <p-button (click)="createTenant()" label="Create Tenant"></p-button>
+</form>

@@ -14,7 +14,7 @@ import {
 import { BuildingDetailService } from 'src/app/core/dataservice/building-detail.dataservice';
 import { DividerModule } from 'primeng/divider';
 import { FieldsetModule } from 'primeng/fieldset';
-import { UnitDataService } from 'src/app/core/dataservice/unit.dataservice';
+import { UnitDataService } from 'src/app/core/dataservice/units/unit.dataservice';
 
 @Component({
     selector: 'app-admin-building-inventory-view-building',

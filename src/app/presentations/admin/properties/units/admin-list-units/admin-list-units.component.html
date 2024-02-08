@@ -1,9 +1,39 @@
-<p>List down unit as table</p>
-
-<div class="flex align-items-center justify-content-between">
+<div class="flex align-items-center justify-content-between p-0 m-0">
     <p-button icon="pi pi-plus" (click)="openAddUnitModal()"></p-button>
 </div>
 
 <div>
     <p-button label="edit" (click)="openEditUnitModal()"></p-button>
 </div>
+
+<p-table
+    [value]="units"
+    responsiveLayout="stack"
+    [breakpoint]="'960px'"
+    [tableStyle]="{ 'min-width': '50rem' }"
+>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Facilities</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-unit let-columns="columns">
+        <tr>
+            <td>
+                {{ index }}
+            </td>
+            <td>{{ unit.floorLevel }}-{{ unit.unitNumber }}</td>
+            <td>
+                {{ unit.bedrooms }} BHK {{ unit.toilets }} toilets
+                {{ unit.balcony }} balcony
+                <p>Area: {{ unit.area }} SqMs</p>
+                <p>BPC Consumer ID: {{ unit.powerConsumerId }}</p>
+            </td>
+            <td>
+                <p-button label="view unit" (click)="viewUnit(unit)"></p-button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

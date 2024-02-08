@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/dataservice/auth.service';
 import { LayoutService } from 'src/app/presentations/layout/service/app.layout.service';
 
@@ -23,7 +24,8 @@ export class LoginComponent {
 
     constructor(
         public layoutService: LayoutService,
-        private authService: AuthService
+        private authService: AuthService,
+        private router: Router
     ) {}
 
     login() {
@@ -35,6 +37,7 @@ export class LoginComponent {
             .subscribe((res: any) => {
                 console.log(res);
                 this.authService.SetAuthToken(res.token);
+                this.router.navigate(['/admin']);
             });
     }
 }

@@ -24,7 +24,7 @@ import {
     BuildingType,
     NumberDropDownOptions,
 } from 'src/app/core/constants/enums';
-import { BuildingDataService } from 'src/app/core/dataservice/building.dataservice';
+import { BuildingDataService } from 'src/app/core/dataservice/building/building.dataservice';
 import { LocationDataService } from 'src/app/core/dataservice/location.dataservice';
 import { BuildingDTO } from 'src/app/core/dto/properties/building.dto';
 

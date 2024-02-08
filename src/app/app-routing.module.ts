@@ -1,7 +1,5 @@
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { NotfoundComponent } from './demo/components/notfound/notfound.component';
-import { AppLayoutComponent } from './presentations/layout/app.layout.component';
 import { AdminLayoutComponent } from './presentations/layout/admin/admin-layout.component';
 
 @NgModule({
@@ -9,79 +7,24 @@ import { AdminLayoutComponent } from './presentations/layout/admin/admin-layout.
         RouterModule.forRoot(
             [
                 {
-                    path: '',
-                    component: AppLayoutComponent,
-                    children: [
-                        {
-                            path: '',
-                            loadChildren: () =>
-                                import(
-                                    './demo/components/dashboard/dashboard.module'
-                                ).then((m) => m.DashboardModule),
-                        },
-                        {
-                            path: 'uikit',
-                            loadChildren: () =>
-                                import(
-                                    './demo/components/uikit/uikit.module'
-                                ).then((m) => m.UIkitModule),
-                        },
-                        {
-                            path: 'utilities',
-                            loadChildren: () =>
-                                import(
-                                    './demo/components/utilities/utilities.module'
-                                ).then((m) => m.UtilitiesModule),
-                        },
-                        {
-                            path: 'documentation',
-                            loadChildren: () =>
-                                import(
-                                    './demo/components/documentation/documentation.module'
-                                ).then((m) => m.DocumentationModule),
-                        },
-                        {
-                            path: 'blocks',
-                            loadChildren: () =>
-                                import(
-                                    './demo/components/primeblocks/primeblocks.module'
-                                ).then((m) => m.PrimeBlocksModule),
-                        },
-                        {
-                            path: 'pages',
-                            loadChildren: () =>
-                                import(
-                                    './demo/components/pages/pages.module'
-                                ).then((m) => m.PagesModule),
-                        },
-                    ],
-                },
-                {
                     path: 'auth',
                     loadChildren: () =>
                         import('./presentations/auth/auth.module').then(
                             (m) => m.AuthModule
                         ),
                 },
-                {
-                    path: 'landing',
-                    loadChildren: () =>
-                        import('./demo/components/landing/landing.module').then(
-                            (m) => m.LandingModule
-                        ),
-                },
-                { path: 'notfound', component: NotfoundComponent },
+
                 {
                     path: 'admin',
                     component: AdminLayoutComponent,
                     children: [
-                        {
-                            path: '',
-                            loadChildren: () =>
-                                import(
-                                    './presentations/admin/admin-dashboard/admin-dashboard.module'
-                                ).then((m) => m.AdminDashboardModule),
-                        },
+                        // {
+                        //     path: '',
+                        //     loadChildren: () =>
+                        //         import(
+                        //             './presentations/admin/admin-dashboard/admin-dashboard.module'
+                        //         ).then((m) => m.AdminDashboardModule),
+                        // },
                         {
                             path: 'master-properties',
                             loadChildren: () =>
@@ -99,6 +42,13 @@ import { AdminLayoutComponent } from './presentations/layout/admin/admin-layout.
                                 ).then(
                                     (m) => m.AdminMasterPropertiesRoutingModule
                                 ),
+                        },
+                        {
+                            path: 'master-users',
+                            loadChildren: () =>
+                                import(
+                                    './presentations/admin/users/admin-master-users-routing.module'
+                                ).then((m) => m.AdmingMasterUsersRoutingModule),
                         },
 
                         {

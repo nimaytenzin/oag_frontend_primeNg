@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { API_URL } from './constants';
+import { API_URL } from '../constants/constants';
 import { AUTH_TOKEN_KEY } from '../constants/api-constants';
 
 @Injectable({

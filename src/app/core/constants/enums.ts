@@ -11,12 +11,12 @@ export enum BUILDINGSTATUS {
 }
 
 export enum FLOORLEVELS {
-    'BASEMENT3' = 0,
-    'BASEMENT2' = 1,
-    'BASEMENT1' = 2,
-    'STILT' = 3,
-    'GROUND FLOOR' = 4,
-    '',
+    'BASEMENT 3' = '3B',
+    'BASEMENT 2' = '2B',
+    'BASEMENT 1' = 'B',
+    'STILT' = 'S',
+    'GROUND FLOOR' = 'G',
+    '1st Floor' = '1',
 }
 
 export enum BuildingType {

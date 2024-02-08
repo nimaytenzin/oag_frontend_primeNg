@@ -1,3 +1,5 @@
+import { FLOORLEVELS } from '../constants/enums';
+
 export function PARSEBUILDINGFLOORS(
     regularFloorCount: number,
     basementCount: number,
@@ -36,4 +38,27 @@ export function PARSEBUILDINGFLOORS(
     return `${basementLabel}${stiltLabel}${regularFloorLabel}${
         atticLabel ? `+${atticLabel}` : ''
     }${jamthogLabel ? `+${jamthogLabel}` : ''}`;
+}
+
+export function PARSEFLOORLEVELS(floorLevel: string) {
+    switch (floorLevel.toUpperCase()) {
+        case '3B':
+            return 'Sub Basement 2';
+        case '2B':
+            return 'Sub Basement';
+        case 'B':
+            return 'Basemement';
+        case 'S':
+            return 'STILT';
+        case 'G':
+            return 'Ground Floor';
+        case '1':
+            return '1st Floor';
+        case 'A':
+            return 'Attic';
+        case 'J':
+            return 'Jamthog';
+        default:
+            return null; // Or handle invalid input as needed
+    }
 }
