@@ -12,6 +12,7 @@ import { ButtonModule } from 'primeng/button';
 import { AdminListUnitsComponent } from '../../units/admin-list-units/admin-list-units.component';
 import { AdminBuildingDetailsCardComponent } from '../components/admin-building-details-card/admin-building-details-card.component';
 import { AdminBuildingSurchargesComponent } from '../components/admin-building-surcharges/admin-building-surcharges.component';
+import { AdminBuildingRulesComponent } from '../components/admin-building-rules/admin-building-rules.component';
 
 @Component({
     selector: 'app-admin-view-building',
@@ -25,6 +26,7 @@ import { AdminBuildingSurchargesComponent } from '../components/admin-building-s
         AdminListUnitsComponent,
         AdminBuildingDetailsCardComponent,
         AdminBuildingSurchargesComponent,
+        AdminBuildingRulesComponent,
         RouterModule,
     ],
     templateUrl: './admin-view-building.component.html',

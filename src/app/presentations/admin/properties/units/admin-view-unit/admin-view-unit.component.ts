@@ -6,11 +6,21 @@ import { TabViewModule } from 'primeng/tabview';
 import { UnitDataService } from 'src/app/core/dataservice/units/unit.dataservice';
 import { UnitDTO } from 'src/app/core/dto/units/unit.dto';
 import { PARSEFLOORLEVELS } from 'src/app/core/utility/helper.function';
+import { AdminUnitDetailsCardComponent } from '../components/components/admin-unit-details-card/admin-unit-details-card.component';
+import { AdminUnitRulesCardComponent } from '../components/components/admin-unit-rules-card/admin-unit-rules-card.component';
+import { AdminUnitSurchargesCardComponent } from '../components/components/admin-unit-surcharges-card/admin-unit-surcharges-card.component';
 
 @Component({
     selector: 'app-admin-view-unit',
     standalone: true,
-    imports: [ButtonModule, TabViewModule, QRCodeModule],
+    imports: [
+        ButtonModule,
+        TabViewModule,
+        QRCodeModule,
+        AdminUnitDetailsCardComponent,
+        AdminUnitRulesCardComponent,
+        AdminUnitSurchargesCardComponent,
+    ],
     templateUrl: './admin-view-unit.component.html',
     styleUrl: './admin-view-unit.component.scss',
 })

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { API_URL } from '../../constants/constants';
 import {
@@ -29,11 +29,33 @@ export class BuildingSurchargeDataService {
         );
     }
 
-    GetBuildingSurchargeByBuilding(
-        buildingId: number
-    ): Observable<BuildingSurchargeDTO[]> {
+    GetBuildingSurcharges(params?: {
+        buildingId?: number;
+    }): Observable<BuildingSurchargeDTO[]> {
+        let httpParams = new HttpParams();
+        if (params) {
+            if (params.buildingId !== undefined) {
+                httpParams = httpParams.append(
+                    'buildingId',
+                    params.buildingId.toString()
+                );
+            }
+        }
         return this.http.get<BuildingSurchargeDTO[]>(
-            `${this.apiUrl}/building-surcharge/bid/${buildingId}`
+            `${this.apiUrl}/building-surcharge/q`,
+            {
+                params: httpParams,
+            }
+        );
+    }
+
+    UpdateBuildingSurcharge(
+        data: CreateBuildingSurchargeDTO,
+        id: number
+    ): Observable<BuildingSurchargeDTO> {
+        return this.http.patch<BuildingSurchargeDTO>(
+            `${this.apiUrl}/building-surcharge/${id}`,
+            data
         );
     }
 

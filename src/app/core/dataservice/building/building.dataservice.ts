@@ -45,4 +45,10 @@ export class BuildingDataService {
             `${this.apiUrl}/building/${buildingId}`
         );
     }
+
+    GetBuildingsByLandlord(landlordId: number): Observable<BuildingDTO[]> {
+        return this.http.get<BuildingDTO[]>(
+            `${this.apiUrl}/building/landlord/${landlordId}`
+        );
+    }
 }

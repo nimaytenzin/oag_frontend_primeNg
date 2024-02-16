@@ -28,7 +28,8 @@
         <tr>
             <th>ID</th>
             <th>Building</th>
-            <th>Appearance</th>
+            <th>Details</th>
+            <th>Plot Mapping</th>
             <th>Ownership</th>
             <th></th>
         </tr>
@@ -79,11 +80,50 @@
                 {{ building.streetName }}
                 <br />
                 {{ building.dzongkhag.name }}
-                {{ building.thromde.name }}
-                {{ building.locality.name }}
+                {{ building.administrativeZone.name }}
+                {{ building.subadministrativeZone.name }}
             </td>
 
-            <td>Ownership not mapped</td>
+            <td>
+                <div *ngFor="let owner of building.owners">
+                    <p>
+                        <strong>Name:</strong>
+                        {{ owner.firstName }}
+                        {{ owner.middleName }}
+                        {{ owner.lastName }}
+                    </p>
+                    <p>
+                        <strong>Building Ownership Type:</strong>
+                        {{ owner.BuildingOwnership.ownershipType }}
+                    </p>
+                    <p>
+                        <strong>Building Ownership Percentage:</strong>
+                        {{ owner.BuildingOwnership.ownershipPercentage }}
+                    </p>
+                    <hr />
+                </div>
+                <div *ngIf="!building.owners || !building.owners.length">
+                    <p-button label="Add Owners" icon="pi pi-plus"></p-button>
+                </div>
+            </td>
+            <td>
+                <p-button
+                    label="Add Plot"
+                    (click)="openCreateBuildingPlotModal(building.id)"
+                    icon="pi pi-plus"
+                ></p-button>
+
+                <div *ngFor="let plot of building.plots">
+                    <p>
+                        Thram: <strong> {{ plot.thramNumber }} </strong>
+                    </p>
+                    <p>
+                        PlotID: <strong> {{ plot.plotId }} </strong>
+                    </p>
+
+                    <hr />
+                </div>
+            </td>
 
             <td>
                 <p-button

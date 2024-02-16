@@ -1,4 +1,5 @@
 <form [formGroup]="createBuildingForm" class="p-fluid p-2">
+    <p-toast></p-toast>
     <div class="grid">
         <div class="field col-12 md:col-4">
             <label for="zhichar">Zhichar Building ID</label>
@@ -168,23 +169,23 @@
         </div>
 
         <div class="field col-12 md:col-4">
-            <label for="thromde">Thromde*</label>
+            <label for="thromde">Administrative Zone*</label>
             <p-dropdown
-                [options]="thromdes"
+                [options]="admninistrativeZones"
                 optionLabel="name"
                 optionValue="id"
-                (onChange)="thromdeSelected($event)"
-                formControlName="thromdeId"
+                (onChange)="administrativeZoneSelected($event)"
+                formControlName="administrativeZoneId"
             ></p-dropdown>
         </div>
 
         <div class="field col-12 md:col-4">
-            <label for="locality">Locality*</label>
+            <label for="locality">Sub Administrative Zone*</label>
             <p-dropdown
-                [options]="localities"
+                [options]="subAdministrativeZones"
                 optionLabel="name"
                 optionValue="id"
-                formControlName="localityId"
+                formControlName="subadministrativeZoneId"
             ></p-dropdown>
         </div>
 

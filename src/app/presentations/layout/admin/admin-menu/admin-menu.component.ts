@@ -33,6 +33,26 @@ export class AdminMenuComponent implements OnInit {
                     },
                 ],
             },
+            {
+                label: 'Locations',
+                items: [
+                    {
+                        label: 'Dzongkhags',
+                        icon: 'pi pi-fw pi-th-large',
+                        routerLink: ['/admin/master-locations/dzongkhags'],
+                    },
+                    {
+                        label: 'Administrative Zones',
+                        icon: 'pi pi-fw pi-th-large',
+                        routerLink: ['/admin/master-locations/adm-zones'],
+                    },
+                    {
+                        label: 'SubAdministrative Zones',
+                        icon: 'pi pi-fw pi-th-large',
+                        routerLink: ['/admin/master-locations/subadm-zones'],
+                    },
+                ],
+            },
 
             {
                 label: 'Users',
@@ -55,27 +75,47 @@ export class AdminMenuComponent implements OnInit {
                 ],
             },
             {
+                label: 'Lease',
+                items: [
+                    {
+                        label: 'Lease Agreements',
+                        icon: 'pi pi-fw pi-th-large',
+                        routerLink: ['/admin/master-lease'],
+                    },
+                    {
+                        label: 'Lease Terms',
+                        icon: 'pi pi-fw pi-th-large',
+                        routerLink: ['/admin/master-lease'],
+                    },
+                ],
+            },
+            {
                 label: 'Transactions',
                 items: [
                     {
-                        label: 'Dzongkhags',
+                        label: 'Invoices',
                         icon: 'pi pi-fw pi-th-large',
                         routerLink: ['/admin/master-dzongkhags'],
                     },
                     {
-                        label: 'Admnistrative Zones',
+                        label: 'Transactions',
                         icon: 'pi pi-fw pi-building',
                         routerLink: ['/admin/master-admzones'],
                     },
+                ],
+            },
+            {
+                label: 'Tools',
+                items: [
                     {
-                        label: 'Sub Adminstrative Zones',
-                        icon: 'pi pi-fw pi-building',
-                        routerLink: ['/admin/master-subadmzones'],
+                        label: 'Rental Income Report Generator',
+                        icon: 'pi pi-fw pi-th-large',
+                        routerLink: ['/admin/master-dzongkhags'],
                     },
                     {
-                        label: 'Median Rents',
+                        label: 'Property Tax Report Generator',
                         icon: 'pi pi-fw pi-building',
-                        routerLink: ['/admin/master-medianrents'],
+                        routerLink: ['/admin/master-admzones'],
                     },
                 ],
             },

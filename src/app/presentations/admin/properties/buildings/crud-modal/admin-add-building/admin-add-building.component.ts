@@ -19,15 +19,20 @@ import { InputTextModule } from 'primeng/inputtext';
 import {
     BuildingType,
     NumberDropDownOptions,
+    NumberDropDownOptionsAsString,
 } from 'src/app/core/constants/enums';
 import { BuildingDataService } from 'src/app/core/dataservice/building/building.dataservice';
 import { ZhicharApiService } from 'src/app/core/dataservice/externalApi/zhichar.api.service';
-import { LocationDataService } from 'src/app/core/dataservice/location.dataservice';
+import { LocationDataService } from 'src/app/core/dataservice/location/location.dataservice';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ToastModule } from 'primeng/toast';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { DzongkhagDTO } from 'src/app/core/dto/locations/dzongkhag.dto';
+import { AdministrativeZoneDTO } from 'src/app/core/dto/locations/administrative-zone.dto';
+import { SubAdministrativeZoneDTO } from 'src/app/core/dto/locations/sub-administrative-zone.dto';
+import { CreateBuildingDTO } from 'src/app/core/dto/properties/building.dto';
 
 @Component({
     selector: 'app-admin-add-building',
@@ -62,28 +67,29 @@ export class AdminAddBuildingComponent {
 
     instance: DynamicDialogComponent | undefined;
 
-    dzongkhags = [];
-    thromdes = [];
-    localities = [];
-    selectedDzongkhag = this.dzongkhags[0];
+    dzongkhags: DzongkhagDTO[];
+    admninistrativeZones: AdministrativeZoneDTO[];
+    subAdministrativeZones: SubAdministrativeZoneDTO[];
+
+    selectedDzongkhag: DzongkhagDTO;
     createBuildingForm!: FormGroup;
     searched = false;
 
     buildingTypes = Object.values(BuildingType);
-    numberedDropDownOptions = NumberDropDownOptions;
+    numberedDropDownOptions = NumberDropDownOptionsAsString;
 
     ngOnInit() {
         this.createBuildingForm = this.fb.group({
-            isActive: [false, Validators.required],
+            isActive: [true, Validators.required],
             zhicharBuildingId: [''],
             zhicharQrUuid: [''],
             name: [''],
             buildingType: [BuildingType.CONTEMPORARY, Validators.required],
-            regularFloorCount: [],
-            basementCount: [],
-            stiltCount: [],
-            atticCount: [],
-            jamthogCount: [],
+            regularFloorCount: ['1'],
+            basementCount: ['0'],
+            stiltCount: ['0'],
+            atticCount: ['0'],
+            jamthogCount: ['0'],
 
             areaSqM: [],
             latitude: ['', Validators.required],
@@ -94,8 +100,8 @@ export class AdminAddBuildingComponent {
             landmark: [''],
 
             dzongkhagId: ['', Validators.required],
-            thromdeId: ['', Validators.required],
-            localityId: ['', Validators.required],
+            administrativeZoneId: ['', Validators.required],
+            subadministrativeZoneId: ['', Validators.required],
         });
 
         this.getDzongkhags();
@@ -137,47 +143,75 @@ export class AdminAddBuildingComponent {
     }
 
     createBuilding() {
-        console.log(this.createBuildingForm.value);
         if (this.createBuildingForm.valid) {
             console.log(this.createBuildingForm.value);
-            this.buildingDataService
-                .CreateNewBuilding(this.createBuildingForm.value)
-                .subscribe({
-                    next: (res) => {
-                        if (res.id) {
-                            this.ref.close({
-                                added: true,
-                            });
-                        }
-                    },
-                    error: (error) => {
-                        console.log(error);
-                        this.messageService.add({
-                            key: 'tst',
-                            severity: 'error',
-                            summary:
-                                'Error:' +
-                                error.status +
-                                ' ' +
-                                error.statusText,
-                            detail: error.error.message,
+
+            const data: CreateBuildingDTO = {
+                isActive: this.createBuildingForm.controls['isActive'].value,
+                zhicharBuildingId:
+                    this.createBuildingForm.controls['zhicharBuildingId'].value,
+                zhicharQrUuid:
+                    this.createBuildingForm.controls['zhicharQrUuid'].value,
+                buildingType: BuildingType.CONTEMPORARY,
+                regularFloorCount: Number(
+                    this.createBuildingForm.controls['regularFloorCount'].value
+                ),
+
+                basementCount: Number(
+                    this.createBuildingForm.controls['basementCount'].value
+                ),
+                stiltCount: Number(
+                    this.createBuildingForm.controls['stiltCount'].value
+                ),
+                atticCount: Number(
+                    this.createBuildingForm.controls['atticCount'].value
+                ),
+                jamthogCount: Number(
+                    this.createBuildingForm.controls['jamthogCount'].value
+                ),
+                areaSqM: this.createBuildingForm.controls['areaSqM'].value,
+                latitude: this.createBuildingForm.controls['latitude'].value,
+                longitude: this.createBuildingForm.controls['longitude'].value,
+                name: this.createBuildingForm.controls['name'].value,
+                buildingNumber:
+                    this.createBuildingForm.controls['buildingNumber'].value,
+                streetName:
+                    this.createBuildingForm.controls['streetName'].value,
+                quadrant: this.createBuildingForm.controls['quadrant'].value,
+                landmark: this.createBuildingForm.controls['landmark'].value,
+                dzongkhagId:
+                    this.createBuildingForm.controls['dzongkhagId'].value,
+                administrativeZoneId:
+                    this.createBuildingForm.controls['administrativeZoneId']
+                        .value,
+                subadministrativeZoneId:
+                    this.createBuildingForm.controls['subadministrativeZoneId']
+                        .value,
+            };
+
+            this.buildingDataService.CreateNewBuilding(data).subscribe({
+                next: (res) => {
+                    if (res.id) {
+                        this.ref.close({
+                            added: true,
                         });
-                    },
-                });
+                    }
+                },
+                error: (error) => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Error:' + error.status + error.statusText,
+                        detail: error.error.message,
+                    });
+                },
+            });
         } else {
-            alert('MISSING');
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Missing Fields',
+                detail: 'Please add all required fields makred with *',
+            });
         }
-        //     if (this.createBuildingForm.valid) {
-        //         // this.buildingDataService
-        //         //     .CreateNewBuilding(this.createBuildingForm.value)
-        //         //     .subscribe((res) => {
-        //         //         console.log(res);
-        //         //         console.log('RESPONSE');
-        //         //     });
-        //     } else {
-        //         alert('put all data');
-        //     }
-        // }
     }
 
     clearFormValues() {
@@ -193,27 +227,30 @@ export class AdminAddBuildingComponent {
         });
     }
 
-    getThromdesByDzongkhag(dzongkhagId: number) {
+    getAdminsitrativeZones(dzongkhagId: number) {
         this.locationDataService
-            .GetAllThromdesByDzongkhag(dzongkhagId)
+            .GetAllAdministrativeZones({
+                dzongkhagId: dzongkhagId.toString(),
+            })
             .subscribe((res: any) => {
-                console.log(res);
-                this.thromdes = res;
+                this.admninistrativeZones = res;
             });
     }
 
     dzongkhagSelected(e) {
-        console.log(e);
-        this.getThromdesByDzongkhag(e.value);
+        this.getAdminsitrativeZones(e.value);
     }
-    thromdeSelected(e) {
-        this.getLocalitiesByThromde(e.value);
+    administrativeZoneSelected(e) {
+        this.getSubadministrativeZones(e.value);
     }
-    getLocalitiesByThromde(thromdeId: number) {
+
+    getSubadministrativeZones(administrativeZoneId: number) {
         this.locationDataService
-            .GetAllLocalitiesByThromde(thromdeId)
+            .GetAllSubAdministrativeZones({
+                administrativeZoneId: administrativeZoneId.toString(),
+            })
             .subscribe((res: any) => {
-                this.localities = res;
+                this.subAdministrativeZones = res;
             });
     }
 }

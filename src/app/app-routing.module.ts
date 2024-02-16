@@ -7,7 +7,7 @@ import { AdminLayoutComponent } from './presentations/layout/admin/admin-layout.
         RouterModule.forRoot(
             [
                 {
-                    path: 'auth',
+                    path: '',
                     loadChildren: () =>
                         import('./presentations/auth/auth.module').then(
                             (m) => m.AuthModule
@@ -52,46 +52,17 @@ import { AdminLayoutComponent } from './presentations/layout/admin/admin-layout.
                         },
 
                         {
-                            path: 'building-inventory',
+                            path: 'master-lease',
                             loadChildren: () =>
                                 import(
-                                    './presentations/admin/admin-building-inventory/admin-building-inventory.module'
-                                ).then((m) => m.AdminBuildingInventoryModule),
-                        },
-                        {
-                            path: 'master-medianrents',
-                            loadChildren: () =>
-                                import(
-                                    './presentations/admin/admin-master-medianrent/admin-master-medianrent-routing.module'
-                                ).then(
-                                    (m) => m.AdminMasterMedianrentRoutingModule
-                                ),
-                        },
-
-                        {
-                            path: 'master-admzones',
-                            loadChildren: () =>
-                                import(
-                                    './presentations/admin/admin-master-administrativezones/admin-master-administrativezones.module'
+                                    './presentations/admin/lease/admin-master-lease-agreements-routing.module'
                                 ).then(
                                     (m) =>
-                                        m.AdminMasterAdministrativezonesModule
-                                ),
-                        },
-                        {
-                            path: 'master-subadmzones',
-                            loadChildren: () =>
-                                import(
-                                    './presentations/admin/admin-master-sub-administrativezones/admin-master-sub-administrativezones.module'
-                                ).then(
-                                    (m) =>
-                                        m.AdminMasterSubAdministrativezonesModule
+                                        m.AdminMasterLeaseAgreementsRoutingModule
                                 ),
                         },
                     ],
                 },
-
-                { path: '**', redirectTo: '/notfound' },
             ],
             {
                 scrollPositionRestoration: 'enabled',

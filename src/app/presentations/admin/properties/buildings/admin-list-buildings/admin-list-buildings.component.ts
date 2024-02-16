@@ -11,6 +11,7 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { ButtonModule } from 'primeng/button';
 import { GalleriaModule } from 'primeng/galleria';
 import { TableModule } from 'primeng/table';
+import { AdminAddBuildingplotComponent } from '../../../ownership/crud-modals/admin-add-buildingplot/admin-add-buildingplot.component';
 
 @Component({
     selector: 'app-admin-list-buildings',
@@ -38,25 +39,6 @@ export class AdminListBuildingsComponent {
 
     ref: DynamicDialogRef | undefined;
     buildingsPaginated: BuildingDTO[] = [];
-
-    images: any[] | undefined = [
-        {
-            itemImageSrc:
-                'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhZuTh2pAYS34kaEQNSOM9RBO6ioWoDXyxfdlETS4_fmohj2xD4in-L5CFwFdOAx0UbQhWS940_tlPSSrIgN9-SyBJ4Vo_ryM6304PbiV1d49ce1pDDtsYiKv0Ic02Bmwh_qcSQYV9lIz2Ee1AjGZpPeizGD41-4LKY_yVui7aeSroH_iM9E_U/w640-h310/320827395_472429458368859_4249820878481691725_n.jpg',
-            thumbnailImageSrc:
-                'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhZuTh2pAYS34kaEQNSOM9RBO6ioWoDXyxfdlETS4_fmohj2xD4in-L5CFwFdOAx0UbQhWS940_tlPSSrIgN9-SyBJ4Vo_ryM6304PbiV1d49ce1pDDtsYiKv0Ic02Bmwh_qcSQYV9lIz2Ee1AjGZpPeizGD41-4LKY_yVui7aeSroH_iM9E_U/w640-h310/320827395_472429458368859_4249820878481691725_n.jpg',
-            alt: 'Description for Image 1',
-            title: 'Title 1',
-        },
-        {
-            itemImageSrc:
-                'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhGO9S1uc27UbkKXBjxuh7Mou9-zvhltMpOqylwEP0CTYmmVlQNZbFCpbjfNZyq-FiQxRY6sYjLuAov6g8AdNiVzFHiJEaYrMxLqMNvkgwfkNiKKJQG11cJbwVGdYuTho3Mx90w4IpX8URii8-wmADV2JQ0P8xL_jcH_AadaXLrFqgBF7tCfu0/w640-h478/museum%202.jpg',
-            thumbnailImageSrc:
-                'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhZuTh2pAYS34kaEQNSOM9RBO6ioWoDXyxfdlETS4_fmohj2xD4in-L5CFwFdOAx0UbQhWS940_tlPSSrIgN9-SyBJ4Vo_ryM6304PbiV1d49ce1pDDtsYiKv0Ic02Bmwh_qcSQYV9lIz2Ee1AjGZpPeizGD41-4LKY_yVui7aeSroH_iM9E_U/w640-h310/320827395_472429458368859_4249820878481691725_n.jpg',
-            alt: 'Description for Image 1',
-            title: 'Title 1',
-        },
-    ];
 
     responsiveOptions: any[] = [
         {
@@ -93,7 +75,7 @@ export class AdminListBuildingsComponent {
             width: '600px',
         });
         this.ref.onClose.subscribe((res) => {
-            if (res.added) {
+            if (res && res.added) {
                 this.getPaginatedBuildings();
             }
         });
@@ -108,7 +90,7 @@ export class AdminListBuildingsComponent {
             },
         });
         this.ref.onClose.subscribe((res) => {
-            if (res.updated) {
+            if (res && res.updated) {
                 this.getPaginatedBuildings();
             }
         });
@@ -119,6 +101,15 @@ export class AdminListBuildingsComponent {
             next: (res) => {
                 console.log('LIST OF BUILDINGS', res);
                 this.buildingsPaginated = res;
+            },
+        });
+    }
+
+    openCreateBuildingPlotModal(buildingId: number) {
+        this.ref = this.dialogService.open(AdminAddBuildingplotComponent, {
+            header: 'Create Building Plot',
+            data: {
+                buildingId: buildingId,
             },
         });
     }

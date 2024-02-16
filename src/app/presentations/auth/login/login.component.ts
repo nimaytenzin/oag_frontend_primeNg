@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/core/dataservice/auth.service';
+import { AuthService } from 'src/app/core/dataservice/users-and-auth/auth.service';
 import { LayoutService } from 'src/app/presentations/layout/service/app.layout.service';
 
 @Component({

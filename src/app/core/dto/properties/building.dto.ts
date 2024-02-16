@@ -1,10 +1,15 @@
 import { BuildingType } from '../../constants/enums';
+import { AdministrativeZoneDTO } from '../locations/administrative-zone.dto';
 import { DzongkhagDTO } from '../locations/dzongkhag.dto';
 import { LocalityDTO } from '../locations/locality.dto';
+import { SubAdministrativeZoneDTO } from '../locations/sub-administrative-zone.dto';
 import { ThromdeDTO } from '../locations/thromde.dto';
+import { BuildingPlotDTO } from '../ownership/buildingplot.dto';
 import { UnitDTO } from '../units/unit.dto';
+import { LandLordDTO } from '../users/landlord.dto';
 import { BuildingAmenityDTO } from './building-amenity.dto';
 import { BuildingImageDTO } from './building-image.dto';
+import { BuildingOwnershipDto } from './building-ownership.dto';
 import { BuildingRuleDTO } from './building-rule.dto';
 import { BuildingSurchargeDTO } from './building-surcharge.dto';
 
@@ -31,8 +36,8 @@ export interface CreateBuildingDTO {
     landmark: string | null;
 
     dzongkhagId: number;
-    thromdeId: number;
-    localityId: number;
+    administrativeZoneId: number;
+    subadministrativeZoneId: number;
 }
 
 export interface BuildingDTO {
@@ -61,16 +66,19 @@ export interface BuildingDTO {
 
     dzongkhagId: number;
     dzongkhag: DzongkhagDTO;
-    thromdeId: number;
-    thromde: ThromdeDTO;
-    localityId: number;
-    locality: LocalityDTO;
+    administrativeZoneId: number;
+    adminsitrativeZone: AdministrativeZoneDTO;
+    subadministrativeZoneId: number;
+    subadministrativeZone: SubAdministrativeZoneDTO;
 
     buildingAmenities: BuildingAmenityDTO[];
     buildingRules: BuildingRuleDTO[];
     buildingImages: BuildingImageDTO[];
     buildingSurcharges: BuildingSurchargeDTO[];
     units: UnitDTO[];
+    BuildingOwnership?: BuildingOwnershipDto;
+    owners: LandLordDTO[];
+    plots: BuildingPlotDTO[];
 }
 
 export interface UpdateBuildingDto {
@@ -96,6 +104,6 @@ export interface UpdateBuildingDto {
     landmark: string | null;
 
     dzongkhagId: number;
-    thromdeId: number;
-    localityId: number;
+    administrativeZoneId: number;
+    subadministrativeZoneId: number;
 }

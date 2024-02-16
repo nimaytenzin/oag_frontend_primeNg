@@ -22,13 +22,12 @@
             ></p-dropdown>
         </div>
         <div class="field col-12 md:col-6">
-            <label for="zhichar">Unit Number</label>
-            <input
-                pInputText
-                id="zhichar"
+            <label for="unitNumber">Unit Number</label>
+            <p-dropdown
+                id="unitNumber"
+                [options]="unitNumbers"
                 formControlName="unitNumber"
-                type="text"
-            />
+            ></p-dropdown>
         </div>
 
         <div class="field col-12 md:col-6">
@@ -70,42 +69,12 @@
                 type="text"
             />
         </div>
-
-        <!--       
-
-        <div class="field col-12 md:col-6">
-            <label for="buildingArea">Unit Area</label>
-
-            <p-inputGroup>
-                <input pInputText id="buildingArea" formControlName="areaSqM" />
-                <p-inputGroupAddon> Sq. M </p-inputGroupAddon>
-            </p-inputGroup>
-        </div> -->
-
-        <!-- <div class="field col-12 md:col-4">
-            <label for="dzongkhag">Dzongkhag*</label>
-            <p-dropdown
-                [options]="dzongkhags"
-                optionLabel="name"
-                optionValue="id"
-                (onChange)="dzongkhagSelected($event)"
-                formControlName="dzongkhagId"
-            ></p-dropdown>
-        </div>
-
-        <div class="field col-12 md:col-4">
-            <label for="thromde">Thromde*</label>
-            <p-dropdown
-                [options]="thromdes"
-                optionLabel="name"
-                optionValue="id"
-                (onChange)="thromdeSelected($event)"
-                formControlName="thromdeId"
-            ></p-dropdown>
-        </div> -->
-
-        <!-- </div> -->
     </div>
 
-    <p-button (click)="createUnit()" label="Create Building"></p-button>
+    <p-messages
+        [(value)]="messages"
+        [enableService]="false"
+        [closable]="false"
+    ></p-messages>
+    <p-button (click)="createUnit()" label="Create Unit"></p-button>
 </form>

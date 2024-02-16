@@ -23,9 +23,13 @@ import { ToastModule } from 'primeng/toast';
 import {
     BuildingType,
     NumberDropDownOptions,
+    NumberDropDownOptionsAsString,
 } from 'src/app/core/constants/enums';
 import { BuildingDataService } from 'src/app/core/dataservice/building/building.dataservice';
-import { LocationDataService } from 'src/app/core/dataservice/location.dataservice';
+import { LocationDataService } from 'src/app/core/dataservice/location/location.dataservice';
+import { AdministrativeZoneDTO } from 'src/app/core/dto/locations/administrative-zone.dto';
+import { DzongkhagDTO } from 'src/app/core/dto/locations/dzongkhag.dto';
+import { SubAdministrativeZoneDTO } from 'src/app/core/dto/locations/sub-administrative-zone.dto';
 import { BuildingDTO } from 'src/app/core/dto/properties/building.dto';
 
 @Component({
@@ -51,15 +55,18 @@ import { BuildingDTO } from 'src/app/core/dto/properties/building.dto';
 export class AdminEditBuildingComponent implements OnInit {
     instance: DynamicDialogComponent | undefined;
     building: BuildingDTO;
-    dzongkhags = [];
-    thromdes = [];
-    localities = [];
-    selectedDzongkhag = this.dzongkhags[0];
+
+    dzongkhags: DzongkhagDTO[];
+    admninistrativeZones: AdministrativeZoneDTO[];
+    subAdministrativeZones: SubAdministrativeZoneDTO[];
+
+    selectedDzongkhag: DzongkhagDTO;
+
     createBuildingForm!: FormGroup;
     searched = false;
 
     buildingTypes = Object.values(BuildingType);
-    numberedDropDownOptions = NumberDropDownOptions;
+    numberedDropDownOptions = NumberDropDownOptionsAsString;
 
     constructor(
         public ref: DynamicDialogRef,
@@ -72,11 +79,13 @@ export class AdminEditBuildingComponent implements OnInit {
         console.log(this.instance.data);
 
         if (this.instance && this.instance.data) {
-            console.log(this.instance.data);
             this.building = this.instance.data;
         }
     }
     ngOnInit(): void {
+        this.getAdminsitrativeZones(this.building.dzongkhagId);
+        this.getSubadministrativeZones(this.building.administrativeZoneId);
+        this.getDzongkhags();
         this.createBuildingForm = this.fb.group({
             isActive: [false, Validators.required],
             zhicharBuildingId: [''],
@@ -98,15 +107,23 @@ export class AdminEditBuildingComponent implements OnInit {
             landmark: [''],
 
             dzongkhagId: ['', Validators.required],
-            thromdeId: ['', Validators.required],
-            localityId: ['', Validators.required],
+            administrativeZoneId: ['', Validators.required],
+            subadministrativeZoneId: ['', Validators.required],
         });
 
+        this.getAdminsitrativeZones(this.building.dzongkhagId);
+        this.getSubadministrativeZones(this.building.administrativeZoneId);
         this.getDzongkhags();
-        this.getLocalitiesByThromde(this.building.thromdeId);
-        this.getThromdesByDzongkhag(this.building.dzongkhagId);
+
+        console.log(this.building);
         this.createBuildingForm.patchValue({
             ...this.building,
+            regularFloorCount: this.building.regularFloorCount.toString(),
+            atticCount: this.building.atticCount.toString(),
+            jamthogCount: this.building.jamthogCount.toString(),
+            stiltCount: this.building.stiltCount.toString(),
+            basementCount: this.building.basementCount.toString(),
+            isActive: this.building.isActive === 1 ? true : false,
         });
     }
 
@@ -139,10 +156,11 @@ export class AdminEditBuildingComponent implements OnInit {
             .subscribe({
                 next: (res) => {
                     console.log(res);
-                    this.building = res;
-                    this.ref.close({
-                        updated: true,
-                    });
+                    if (res) {
+                        this.ref.close({
+                            updated: true,
+                        });
+                    }
                 },
                 error: (err) => {
                     console.log(err);
@@ -157,27 +175,30 @@ export class AdminEditBuildingComponent implements OnInit {
         });
     }
 
-    getThromdesByDzongkhag(dzongkhagId: number) {
+    getAdminsitrativeZones(dzongkhagId: number) {
         this.locationDataService
-            .GetAllThromdesByDzongkhag(dzongkhagId)
+            .GetAllAdministrativeZones({
+                dzongkhagId: dzongkhagId.toString(),
+            })
             .subscribe((res: any) => {
-                console.log(res);
-                this.thromdes = res;
+                this.admninistrativeZones = res;
             });
     }
 
     dzongkhagSelected(e) {
-        console.log(e);
-        this.getThromdesByDzongkhag(e.value);
+        this.getAdminsitrativeZones(e.value);
     }
-    thromdeSelected(e) {
-        this.getLocalitiesByThromde(e.value);
+    administrativeZoneSelected(e) {
+        this.getSubadministrativeZones(e.value);
     }
-    getLocalitiesByThromde(thromdeId: number) {
+
+    getSubadministrativeZones(administrativeZoneId: number) {
         this.locationDataService
-            .GetAllLocalitiesByThromde(thromdeId)
+            .GetAllSubAdministrativeZones({
+                administrativeZoneId: administrativeZoneId.toString(),
+            })
             .subscribe((res: any) => {
-                this.localities = res;
+                this.subAdministrativeZones = res;
             });
     }
 }

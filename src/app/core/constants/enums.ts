@@ -1,8 +1,11 @@
 export enum USERROLESENUM {
-    'ADMIN' = 'ADMIN',
-    'FINANCE' = 'FINANCE',
-    'OWNER' = 'OWNER',
+    'LANDLORD' = 'LANDLORD',
     'TENANT' = 'TENANT',
+}
+
+export enum ADMINROLES {
+    'ADMIN' = 'SYSADMIN',
+    'FINANCE' = 'FINANCEADMIN',
 }
 
 export enum BUILDINGSTATUS {
@@ -24,7 +27,7 @@ export enum BuildingType {
     'Traditional' = 'Traditional',
 }
 
-export const UnitNumbers = [
+export const UNITNUMBERS = [
     '01',
     '02',
     '03',
@@ -67,3 +70,26 @@ export enum UnitOccupancyStatus {
 export const NumberDropDownOptions = [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
 ];
+export const NumberDropDownOptionsAsString = [
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+].map((number) => number.toString());
+
+export enum LocationTypes {
+    'Rural' = 'R',
+    'Urban' = 'U',
+}
+export enum AdministrativeZoneTypes {
+    'Gewog' = 'Gewog',
+    'Thromde' = 'Thromde',
+}
+
+export enum SubAdministrativeZoneTypes {
+    'Chiwog' = 'Chiwog',
+    'Locality' = 'Locality',
+}
+
+export enum LeaseAgreementSurchargeSource {
+    BUILDING = 'Building',
+    UNIT = 'Unit',
+    ADDITIONAL = 'Additional',
+}

@@ -27,7 +27,8 @@
             </h4>
             <p class="m-0 p-0">
                 {{ building?.buildingNumber }} {{ building?.streetName }}
-                {{ building?.thromde?.name }} {{ building?.locality?.name }}
+                {{ building?.adminsitrativeZone?.name }}
+                {{ building?.subadministrativeZone?.name }}
             </p>
             <small class="m-0 p-0"> Lat: {{ building.latitude }} </small>
             <small class="m-0 p-0"> Long: {{ building.longitude }} </small>
@@ -69,13 +70,14 @@
                     </p>
                 </div>
                 <div class="col-12 lg:col-4">
-                    <h2>Building Rules</h2>
-                    <p *ngFor="let item of buildingRules; let i = index">
-                        {{ i + 1 }}) {{ item }}
-                    </p>
+                    <app-admin-building-rules
+                        [buildingId]="buildingId"
+                    ></app-admin-building-rules>
                 </div>
                 <div class="col-12 lg:col-4">
-                    <app-admin-building-surcharges></app-admin-building-surcharges>
+                    <app-admin-building-surcharges
+                        [buildingId]="buildingId"
+                    ></app-admin-building-surcharges>
                 </div>
             </div>
         </p-tabPanel>

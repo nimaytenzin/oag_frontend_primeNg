@@ -25,4 +25,8 @@ export class UnitDataService {
     CreateUnit(data: CreateUnitDTO) {
         return this.http.post(`${this.apiUrl}/unit`, data);
     }
+
+    UpdateUnit(data: CreateUnitDTO, id: number): Observable<UnitDTO> {
+        return this.http.patch<UnitDTO>(`${this.apiUrl}/unit/${id}`, data);
+    }
 }

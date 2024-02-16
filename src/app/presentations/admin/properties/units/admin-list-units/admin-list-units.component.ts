@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AdminAddUnitComponent } from '../crud-modals/admin-add-unit/admin-add-unit.component';
@@ -6,51 +6,118 @@ import { AdminEditUnitComponent } from '../crud-modals/admin-edit-unit/admin-edi
 import { UnitDataService } from 'src/app/core/dataservice/units/unit.dataservice';
 import { TableModule } from 'primeng/table';
 import { UnitDTO } from 'src/app/core/dto/units/unit.dto';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
     selector: 'app-admin-list-units',
     standalone: true,
-    imports: [ButtonModule, TableModule, RouterModule],
-    providers: [DialogService],
+    imports: [
+        ButtonModule,
+        TableModule,
+        RouterModule,
+        CommonModule,
+        ToastModule,
+        ConfirmDialogModule,
+    ],
+    providers: [DialogService, ConfirmationService, MessageService],
     templateUrl: './admin-list-units.component.html',
     styleUrl: './admin-list-units.component.scss',
 })
 export class AdminListUnitsComponent implements OnInit {
-    ref: DynamicDialogRef | undefined;
-    units: UnitDTO[];
     constructor(
         public dialogService: DialogService,
         private unitDataService: UnitDataService,
-        private router: Router
+        private router: Router,
+        private route: ActivatedRoute,
+        private confirmationService: ConfirmationService,
+        private messageService: MessageService
     ) {}
+
+    ref: DynamicDialogRef | undefined;
+    units: UnitDTO[];
+
+    buildingId: number;
+
+    private routeSubscription: Subscription;
+
     ngOnInit(): void {
-        this.unitDataService.GetAllUnitsByBuilding(13).subscribe((res) => {
-            console.log(res);
-            this.units = res;
+        this.routeSubscription = this.route.paramMap.subscribe((params) => {
+            this.buildingId = +params.get('buildingId');
+            this.getUnitsByBuilding();
         });
+    }
+
+    getUnitsByBuilding() {
+        this.unitDataService
+            .GetAllUnitsByBuilding(this.buildingId)
+            .subscribe((res: UnitDTO[]) => {
+                console.log(res);
+                this.units = res;
+            });
     }
     openAddUnitModal() {
         this.ref = this.dialogService.open(AdminAddUnitComponent, {
-            header: 'Add Unit',
-
+            header: 'Create Unit',
+            data: {
+                buildingId: this.buildingId,
+            },
             width: '500px',
         });
+        this.ref.onClose.subscribe((res) => {
+            if (res && res.added) {
+                this.getUnitsByBuilding();
+            }
+        });
     }
-    openEditUnitModal() {
+    openEditUnitModal(unit: UnitDTO) {
         this.ref = this.dialogService.open(AdminEditUnitComponent, {
-            header: 'Edit Unit',
+            header: 'Update Unit',
             width: '500px',
+            data: unit,
+        });
+        this.ref.onClose.subscribe((res) => {
+            if (res && res.updated) {
+                this.getUnitsByBuilding();
+            }
+        });
+    }
+
+    confirmDelete(event: Event) {
+        this.confirmationService.confirm({
+            target: event.target as EventTarget,
+            message: 'Do you want to delete this record?',
+            header: 'Delete Confirmation',
+            icon: 'pi pi-info-circle',
+            acceptButtonStyleClass: 'p-button-danger p-button-text',
+            rejectButtonStyleClass: 'p-button-text p-button-text',
+            acceptIcon: 'none',
+            rejectIcon: 'none',
+
+            accept: () => {
+                this.messageService.add({
+                    severity: 'info',
+                    summary: 'Confirmed',
+                    detail: 'Record deleted',
+                });
+            },
+            reject: () => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Rejected',
+                    detail: 'You have rejected',
+                });
+            },
         });
     }
 
     viewUnit(unit: UnitDTO) {
-        console.log(
-            '/admin/master-properties/building/:buildingId/:unitId',
-            13,
-            'unit',
-            1
-        );
-        this.router.navigate(['/admin/master-properties/building/13/unit/1']);
+        this.router.navigate([
+            `/admin/master-properties/building/${unit.buildingId}/unit/${unit.id}`,
+        ]);
     }
 }

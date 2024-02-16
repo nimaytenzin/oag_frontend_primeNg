@@ -1,4 +1,4 @@
-<div class="flex gap-2 align-items-center justify-content-between border-2">
+<div class="flex gap-2 align-items-center justify-content-between">
     <div class="flex align-items-end">
         <qrcode
             [qrdata]="'random'"
@@ -17,11 +17,42 @@
         ></qrcode>
         <div class="">
             <h4 class="m-0 p-0">
-                {{ unit?.floorLevel }}- {{ unit.unitNumber }}
+                {{ unit?.floorLevel }}- {{ unit?.unitNumber }}
             </h4>
             <p class="m-0 p-0">
-                {{ parseFloorLevel(unit.floorLevel) }}
+                {{ parseFloorLevel(unit?.floorLevel) }}
             </p>
+        </div>
+        <div class="flex gap-2 text-sm">
+            <div class="flex text-sm align-items-end">
+                <img src="assets/icons/bed.svg" class="mini-ico" alt="Icon" />
+                <p>{{ unit?.bedroomCount }} Beds</p>
+            </div>
+            <div class="flex text-sm align-items-end">
+                <img
+                    src="assets/icons/toilet.svg"
+                    class="mini-ico"
+                    alt="Icon"
+                />
+                <p>{{ unit?.toiletCount }} Baths</p>
+            </div>
+            <div class="flex text-sm align-items-end">
+                <img
+                    src="assets/icons/balcony.svg"
+                    class="mini-ico"
+                    alt="Icon"
+                />
+                <p>{{ unit?.balconyCount }} Balconies</p>
+            </div>
+
+            <div class="flex text-sm align-items-end">
+                <img
+                    src="assets/icons/floorArea.svg"
+                    class="mini-ico"
+                    alt="Icon"
+                />
+                <p>{{ unit.floorArea }} SqM</p>
+            </div>
         </div>
     </div>
     <p-button label="Show All Units" size="small" (click)="goBack()">
@@ -29,19 +60,23 @@
 </div>
 <p-tabView>
     <p-tabPanel header="Unit Details">
-        <h2>
-            Beds: {{ unit.bedroomCount }} <br />
-            Baths: {{ unit.toiletCount }} <br />
-            Balconies: {{ unit.balconyCount }}
-            <br />
-            Area: {{ unit.floorArea }} SQM
-        </h2>
-
-        <div>
-            <p>active LEase: link</p>
-            <p>Current Tenant</p>
-
-            <p>Net Payable, building surcharges,</p>
+        <div class="grid col-12">
+            <div class="col-12 lg:col-4">
+                <app-admin-unit-details-card
+                    [unitId]="unitId"
+                    [unit]="unit"
+                ></app-admin-unit-details-card>
+            </div>
+            <div class="col-12 lg:col-4">
+                <app-admin-unit-rules-card
+                    [unitId]="unitId"
+                ></app-admin-unit-rules-card>
+            </div>
+            <div class="col-12 lg:col-4">
+                <app-admin-unit-surcharges-card
+                    [unitId]="unitId"
+                ></app-admin-unit-surcharges-card>
+            </div>
         </div>
     </p-tabPanel>
     <p-tabPanel header="Lease Agreements"> </p-tabPanel>

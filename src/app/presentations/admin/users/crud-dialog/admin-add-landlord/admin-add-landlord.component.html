@@ -1,86 +1,114 @@
 <form [formGroup]="createLandlordForm" class="p-fluid p-2">
     <div class="grid">
         <div class="field col-12 md:col-6">
-            <label for="buildingArea">Phone Number*</label>
+            <label for="phoneNumber">Phone Number*</label>
 
             <p-inputGroup>
                 <p-inputGroupAddon> +975</p-inputGroupAddon>
                 <input
                     pInputText
-                    id="buildingArea"
+                    maxlength="8"
+                    id="phoneNumber"
                     formControlName="phoneNumber"
                 />
             </p-inputGroup>
         </div>
         <div class="field col-12 md:col-6">
-            <label for="buildingArea">CID</label>
-            <p-inputGroup>
-                <input
-                    pInputText
-                    id="buildingArea"
-                    formControlName="phoneNumber"
-                />
-            </p-inputGroup>
+            <label for="cid">CID</label>
+            <input pInputText id="cid" type="text" formControlName="cid" />
         </div>
         <div class="field col-12 md:col-4">
-            <label for="qrId">First Name*</label>
+            <label for="firstName">First Name*</label>
             <input
                 pInputText
-                id="qrId"
+                id="firstName"
                 type="text"
                 formControlName="firstName"
             />
         </div>
         <div class="field col-12 md:col-4">
-            <label for="qrId">Middle Name</label>
+            <label for="middleName">Middle Name</label>
             <input
                 pInputText
-                id="qrId"
+                id="middleName"
                 type="text"
                 formControlName="middleName"
             />
         </div>
         <div class="field col-12 md:col-4">
-            <label for="qrId">Last Name</label>
+            <label for="lastName">Last Name</label>
             <input
                 pInputText
-                id="qrId"
+                id="lastName"
                 type="text"
                 formControlName="lastName"
             />
         </div>
-
         <div class="field col-12">
-            <label for="latitude">Email</label>
-            <input
-                pInputText
-                id="latitude"
-                type="text"
-                formControlName="email"
-            />
+            <label for="email">Email</label>
+            <input pInputText id="email" type="text" formControlName="email" />
         </div>
 
+        <p class="col-12">Permanent Address</p>
+
         <div class="field col-12 md:col-6">
-            <label for="buildingType">Bank Name</label>
+            <label for="dzongkhag">Dzongkhag</label>
             <p-dropdown
+                id="dzongkhag"
+                [options]="dzongkhags"
+                optionValue="id"
+                optionLabel="name"
+                (onChange)="dzongkhagSelected($event)"
+                formControlName="dzongkhagId"
+            ></p-dropdown>
+        </div>
+        <div class="field col-12 md:col-6">
+            <label for="gewog">Administrative Zone</label>
+            <p-dropdown
+                id="bankName"
+                optionValue="id"
+                optionLabel="name"
+                (onChange)="administrativeZoneSelect($event)"
+                [options]="administrativeZones"
+                formControlName="administrativeZoneId"
+            ></p-dropdown>
+        </div>
+        <div class="field col-12 md:col-12">
+            <label for="chiwog">Sub AdministrativeZone</label>
+            <p-dropdown
+                id="chiwog"
+                [options]="subadministrativeZones"
+                optionValue="id"
+                optionLabel="name"
+                formControlName="subadministrativeZoneId"
+            ></p-dropdown>
+        </div>
+
+        <p class="col-12">Bank Details</p>
+
+        <div class="field col-12 md:col-6">
+            <label for="bankName">Bank Name</label>
+            <p-dropdown
+                id="bankName"
                 [options]="bankNames"
                 formControlName="bankName"
             ></p-dropdown>
         </div>
 
         <div class="field col-12 md:col-6">
-            <label for="longitude">Account Number* </label>
+            <label for="accountNumber">Account Number* </label>
             <input
                 pInputText
-                id="longitude"
+                id="accountNumber"
                 type="text"
                 formControlName="accountNumber"
             />
         </div>
 
         <div class="field col-12 md:col-6">
-            <label for="longitude">Profile Picture </label>
+            <label for="profileUpload">Profile Picture </label>
             <p-fileUpload
+                id="profileUpload"
                 mode="basic"
                 chooseLabel="Upload Profile"
                 name="demo[]"
@@ -92,8 +120,9 @@
         </div>
 
         <div class="field col-12 md:col-6">
-            <label for="longitude">Signature* </label>
+            <label for="signatureUpload">Signature* </label>
             <p-fileUpload
+                id="signatureUpload"
                 mode="basic"
                 chooseLabel="Upload Signature"
                 name="demo[]"
@@ -104,5 +133,10 @@
             ></p-fileUpload>
         </div>
     </div>
-    <p-button (click)="createTenant()" label="Create Tenant"></p-button>
+    <p-messages
+        [(value)]="messages"
+        [enableService]="false"
+        [closable]="false"
+    ></p-messages>
+    <p-button (click)="createLandlord()" label="Create Landlord"></p-button>
 </form>

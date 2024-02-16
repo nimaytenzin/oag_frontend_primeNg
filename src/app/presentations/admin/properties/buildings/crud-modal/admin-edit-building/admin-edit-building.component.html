@@ -145,7 +145,7 @@
                 formControlName="quadrant"
             />
         </div>
-        <div class="field col-12 md:col-4">
+        <div class="field col-12 md:col-8">
             <label for="landmark">Land Mark</label>
             <textarea
                 pInputTextarea
@@ -168,23 +168,23 @@
         </div>
 
         <div class="field col-12 md:col-4">
-            <label for="thromde">Thromde*</label>
+            <label for="thromde">Administrative Zone*</label>
             <p-dropdown
-                [options]="thromdes"
+                [options]="admninistrativeZones"
                 optionLabel="name"
                 optionValue="id"
-                (onChange)="thromdeSelected($event)"
-                formControlName="thromdeId"
+                (onChange)="administrativeZoneSelected($event)"
+                formControlName="administrativeZoneId"
             ></p-dropdown>
         </div>
 
         <div class="field col-12 md:col-4">
-            <label for="locality">Locality*</label>
+            <label for="locality">Sub Administrative Zone*</label>
             <p-dropdown
-                [options]="localities"
+                [options]="subAdministrativeZones"
                 optionLabel="name"
                 optionValue="id"
-                formControlName="localityId"
+                formControlName="subadministrativeZoneId"
             ></p-dropdown>
         </div>
 
@@ -200,5 +200,5 @@
         </div>
     </div>
 
-    <p-button (click)="updateBuilding()" label="Create Building"></p-button>
+    <p-button (click)="updateBuilding()" label="Update Building"></p-button>
 </form>

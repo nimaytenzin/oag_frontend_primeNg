@@ -5,12 +5,21 @@ import {
     ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
+import { Message, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
+import {
+    DialogService,
+    DynamicDialogComponent,
+    DynamicDialogRef,
+} from 'primeng/dynamicdialog';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { MessagesModule } from 'primeng/messages';
+import { UNITNUMBERS } from 'src/app/core/constants/enums';
 import { UnitDataService } from 'src/app/core/dataservice/units/unit.dataservice';
+import { CreateUnitDTO } from 'src/app/core/dto/units/unit.dto';
 
 @Component({
     selector: 'app-admin-add-unit',
@@ -22,29 +31,26 @@ import { UnitDataService } from 'src/app/core/dataservice/units/unit.dataservice
         InputTextModule,
         InputNumberModule,
         InputTextareaModule,
+        MessagesModule,
     ],
+    providers: [MessageService],
     templateUrl: './admin-add-unit.component.html',
     styleUrl: './admin-add-unit.component.scss',
 })
 export class AdminAddUnitComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
-        private unitDataService: UnitDataService
-    ) {}
-    ngOnInit(): void {
-        this.createUnitForm = this.fb.group({
-            buildingId: [13, Validators.required],
-            floorLevel: ['G', Validators.required],
-            unitNumber: ['01', Validators.required],
-            bedroomCount: [3, [Validators.required, Validators.min(1)]],
-            toiletCount: [2, [Validators.required, Validators.min(1)]],
-            balconyCount: [1, [Validators.required, Validators.min(0)]],
-            floorArea: [500, [Validators.required, Validators.min(1)]],
-            powerConsumerId: [55423312, Validators.required],
-            zhicharUnitId: [3],
-            zhicharQrUuid: ['2'],
-        });
+        private unitDataService: UnitDataService,
+        public ref: DynamicDialogRef,
+        private dialogService: DialogService
+    ) {
+        this.instance = this.dialogService.getInstance(this.ref);
     }
+    instance: DynamicDialogComponent | undefined;
+    buildingId: number;
+
+    messages: Message[] | undefined;
+
     createUnitForm!: FormGroup;
 
     floorLevels = [
@@ -62,15 +68,62 @@ export class AdminAddUnitComponent implements OnInit {
         'A',
         'J',
     ];
+    unitNumbers = Object.values(UNITNUMBERS);
+
+    ngOnInit(): void {
+        this.createUnitForm = this.fb.group({
+            buildingId: [null, Validators.required],
+            floorLevel: [null, Validators.required],
+            unitNumber: [null, Validators.required],
+            bedroomCount: [1, [Validators.required]],
+            toiletCount: [1, [Validators.required]],
+            balconyCount: [0, [Validators.required]],
+            floorArea: [null, [Validators.required]],
+            powerConsumerId: [null, Validators.required],
+            zhicharUnitId: [null, Validators.required],
+            zhicharQrUuid: [null, Validators.required],
+        });
+        this.buildingId = this.instance.data.buildingId;
+    }
 
     createUnit() {
-        console.log(this.createUnitForm.value);
-        this.unitDataService.CreateUnit(this.createUnitForm.value).subscribe({
+        const newUnit: CreateUnitDTO = {
+            buildingId: this.buildingId,
+            zhicharUnitId: Number(
+                this.createUnitForm.controls['zhicharUnitId'].value
+            ),
+            zhicharQrUuid: this.createUnitForm.controls['zhicharQrUuid'].value,
+            floorLevel: this.createUnitForm.controls['floorLevel'].value,
+            unitNumber: this.createUnitForm.controls['unitNumber'].value,
+            bedroomCount: this.createUnitForm.controls['bedroomCount'].value,
+            toiletCount: this.createUnitForm.controls['toiletCount'].value,
+            balconyCount: this.createUnitForm.controls['balconyCount'].value,
+            powerConsumerId:
+                this.createUnitForm.controls['powerConsumerId'].value,
+            floorArea: Number(this.createUnitForm.controls['floorArea'].value),
+        };
+        console.log(newUnit);
+        this.unitDataService.CreateUnit(newUnit).subscribe({
             next: (res) => {
-                console.log(res);
+                this.messages = [
+                    {
+                        severity: 'success',
+                        summary: '200',
+                        detail: 'Unit Added',
+                    },
+                ];
+                this.ref.close({
+                    added: true,
+                });
             },
             error: (err) => {
-                console.log(err);
+                this.messages = [
+                    {
+                        severity: 'error',
+                        summary: 'Error: ' + err.error.statusCode,
+                        detail: err.error.message,
+                    },
+                ];
             },
         });
     }
