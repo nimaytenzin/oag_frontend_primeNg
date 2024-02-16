@@ -1,1 +1,4 @@
-export interface LeaseRuleDTO {}
+export interface LeaseRuleDTO {
+    particular: string;
+    source: string;
+}

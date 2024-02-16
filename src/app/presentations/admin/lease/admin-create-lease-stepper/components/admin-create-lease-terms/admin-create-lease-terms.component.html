@@ -135,7 +135,7 @@
                     <div class="flex align-items-center">
                         <p-inputNumber
                             inputId="integeronly"
-                            [(ngModel)]="rentIncreateNoticePeriod"
+                            [(ngModel)]="rentIncreaseNoticePeriod"
                         >
                         </p-inputNumber>
                         <p>Months prior to increasing the rent</p>
@@ -173,7 +173,52 @@
                     </div>
                 </div>
             </div>
-            <button (click)="logValues()">log values</button>
+
+            <p>
+                8. Additionally tenant must observe the following Building and
+                Unit rules.
+            </p>
+            <p-table [value]="leaseRules" class="p-datatable-sm">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Particular</th>
+                        <th>Source</th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-editing="editing">
+                    <tr>
+                        <td
+                            [pEditableColumn]="item.particular"
+                            pEditableColumnField="particular"
+                        >
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        [(ngModel)]="item.particular"
+                                    />
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{ item.particular }}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            {{ item.source }}
+                        </td>
+
+                        <td>
+                            <p-button
+                                icon="pi pi-times"
+                                label="Delete"
+                                severity="danger"
+                            ></p-button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
         </ng-template>
 
         <ng-template pTemplate="footer">

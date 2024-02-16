@@ -80,6 +80,9 @@ export interface LeaseAgreementTermsDTO {
     tenantSubletAuthority: boolean;
     tenantPrematureTermination: boolean;
     ownerPrematureTermination: boolean;
+    rentIncreaseNoticePeriod: number;
+    evictionNoticePeriod: number;
+    vacationNoticePeriod: number;
     leaseRules: LeaseRuleDTO[];
     paymentDueDay: number;
     applyLatePaymentFee: boolean;

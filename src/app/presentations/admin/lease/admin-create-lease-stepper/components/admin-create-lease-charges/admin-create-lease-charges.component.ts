@@ -158,6 +158,7 @@ export class AdminCreateLeaseChargesComponent implements OnInit {
         this.leaseCharges.push({
             particular: this.createLeaseChargeForm.controls['particular'].value,
             amount: this.createLeaseChargeForm.controls['amount'].value,
+            source: 'Agreement',
         });
         this.showAddLeaseChargeForm = false;
     }
@@ -177,6 +178,7 @@ export class AdminCreateLeaseChargesComponent implements OnInit {
                         const parsedCharge: LeaseSurchargeDTO = {
                             particular: item.particular,
                             amount: item.amount,
+                            source: 'Building',
                         };
                         this.leaseCharges.push(parsedCharge);
                     });
@@ -196,6 +198,7 @@ export class AdminCreateLeaseChargesComponent implements OnInit {
                         const parsedCharge: LeaseSurchargeDTO = {
                             particular: item.particular,
                             amount: item.amount,
+                            source: 'Unit',
                         };
                         this.leaseCharges.push(parsedCharge);
                     });

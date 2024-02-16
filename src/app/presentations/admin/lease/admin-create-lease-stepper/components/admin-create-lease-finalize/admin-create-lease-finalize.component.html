@@ -1,3 +1,169 @@
-<p>
-  admin-create-lease-finalize works!
-</p>
+<div class="stepsdemo-content">
+    <p-card>
+        <ng-template pTemplate="title"> Finalize Lease </ng-template>
+        <ng-template pTemplate="subtitle">
+            Finalize Lease Agreement
+        </ng-template>
+        <ng-template pTemplate="content">
+            <div class="text-center text-lg">
+                <p>
+                    This Rental/lease Agreement is executed on
+                    {{ leaseInformation.parties?.agreementDay }} Day of
+                    {{ leaseInformation.parties?.agreementMonth }} of the year
+                    {{ leaseInformation.parties?.agreementYear }}
+                </p>
+                <p>BETWEEN</p>
+                <p>
+                    {{ leaseInformation.parties?.tenant?.firstName }}
+                    {{ leaseInformation.parties?.tenant?.middleName }}
+
+                    {{ leaseInformation.parties?.tenant?.lastName }}
+                    holding Citizen ID No.
+                    {{ leaseInformation.parties?.tenant?.cid }} of
+                    {{
+                        leaseInformation.parties?.tenant?.subadministrativeZone
+                            ?.name
+                    }}
+                    ,
+                    {{
+                        leaseInformation.parties?.tenant?.administrativeZone
+                            ?.name
+                    }}
+                    ,
+                    {{ leaseInformation.parties?.tenant?.dzongkhag?.name }}
+                    Dzongkhag, Herein after referred to as the “Tenant/ lessee”
+                </p>
+                <p>PARTY OF ONE PART and</p>
+                <p>
+                    {{ leaseInformation.parties?.landlord?.firstName }}
+                    {{ leaseInformation.parties?.landlord?.middleName }}
+                    {{ leaseInformation.parties?.landlord?.lastName }}
+
+                    holding CID No
+                    {{ leaseInformation.parties?.landlord?.cid }} of
+                    {{
+                        leaseInformation.parties?.landlord
+                            ?.subadministrativeZone?.name
+                    }},
+                    {{
+                        leaseInformation.parties?.landlord?.administrativeZone
+                            ?.name
+                    }}
+                    {{ leaseInformation.parties?.landlord?.dzongkhag?.name }}
+
+                    herein after referred to as the “Owner/Lessor".
+                </p>
+                <p>PARTY OF OTHER PART.</p>
+                <p>
+                    And whereas the parties hereto had due deliberations and
+                    discussions and the consequence thereof they have reached an
+                    understanding, which they have decided to reduce into
+                    writing. NOW THIS AGREEMENT WITNESS and it is hereby
+                    mutually agreed by and between the parties;
+                </p>
+            </div>
+            <div>
+                <p>
+                    That the owner/lessor thus hereby grants and confers Unit
+                    {{ leaseInformation.properties?.unit?.floorLevel }}-{{
+                        leaseInformation.properties?.unit?.unitNumber
+                    }}, of Building
+                    {{ leaseInformation.properties?.building?.id }}
+                    {{ leaseInformation.properties?.building?.name }} at plot on
+                    plot
+                    <ng-container
+                        *ngFor="
+                            let plot of leaseInformation.properties?.building
+                                ?.plots;
+                            let i = index
+                        "
+                    >
+                        <strong>
+                            {{ plot.plotId }}
+                        </strong>
+                        <ng-container
+                            *ngIf="
+                                i <
+                                leaseInformation.properties?.building?.plots
+                                    .length -
+                                    1
+                            "
+                            >,</ng-container
+                        >
+                    </ng-container>
+                    in favour of the aforesaid tenant on rent and on such terms
+                    and condition stated below.
+                </p>
+                <ol>
+                    <li>
+                        The rental unit is rented for the purpose of:
+                        {{ leaseInformation.properties?.use }}
+                    </li>
+                    <li>
+                        That the period of tenancy/lease for the rental unit
+                        shall be for a period of
+                        {{
+                            calculateMonthsDifference(
+                                leaseInformation.duration?.leaseStartDate,
+                                leaseInformation.duration?.leaseEndDate
+                            )
+                        }}
+                        month, commencing from
+
+                        {{ leaseInformation.duration?.leaseStartDate }}
+                        to
+                        {{ leaseInformation.duration?.leaseEndDate }}
+                    </li>
+                    <li>
+                        That the rent for the said unit/premises is agreed to be
+                        paid every month at Nu
+                        {{ leaseInformation.charges?.rent }} per month.
+                    </li>
+                    <li>
+                        That the rent as payable every month shall be tendered
+                        by the tenant to the owner on or before
+                        {{ leaseInformation.terms?.paymentDueDay }} of the
+                        following month, failing which the owner shall charge
+                        and the tenant shall pay an interest at 24% per annum on
+                        the amount of rent payable for every day of default.
+                    </li>
+                    <li>
+                        That the aforesaid tenant shall deposit a sum of Nu.
+                        {{ leaseInformation.charges?.securityDepositAmount }}
+                        only as security deposit on the execution of this
+                        agreement.
+                    </li>
+                    <li>
+                        The security deposit shall be refundable or adjusted in
+                        accordance with the Act when the tenant vacates the
+                        rental unit: Upon expiry of the tenancy term; Upon
+                        termination of the tenancy by the tenant in accordance
+                        with this agreement; Upon termination of the tenancy by
+                        the owner in accordance with this agreement;
+                    </li>
+                    <li>
+                        That the tenant hereby assures that he/she and his/her
+                        family members shall use the unit/flat only for the
+                        purpose for which it was granted.
+                    </li>
+                </ol>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <div class="grid grid-nogutter justify-content-between">
+                <p-button
+                    label="Back"
+                    (onClick)="prevPage()"
+                    icon="pi pi-angle-left"
+                ></p-button>
+                <p-button
+                    label="Create Lease"
+                    (onClick)="createLease()"
+                    icon="pi pi-save"
+                    iconPos="right"
+                ></p-button>
+            </div>
+        </ng-template>
+    </p-card>
+</div>

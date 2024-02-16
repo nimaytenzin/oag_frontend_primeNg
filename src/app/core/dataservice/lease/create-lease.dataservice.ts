@@ -6,6 +6,7 @@ import {
     LeaseAgreementDurationDTO,
     LeaseAgreementPartiesDTO,
     LeaseAgreementPropertiesDTO,
+    LeaseAgreementTermsDTO,
 } from '../../dto/lease/lease-agreement.dto';
 import { Router } from '@angular/router';
 
@@ -47,6 +48,9 @@ export class CreateLeaseService {
     setLeaseInformation(leaseInformation) {
         this.leaseInformation = leaseInformation;
     }
+    saveLeaseTerms(data: LeaseAgreementTermsDTO) {
+        this.leaseInformation.terms = data;
+    }
 
     complete() {
         this.leaseCreationComplete.next(
@@ -67,6 +71,9 @@ export class CreateLeaseService {
     }
     navigateToCharges() {
         this.router.navigate(['admin/master-lease/create/charges']);
+    }
+    navigateToFinalize() {
+        this.router.navigate(['admin/master-lease/create/finalize']);
     }
 
     navigateToTerms() {

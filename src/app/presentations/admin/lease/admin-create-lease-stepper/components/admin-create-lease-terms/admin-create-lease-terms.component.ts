@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { RadioButton, RadioButtonModule } from 'primeng/radiobutton';
+import { TableModule } from 'primeng/table';
 import { BuildingRulesDataService } from 'src/app/core/dataservice/building/building-rules.dataservice';
 import { CreateLeaseService } from 'src/app/core/dataservice/lease/create-lease.dataservice';
 import { UnitRuleDataService } from 'src/app/core/dataservice/units/unit-rules.dataservice';
@@ -10,12 +12,20 @@ import {
     CreateLeaseAgreementDTO,
     LeaseAgreementTermsDTO,
 } from 'src/app/core/dto/lease/lease-agreement.dto';
+import { LeaseRuleDTO } from 'src/app/core/dto/lease/lease-rule.dto';
 
 @Component({
     selector: 'app-admin-create-lease-terms',
     templateUrl: './admin-create-lease-terms.component.html',
     standalone: true,
-    imports: [CardModule, RadioButtonModule, FormsModule, InputNumberModule],
+    imports: [
+        CardModule,
+        RadioButtonModule,
+        FormsModule,
+        InputNumberModule,
+        TableModule,
+        ButtonModule,
+    ],
     styleUrls: ['./admin-create-lease-terms.component.scss'],
 })
 export class AdminCreateLeaseTermsComponent implements OnInit {
@@ -26,11 +36,11 @@ export class AdminCreateLeaseTermsComponent implements OnInit {
     landlordPrematureTermination: boolean = true;
     applyLatePaymentFee: boolean = false;
     paymentDueDay: number = 1;
-    rentIncreateNoticePeriod: number = 3;
+    rentIncreaseNoticePeriod: number = 3;
     evictionNoticePeriod: number = 2;
     vacationNoticePeriod: number = 2;
 
-    rules: LeaseAgreementTermsDTO[] = [];
+    leaseRules: LeaseRuleDTO[] = [];
 
     constructor(
         private createLeaseService: CreateLeaseService,
@@ -40,9 +50,44 @@ export class AdminCreateLeaseTermsComponent implements OnInit {
 
     ngOnInit() {
         this.leaseInformation = this.createLeaseService.getLeaseInformation();
-        // this.checkNavigation(this.leaseInformation);
+        this.checkNavigation(this.leaseInformation);
         this.restoreStateIfExists(this.leaseInformation);
         console.log(this.leaseInformation);
+        this.getUnitRules();
+        this.getBuildingRules();
+    }
+
+    getBuildingRules() {
+        this.buildingRulesDataService
+            .GetBuildingRules({
+                buildingId: this.leaseInformation.properties.buildingId,
+            })
+            .subscribe({
+                next: (res) => {
+                    res.forEach((item) => {
+                        this.leaseRules.push({
+                            particular: item.particular,
+                            source: 'Building',
+                        });
+                    });
+                },
+            });
+    }
+    getUnitRules() {
+        this.unitRulesDataService
+            .GetUnitRules({
+                unitId: this.leaseInformation.properties.unitId,
+            })
+            .subscribe({
+                next: (res) => {
+                    res.forEach((item) => {
+                        this.leaseRules.push({
+                            particular: item.particular,
+                            source: 'Unit',
+                        });
+                    });
+                },
+            });
     }
 
     checkNavigation(leaseInformation: CreateLeaseAgreementDTO) {
@@ -63,19 +108,22 @@ export class AdminCreateLeaseTermsComponent implements OnInit {
         }
     }
 
-    logValues() {
-        console.log({
-            tenantSubletAuth: this.tenantSubletAuthority,
-            landlorprecancel: this.landlordPrematureTermination,
-            tenantPrecancel: this.tenantPrematureTermination,
-            paymentDueData: this.paymentDueDay,
-            applyLateFee: this.applyLatePaymentFee,
+    nextPage() {
+        const data: LeaseAgreementTermsDTO = {
+            tenantSubletAuthority: this.tenantSubletAuthority,
+            tenantPrematureTermination: this.tenantPrematureTermination,
+            ownerPrematureTermination: this.landlordPrematureTermination,
+            leaseRules: this.leaseRules,
+            paymentDueDay: this.paymentDueDay,
+            applyLatePaymentFee: this.applyLatePaymentFee,
+            rentIncreaseNoticePeriod: this.rentIncreaseNoticePeriod,
             evictionNoticePeriod: this.evictionNoticePeriod,
             vacationNoticePeriod: this.vacationNoticePeriod,
-            rentIncreateNoticePeriod: this.rentIncreateNoticePeriod,
-        });
+        };
+        this.createLeaseService.saveLeaseTerms(data);
+        this.createLeaseService.navigateToFinalize();
     }
-
-    nextPage() {}
-    prevPage() {}
+    prevPage() {
+        this.createLeaseService.navigateToCharges();
+    }
 }

@@ -20,12 +20,17 @@
                         placeholder="Monthly Rent"
                         [(ngModel)]="rent"
                     />
-                    <p-inputGroupAddon>
-                        <i
-                            class="pi pi-search"
-                            (click)="searchLandlordByPhoneNumber()"
-                        ></i>
-                    </p-inputGroupAddon>
+                </p-inputGroup>
+
+                and a security deposit amount of
+                <p-inputGroup class="w-full">
+                    <p-inputGroupAddon>Nu.</p-inputGroupAddon>
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="Monthly Rent"
+                        [(ngModel)]="securityDeposit"
+                    />
                 </p-inputGroup>
 
                 <div>
@@ -49,6 +54,7 @@
                             <tr>
                                 <th>Particular</th>
                                 <th>Amount(NU)</th>
+                                <th>Source</th>
                                 <th></th>
                             </tr>
                         </ng-template>
@@ -91,6 +97,9 @@
                                             {{ item.amount }}
                                         </ng-template>
                                     </p-cellEditor>
+                                </td>
+                                <td>
+                                    {{ item.source }}
                                 </td>
                                 <td>
                                     <p-button
