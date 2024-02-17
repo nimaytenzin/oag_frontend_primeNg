@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import {
     CreateLeaseAgreementDTO,
+    GroupedLeaseAgreementDTO,
     LeaseAgreementChargesDTO,
     LeaseAgreementDurationDTO,
     LeaseAgreementPartiesDTO,
@@ -15,7 +16,7 @@ import { Router } from '@angular/router';
 })
 export class CreateLeaseService {
     constructor(private router: Router) {}
-    leaseInformation: CreateLeaseAgreementDTO = {
+    leaseInformation: GroupedLeaseAgreementDTO = {
         parties: undefined,
         properties: undefined,
         terms: undefined,

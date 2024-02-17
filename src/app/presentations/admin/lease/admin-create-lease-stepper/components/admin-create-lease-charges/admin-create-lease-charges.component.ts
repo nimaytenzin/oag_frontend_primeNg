@@ -15,9 +15,8 @@ import { BuildingSurchargeDataService } from 'src/app/core/dataservice/building/
 import { CreateLeaseService } from 'src/app/core/dataservice/lease/create-lease.dataservice';
 import { UnitSurchargeDataService } from 'src/app/core/dataservice/units/unit-surcharge.data.service';
 import {
-    CreateLeaseAgreementDTO,
+    GroupedLeaseAgreementDTO,
     LeaseAgreementChargesDTO,
-    LeaseAgreementDTO,
 } from 'src/app/core/dto/lease/lease-agreement.dto';
 import { BuildingSurchargeDTO } from 'src/app/core/dto/properties/building-surcharge.dto';
 import { UnitSurchargeDTO } from 'src/app/core/dto/units/unit-surcharge.dto';
@@ -61,7 +60,7 @@ export class AdminCreateLeaseChargesComponent implements OnInit {
     buildingSurcharges: BuildingSurchargeDTO[];
     unitSurcharges: UnitSurchargeDTO[];
 
-    leaseInformation: CreateLeaseAgreementDTO;
+    leaseInformation: GroupedLeaseAgreementDTO;
     leaseCharges: LeaseSurchargeDTO[] = [];
 
     createLeaseChargeForm: FormGroup;
@@ -158,11 +157,11 @@ export class AdminCreateLeaseChargesComponent implements OnInit {
         this.leaseCharges.push({
             particular: this.createLeaseChargeForm.controls['particular'].value,
             amount: this.createLeaseChargeForm.controls['amount'].value,
-            source: 'Agreement',
+            origin: 'Agreement',
         });
         this.showAddLeaseChargeForm = false;
     }
-    getLeaseInformation(): CreateLeaseAgreementDTO {
+    getLeaseInformation(): GroupedLeaseAgreementDTO {
         return this.createLeaseService.getLeaseInformation();
     }
 
@@ -178,7 +177,7 @@ export class AdminCreateLeaseChargesComponent implements OnInit {
                         const parsedCharge: LeaseSurchargeDTO = {
                             particular: item.particular,
                             amount: item.amount,
-                            source: 'Building',
+                            origin: 'Building',
                         };
                         this.leaseCharges.push(parsedCharge);
                     });
@@ -198,7 +197,7 @@ export class AdminCreateLeaseChargesComponent implements OnInit {
                         const parsedCharge: LeaseSurchargeDTO = {
                             particular: item.particular,
                             amount: item.amount,
-                            source: 'Unit',
+                            origin: 'Unit',
                         };
                         this.leaseCharges.push(parsedCharge);
                     });

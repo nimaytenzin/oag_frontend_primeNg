@@ -9,7 +9,7 @@ import { BuildingRulesDataService } from 'src/app/core/dataservice/building/buil
 import { CreateLeaseService } from 'src/app/core/dataservice/lease/create-lease.dataservice';
 import { UnitRuleDataService } from 'src/app/core/dataservice/units/unit-rules.dataservice';
 import {
-    CreateLeaseAgreementDTO,
+    GroupedLeaseAgreementDTO,
     LeaseAgreementTermsDTO,
 } from 'src/app/core/dto/lease/lease-agreement.dto';
 import { LeaseRuleDTO } from 'src/app/core/dto/lease/lease-rule.dto';
@@ -29,7 +29,7 @@ import { LeaseRuleDTO } from 'src/app/core/dto/lease/lease-rule.dto';
     styleUrls: ['./admin-create-lease-terms.component.scss'],
 })
 export class AdminCreateLeaseTermsComponent implements OnInit {
-    leaseInformation: CreateLeaseAgreementDTO;
+    leaseInformation: GroupedLeaseAgreementDTO;
 
     tenantSubletAuthority: boolean = false;
     tenantPrematureTermination: boolean = true;
@@ -67,7 +67,7 @@ export class AdminCreateLeaseTermsComponent implements OnInit {
                     res.forEach((item) => {
                         this.leaseRules.push({
                             particular: item.particular,
-                            source: 'Building',
+                            origin: 'Building',
                         });
                     });
                 },
@@ -83,14 +83,14 @@ export class AdminCreateLeaseTermsComponent implements OnInit {
                     res.forEach((item) => {
                         this.leaseRules.push({
                             particular: item.particular,
-                            source: 'Unit',
+                            origin: 'Unit',
                         });
                     });
                 },
             });
     }
 
-    checkNavigation(leaseInformation: CreateLeaseAgreementDTO) {
+    checkNavigation(leaseInformation: GroupedLeaseAgreementDTO) {
         if (!leaseInformation.parties) {
             this.createLeaseService.navigateToParties();
         } else if (!leaseInformation.properties) {
@@ -101,7 +101,7 @@ export class AdminCreateLeaseTermsComponent implements OnInit {
             this.createLeaseService.navigateToCharges();
         }
     }
-    restoreStateIfExists(leaseInformation: CreateLeaseAgreementDTO) {
+    restoreStateIfExists(leaseInformation: GroupedLeaseAgreementDTO) {
         const terms = this.leaseInformation.terms;
         if (terms) {
             alert('RESTORE STATE NOT IMPLEMENTED');

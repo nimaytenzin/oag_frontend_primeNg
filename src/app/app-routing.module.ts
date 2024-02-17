@@ -61,6 +61,15 @@ import { AdminLayoutComponent } from './presentations/layout/admin/admin-layout.
                                         m.AdminMasterLeaseAgreementsRoutingModule
                                 ),
                         },
+                        {
+                            path: 'master-transactions',
+                            loadChildren: () =>
+                                import(
+                                    './presentations/admin/transactions/admin-transaction.routing.modules'
+                                ).then(
+                                    (m) => m.AdminMasterTransactionRoutingModule
+                                ),
+                        },
                     ],
                 },
             ],

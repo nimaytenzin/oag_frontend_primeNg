@@ -87,13 +87,9 @@
             </td>
 
             <td>
-                <p>
-                    1. 12 Months Lease at Building ID: 2, Unit: 2-01,
-                    Motithang,Thimphu for residential use
-                </p>
-                <p>
-                    2. 12 Months Lease at Building ID: 2, Unit: 1-01,
-                    Motithang,Thimphu for commercial use
+                <p *ngFor="let item of tenant.leaseAgreements">
+                    {{ iteam.id }}
+                    {{ item.leaseDurationMonths }}
                 </p>
             </td>
         </tr>

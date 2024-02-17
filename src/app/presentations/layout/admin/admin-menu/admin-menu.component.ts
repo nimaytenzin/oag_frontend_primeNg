@@ -82,25 +82,20 @@ export class AdminMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-th-large',
                         routerLink: ['/admin/master-lease'],
                     },
-                    {
-                        label: 'Lease Terms',
-                        icon: 'pi pi-fw pi-th-large',
-                        routerLink: ['/admin/master-lease'],
-                    },
                 ],
             },
             {
                 label: 'Transactions',
                 items: [
                     {
-                        label: 'Invoices',
-                        icon: 'pi pi-fw pi-th-large',
-                        routerLink: ['/admin/master-dzongkhags'],
-                    },
-                    {
                         label: 'Transactions',
                         icon: 'pi pi-fw pi-building',
-                        routerLink: ['/admin/master-admzones'],
+                        routerLink: ['/admin/master-transactions'],
+                    },
+                    {
+                        label: 'Invoices',
+                        icon: 'pi pi-fw pi-th-large',
+                        routerLink: ['/admin/master-transactions/invoices'],
                     },
                 ],
             },

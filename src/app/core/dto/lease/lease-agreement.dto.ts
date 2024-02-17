@@ -88,10 +88,41 @@ export interface LeaseAgreementTermsDTO {
     applyLatePaymentFee: boolean;
 }
 
-export interface CreateLeaseAgreementDTO {
+export interface GroupedLeaseAgreementDTO {
     parties: LeaseAgreementPartiesDTO;
     properties: LeaseAgreementPropertiesDTO;
     terms: LeaseAgreementTermsDTO;
     charges: LeaseAgreementChargesDTO;
     duration: LeaseAgreementDurationDTO;
+}
+
+export interface CreateLeaseAgreementDTO {
+    leaseStatus: string;
+    tenantId: number;
+    landlordId: number;
+    witnessId: number;
+    agreementDay: number;
+    agreementMonth: number;
+    agreementYear: number;
+
+    buildingId: number;
+    unitId: number;
+    use: string;
+
+    leaseDurationMonths: number;
+    leaseStartDate: Date;
+    leaseEndDate: Date;
+
+    tenantSubletAuthority: boolean;
+    tenantPrematureTermination: boolean;
+    ownerPrematureTermination: boolean;
+    rentIncreaseNoticePeriod: number;
+    evictionNoticePeriod: number;
+    vacationNoticePeriod: number;
+    leaseRules: LeaseRuleDTO[];
+    paymentDueDay: number;
+    applyLatePaymentFee: boolean;
+    rent: number;
+    leaseSurcharges: LeaseSurchargeDTO[];
+    securityDepositAmount: number;
 }
