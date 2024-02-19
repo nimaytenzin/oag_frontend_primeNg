@@ -93,3 +93,14 @@ export enum LeaseAgreementSurchargeSource {
     UNIT = 'Unit',
     ADDITIONAL = 'Additional',
 }
+
+export enum INVOICESTATUS {
+    'Due' = 'DUE',
+    'Paid' = 'PAID',
+    'Remitted' = 'REMITTED',
+}
+
+export enum LEASESTATUS {
+    'ACTIVE' = 'ACTIVE',
+    'EXPIRED' = 'EXPIRED',
+}

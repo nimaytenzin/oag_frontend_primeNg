@@ -1,6 +1,6 @@
 <p-card header="Invoices">
     <p-table
-        [value]="invoices"
+        [value]="paginatedInvoices.data"
         responsiveLayout="stack"
         [breakpoint]="'960px'"
         [tableStyle]="{ 'min-width': '50rem' }"
@@ -27,21 +27,27 @@
                     ></p-tag>
                 </td>
                 <td>
-                    <p>Payment for Month of May 2024</p>
                     <p>
-                        <strong class="italic underline cursor-pointer"
-                            >Unit G-01</strong
-                        >
+                        {{ item.title }}
+                    </p>
+                    <p>
+                        <strong class="italic underline cursor-pointer">
+                            unit: {{ item.unitId }}
+                        </strong>
                         at
                         <strong class="underline cursor-pointer"
-                            >Building 1 Zhidey homes</strong
-                        >
-                        for <strong> Residential </strong> purpose
+                            >Building: {{ item.buildingId }}
+                        </strong>
+                        for
+                        <strong>
+                            Use Details {{ item.leaseAgreementId }}
+                        </strong>
+                        purpose
                     </p>
                 </td>
                 <td>
                     <p-table
-                        [value]="item.items"
+                        [value]="item.invoiceItems"
                         [styleClass]="'p-datatable-sm'"
                     >
                         <ng-template pTemplate="header">

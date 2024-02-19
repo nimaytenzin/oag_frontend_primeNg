@@ -3,6 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
+import { invoiceDataService } from 'src/app/core/dataservice/payments/invoice.dataservice';
+import { PaginatedData } from 'src/app/core/dto/paginated-data.dto';
+import { InvoiceDTO } from 'src/app/core/dto/payments/invoice/invoice.dto';
 
 @Component({
     selector: 'app-admin-master-invoices',
@@ -12,6 +15,17 @@ import { TagModule } from 'primeng/tag';
     styleUrls: ['./admin-master-invoices.component.scss'],
 })
 export class AdminMasterInvoicesComponent implements OnInit {
+    rows = 10;
+    paginatedInvoices: PaginatedData<InvoiceDTO> = {
+        firstPage: 0,
+        currentPage: 0,
+        previousPage: 0,
+        nextPage: 0,
+        lastPage: 0,
+        limit: 0,
+        count: 0,
+        data: [],
+    };
     invoices = [
         {
             id: 100231232,
@@ -44,9 +58,24 @@ export class AdminMasterInvoicesComponent implements OnInit {
             status: 'TRANSFERRED',
         },
     ];
-    constructor() {}
+    constructor(private invoiceDataService: invoiceDataService) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.getInvoices();
+        console.log(this.paginatedInvoices);
+    }
+
+    getInvoices() {
+        this.invoiceDataService
+            .GetAllInvoicesPaginated({
+                page: 0,
+                limit: this.rows,
+            })
+            .subscribe((res) => {
+                this.paginatedInvoices = res;
+                console.log(res);
+            });
+    }
 
     viewLeaseAgreement() {
         alert('IMPLETN SHOW LEASE AGREEMENT MODAL');

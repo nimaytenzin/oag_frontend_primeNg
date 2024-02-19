@@ -9,11 +9,20 @@ import { TenantDTO } from 'src/app/core/dto/users/tenant.dto';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { PaginatorModule } from 'primeng/paginator';
+import { LEASESTATUS } from 'src/app/core/constants/enums';
+import { TagModule } from 'primeng/tag';
+import { GETMONTHYEARSTRING } from 'src/app/core/utility/date.helper';
 
 @Component({
     selector: 'app-admin-master-tenants',
     standalone: true,
-    imports: [ButtonModule, TableModule, CommonModule, PaginatorModule],
+    imports: [
+        ButtonModule,
+        TableModule,
+        CommonModule,
+        PaginatorModule,
+        TagModule,
+    ],
     providers: [DialogService],
     templateUrl: './admin-master-tenants.component.html',
     styleUrl: './admin-master-tenants.component.scss',
@@ -39,6 +48,8 @@ export class AdminMasterTenantsComponent implements OnInit {
     ngOnInit(): void {
         this.getTenants();
     }
+
+    getMonthYearString = GETMONTHYEARSTRING;
     openAddTenantsModal() {
         this.ref = this.dialogService.open(AdminAddTenantComponent, {
             header: 'Add Tenants',
@@ -73,5 +84,13 @@ export class AdminMasterTenantsComponent implements OnInit {
                 this.paginatedTenants = res;
                 console.log(res);
             });
+    }
+    getSeverity(status: string) {
+        switch (status) {
+            case LEASESTATUS.ACTIVE:
+                return 'success';
+            default:
+                return 'danger';
+        }
     }
 }

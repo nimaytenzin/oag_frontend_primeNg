@@ -16,6 +16,12 @@ import { LeaseAgreementDataService } from 'src/app/core/dataservice/lease/lease-
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
 import { CommonModule } from '@angular/common';
+import { CreateInvoiceDTO } from 'src/app/core/dto/payments/invoice/create-invoice.dto';
+import { INVOICESTATUS } from 'src/app/core/constants/enums';
+import { invoiceDataService } from 'src/app/core/dataservice/payments/invoice.dataservice';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { TagModule } from 'primeng/tag';
 
 @Component({
     selector: 'app-admin-master-lease-agreements',
@@ -27,8 +33,10 @@ import { CommonModule } from '@angular/common';
         TableModule,
         PaginatorModule,
         CommonModule,
+        ToastModule,
+        TagModule,
     ],
-    providers: [DialogService],
+    providers: [DialogService, MessageService],
     templateUrl: './admin-master-lease-agreements.component.html',
     styleUrl: './admin-master-lease-agreements.component.scss',
 })
@@ -36,7 +44,9 @@ export class AdminMasterLeaseAgreementsComponent {
     constructor(
         public dialogService: DialogService,
         private router: Router,
-        private leaseAgreementDataService: LeaseAgreementDataService
+        private leaseAgreementDataService: LeaseAgreementDataService,
+        private invoiceDataService: invoiceDataService,
+        private messageService: MessageService
     ) {}
 
     ref: DynamicDialogRef | undefined;
@@ -51,6 +61,17 @@ export class AdminMasterLeaseAgreementsComponent {
         data: [],
     };
     rows = 10;
+
+    pagina: PaginatedData<LeaseAgreementDTO> = {
+        firstPage: 0,
+        currentPage: 0,
+        previousPage: 0,
+        nextPage: 0,
+        lastPage: 0,
+        limit: 0,
+        count: 0,
+        data: [],
+    };
 
     ngOnInit(): void {
         this.getLeaseAgreements();
@@ -91,5 +112,69 @@ export class AdminMasterLeaseAgreementsComponent {
 
     getObjectKeys(obj: any): string[] {
         return Object.keys(obj);
+    }
+
+    generateInvoice(item: LeaseAgreementDTO) {
+        console.log(item);
+        const data: CreateInvoiceDTO = {
+            unitId: item.unitId,
+            buildingId: item.buildingId,
+            title: 'Payment for the month of May 2024',
+            tenantId: item.tenantId,
+            landlordId: item.ownerId,
+            leaseAgreementId: item.id,
+            month: 5,
+            year: 2024,
+            totalAmount: this.computeMonthlyPayable(item),
+            status: INVOICESTATUS.Due,
+            invoiceItems: [
+                {
+                    particular: 'House Rent for May 2024',
+                    amount: item.rent,
+                },
+            ],
+        };
+
+        item.leaseSurcharges.forEach((r) => {
+            data.invoiceItems.push({
+                particular: r.particular + ' for May 2024',
+                amount: r.amount,
+            });
+        });
+        console.log(data);
+
+        this.invoiceDataService.CreateInvoice(data).subscribe({
+            next: (res) => {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Success',
+                    detail:
+                        'Invoice generated for unit ID:' +
+                        item.unitId +
+                        ' for the month of ' +
+                        '5/2024',
+                });
+            },
+            error: (err) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: err.error.statusCode,
+                    detail: err.error.message,
+                });
+            },
+        });
+    }
+
+    getSeverity(status: string) {
+        switch (status) {
+            case INVOICESTATUS.Remitted:
+                return 'success';
+            case INVOICESTATUS.Due:
+                return 'warning';
+            case INVOICESTATUS.Paid:
+                return 'danger';
+            default:
+                return 'danger';
+        }
     }
 }

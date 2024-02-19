@@ -16,6 +16,15 @@ export function GETDMYFROMDATE(date: Date) {
     return { day: day, month: month, year: year };
 }
 
+export function GETMONTHYEARSTRING(date: Date) {
+    const parsedDate = new Date(date);
+    const month = parsedDate.getMonth() + 1;
+    const year = parsedDate.getFullYear();
+    const monthName = GETMONTHNAME(month);
+
+    return monthName + ',' + year;
+}
+
 export function GETMONTHNAME(monthNumber) {
     const monthNames = [
         'January',

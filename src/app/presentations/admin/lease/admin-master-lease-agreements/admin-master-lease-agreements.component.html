@@ -1,6 +1,7 @@
 <div class="flex align-items-center justify-content-between">
     Lease Agreements
 </div>
+<p-toast></p-toast>
 
 <i class="pi pi-pi-phone" style="font-size: 1rem"></i>
 
@@ -15,6 +16,7 @@
             <th>Parties</th>
             <th>Property</th>
             <th>Charges</th>
+            <th></th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-item>
@@ -43,6 +45,25 @@
                     Monthly Payable:
                     <strong>Nu. {{ computeMonthlyPayable(item) }} </strong>
                 </p>
+            </td>
+            <td>
+                <div *ngFor="let invoice of item.invoices">
+                    <p>Invoice # {{ invoice.id }}</p>
+                    <p>
+                        {{ invoice.title }}
+                    </p>
+                    <p>Total amount: {{ invoice.totalAmount }}</p>
+
+                    <p-tag
+                        [value]="invoice.status"
+                        [severity]="getSeverity(invoice.status)"
+                    ></p-tag>
+                </div>
+                <p-button
+                    *ngIf="!item.invoices.length"
+                    label="generateInvoice"
+                    (click)="generateInvoice(item)"
+                ></p-button>
             </td>
         </tr>
     </ng-template>
