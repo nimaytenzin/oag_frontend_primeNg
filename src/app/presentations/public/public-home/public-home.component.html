@@ -1,0 +1,86 @@
+<div class="flex flex-column align-items-center justify-content-center">
+    <div class="pb-4 text-center">
+        <h1 class="font-serif text-7xl text-center">
+            Explore Bhutanese legislations with ease
+        </h1>
+        <p class="text-lg">
+            This platform, managed by the
+            <a href="#"> Office of Attorney General</a> , is your gateway to
+            authorized Bhutanese legislation and related information.
+        </p>
+    </div>
+    <div
+        class="flex flex-column align-items-center justify-content-center gap-3"
+    >
+        <p class="mt-2">Search for keywords in the title or content.</p>
+        <div class="flex gap-2">
+            <div class="p-fluid">
+                <div>
+                    <div class="p-input-icon-left" styleClass="w-full">
+                        <i class="pi pi-search"></i>
+                        <input
+                            type="text"
+                            pInputText
+                            placeholder="Key words"
+                            [(ngModel)]="searchKeyword"
+                        />
+                    </div>
+                </div>
+
+                <div class="flex gap-2 my-2">
+                    <div class="flex align-items-center">
+                        <p-checkbox
+                            label="Title"
+                            name="title"
+                            value="Title"
+                            [(ngModel)]="searchIn"
+                        ></p-checkbox>
+                    </div>
+                    <div class="flex align-items-center">
+                        <p-checkbox
+                            label="Content"
+                            name="content"
+                            value="Content"
+                            [(ngModel)]="searchIn"
+                        ></p-checkbox>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex p-fluid gap-2">
+                <p-dropdown
+                    [options]="documentTypes"
+                    [(ngModel)]="searchDocumentType"
+                    [showClear]="true"
+                    placeholder="Search for keyword(s) in"
+                >
+                </p-dropdown>
+
+                <p-button
+                    label="Search"
+                    (click)="searchForLegislations()"
+                    icon="pi pi-search"
+                    iconPos="right"
+                ></p-button>
+            </div>
+        </div>
+
+        <hr />
+        <p class="text-center mt-6 w-8 text-lg">
+            The Office of Attorney General 's Law Depository website provides
+            access to authorized Bhutanese legislation and related information.
+            This website is managed by the Office of Attorney General and aims
+            to provide users with an easy and efficient way to access relevant
+            legislation. All legislation published on the website is available
+            in PDF format, suitable for hard copy printing. The website's top
+            FAQs list is regularly updated based on user queries. If users have
+            any questions or require assistance, they can contact the Office of
+            Attorney General for help. The website's ongoing development is
+            planned for the future to provide even better access to Bhutanese
+            legislation and more features for website users. Overall, the Office
+            of Attorney General Bhutan's Law Depository website strives to be a
+            reliable and user-friendly resource for accessing Bhutanese
+            legislation and related information.
+        </p>
+    </div>
+</div>

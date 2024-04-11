@@ -1,0 +1,102 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { PublicHomeComponent } from './public-home/public-home.component';
+import { PublicLayoutComponent } from '../layouts/public/public-layout.component';
+import { PublicListBilledLegislationsComponent } from './legislations/list-legislations/public-list-billed-legislations/public-list-billed-legislations.component';
+import { PublicListRepealedLegislationsComponent } from './legislations/list-legislations/public-list-repealed-legislations/public-list-repealed-legislations.component';
+import { PublicListAmmendedLegislationsComponent } from './legislations/list-legislations/public-list-ammended-legislations/public-list-ammended-legislations.component';
+import { PublicListCurrentLegislationsComponent } from './legislations/list-legislations/public-list-current-legislations/public-list-current-legislations.component';
+import { PublicViewLegislationComponent } from './legislations/view-legislation/public-view-legislation/public-view-legislation.component';
+import { PublicListConventionsComponent } from './legislations/list-legislations/public-list-conventions/public-list-conventions.component';
+import { PublicListCurrentDelegatedLegislationsComponent } from './delegated-legislations/list-delegated-legislations/public-list-current-delegated-legislations/public-list-current-delegated-legislations.component';
+import { PublicListRevokedDelegatedLegislationsComponent } from './delegated-legislations/list-delegated-legislations/public-list-revoked-delegated-legislations/public-list-revoked-delegated-legislations.component';
+import { PublicListModifiedDelegatedLegislationsComponent } from './delegated-legislations/list-delegated-legislations/public-list-modified-delegated-legislations/public-list-modified-delegated-legislations.component';
+import { PublicGuidesTechnicalDescriptionComponent } from './guides/public-guides-technical-description/public-guides-technical-description.component';
+import { PublicLoginComponent } from './auth/public-login/public-login.component';
+
+const routes: Routes = [
+    {
+        path: '',
+        component: PublicLayoutComponent,
+        children: [
+            {
+                path: '',
+                component: PublicHomeComponent,
+            },
+
+            {
+                path: 'legislations',
+                children: [
+                    {
+                        path: 'current',
+                        component: PublicListCurrentLegislationsComponent,
+                    },
+                    {
+                        path: 'ammended',
+                        component: PublicListAmmendedLegislationsComponent,
+                    },
+                    {
+                        path: 'bills',
+                        component: PublicListBilledLegislationsComponent,
+                    },
+                    {
+                        path: 'repealed',
+                        component: PublicListRepealedLegislationsComponent,
+                    },
+                    {
+                        path: 'view/:legislationId',
+                        component: PublicViewLegislationComponent,
+                    },
+                ],
+            },
+            {
+                path: 'international-conventions',
+                component: PublicListConventionsComponent,
+            },
+            {
+                path: 'help',
+                children: [
+                    {
+                        path: 'technical-guide',
+                        component: PublicGuidesTechnicalDescriptionComponent,
+                    },
+                ],
+            },
+            {
+                path: 'login',
+                children: [
+                    {
+                        path: '',
+                        component: PublicLoginComponent,
+                    },
+                ],
+            },
+            {
+                path: 'delegated-legislations',
+                children: [
+                    {
+                        path: 'current',
+                        component:
+                            PublicListCurrentDelegatedLegislationsComponent,
+                    },
+                    {
+                        path: 'revoked',
+                        component:
+                            PublicListRevokedDelegatedLegislationsComponent,
+                    },
+                    {
+                        path: 'modified',
+                        component:
+                            PublicListModifiedDelegatedLegislationsComponent,
+                    },
+                ],
+            },
+        ],
+    },
+];
+
+@NgModule({
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
+})
+export class PublicRoutingModule {}

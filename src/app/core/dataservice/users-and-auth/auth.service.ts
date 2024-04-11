@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { API_URL } from '../../constants/constants';
 import { AUTH_TOKEN_KEY } from '../../constants/api-constants';
-import { AdminCreateTenantDTO } from '../../dto/users/tenant.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -25,11 +24,6 @@ export class AuthService {
     }
 
     GetToken() {
-        console.log(sessionStorage.getItem(this.authTokenKey));
         return sessionStorage.getItem(this.authTokenKey);
-    }
-
-    AdminCreateTenant(data: AdminCreateTenantDTO) {
-        return this.http.post(`${this.apiUrl}/auth/signup`, data);
     }
 }

@@ -1,0 +1,43 @@
+<div class="flex justify-content-center align-items-center">
+    <div class="p-6 bg-white border-round-xl shadow-1 w-6">
+        <div class="flex flex-column">
+            <img
+                src="assets/images/avatar.jpeg"
+                alt="Image"
+                style="width: 100%"
+            />
+            <hr />
+            <div class="mt-1 grid">
+                <div class="field col-12">
+                    <label for="firstname2">Full Name</label>
+                    <input
+                        id="firstname2"
+                        type="text"
+                        [(ngModel)]="userData.fullName"
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                    />
+                </div>
+                <div class="field col-12">
+                    <label for="lastname2">Email/Login Username </label>
+                    <input
+                        id="lastname2"
+                        [(ngModel)]="userData.email"
+                        type="text"
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                    />
+                </div>
+                <div class="field col-12">
+                    <label for="firstname2">Role</label>
+                    <input
+                        id="firstname2"
+                        type="text"
+                        disabled
+                        [(ngModel)]="userData.role"
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                    />
+                </div>
+            </div>
+            <p-button class="col" label="Update Profile"></p-button>
+        </div>
+    </div>
+</div>

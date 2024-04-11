@@ -1,0 +1,244 @@
+<!-- <div class="grid">
+    <div class="col-12">
+        <div class="grid">
+            <div class="col">
+                <p-card class="p-card" header="Published Legisaltions">
+                    <table>
+                        <tr>
+                            <td
+                                class="px-4 mb-2 text-2xl font-bold text-primray"
+                            >
+                                {{ publishedLegislationStatistics.current }}
+                            </td>
+                            <td>Current Legislations</td>
+                        </tr>
+                        <tr>
+                            <td
+                                class="px-4 mb-2 text-2xl font-bold text-primray"
+                            >
+                                {{ publishedLegislationStatistics.repealed }}
+                            </td>
+                            <td>Repealed Legislations</td>
+                        </tr>
+                        <tr>
+                            <td
+                                class="px-4 mb-2 text-2xl font-bold text-primray"
+                            >
+                                {{ publishedLegislationStatistics.bills }}
+                            </td>
+                            <td>Bills</td>
+                        </tr>
+                        <tr>
+                            <td
+                                class="px-4 mb-2 text-2xl font-bold text-primray"
+                            >
+                                {{ publishedLegislationStatistics.conventions }}
+                            </td>
+                            <td>Conventions</td>
+                        </tr>
+                    </table>
+                </p-card>
+            </div>
+            <div class="col">
+                <p-card class="p-card" header="Published Legisaltions">
+                    <table>
+                        <tr>
+                            <td
+                                class="px-4 mb-2 text-2xl font-bold text-primray"
+                            >
+                                {{ publishedLegislationStatistics.current }}
+                            </td>
+                            <td>Current Legislations</td>
+                        </tr>
+                        <tr>
+                            <td
+                                class="px-4 mb-2 text-2xl font-bold text-primray"
+                            >
+                                {{ publishedLegislationStatistics.repealed }}
+                            </td>
+                            <td>Repealed Legislations</td>
+                        </tr>
+                        <tr>
+                            <td
+                                class="px-4 mb-2 text-2xl font-bold text-primray"
+                            >
+                                {{ publishedLegislationStatistics.bills }}
+                            </td>
+                            <td>Bills</td>
+                        </tr>
+                        <tr>
+                            <td
+                                class="px-4 mb-2 text-2xl font-bold text-primray"
+                            >
+                                {{ publishedLegislationStatistics.conventions }}
+                            </td>
+                            <td>Conventions</td>
+                        </tr>
+                    </table>
+                </p-card>
+            </div>
+        </div>
+        <div>
+            <p-table
+                [value]="legislations"
+                [tableStyle]="{ 'min-width': '50rem' }"
+            >
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Title</th>
+
+                        <th>Year</th>
+                        <th>Added By</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-product>
+                    <tr>
+                        <td>{{ product.code }}</td>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.category }}</td>
+                        <td>{{ product.quantity }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div> -->
+
+<div class="grid nested-grid">
+    <div class="col-6">
+        <div class="grid">
+            <div class="col-6">
+                <p-card class="p-card" header="Published Legisaltions">
+                    <table>
+                        <tr>
+                            <td
+                                class="px-4 mb-2 text-2xl font-bold text-primray"
+                            >
+                                {{ publishedLegislationStatistics.current }}
+                            </td>
+                            <td>Current Legislations</td>
+                        </tr>
+                        <tr>
+                            <td
+                                class="px-4 mb-2 text-2xl font-bold text-primray"
+                            >
+                                {{ publishedLegislationStatistics.repealed }}
+                            </td>
+                            <td>Repealed Legislations</td>
+                        </tr>
+                        <tr>
+                            <td
+                                class="px-4 mb-2 text-2xl font-bold text-primray"
+                            >
+                                {{ publishedLegislationStatistics.bills }}
+                            </td>
+                            <td>Bills</td>
+                        </tr>
+                        <tr>
+                            <td
+                                class="px-4 mb-2 text-2xl font-bold text-primray"
+                            >
+                                {{ publishedLegislationStatistics.conventions }}
+                            </td>
+                            <td>Conventions</td>
+                        </tr>
+                    </table>
+                </p-card>
+            </div>
+            <div class="col-6">
+                <p-card
+                    class="p-card"
+                    header="Published Delegated Legislations"
+                >
+                    <table>
+                        <tr>
+                            <td
+                                class="px-4 mb-2 text-2xl font-bold text-primray"
+                            >
+                                {{ publishedLegislationStatistics.current }}
+                            </td>
+                            <td>Current Legislations</td>
+                        </tr>
+                        <tr>
+                            <td
+                                class="px-4 mb-2 text-2xl font-bold text-primray"
+                            >
+                                {{ publishedLegislationStatistics.repealed }}
+                            </td>
+                            <td>Repealed Legislations</td>
+                        </tr>
+                        <tr>
+                            <td
+                                class="px-4 mb-2 text-2xl font-bold text-primray"
+                            >
+                                {{ publishedLegislationStatistics.bills }}
+                            </td>
+                            <td>Bills</td>
+                        </tr>
+                        <tr>
+                            <td
+                                class="px-4 mb-2 text-2xl font-bold text-primray"
+                            >
+                                {{ publishedLegislationStatistics.conventions }}
+                            </td>
+                            <td>Conventions</td>
+                        </tr>
+                    </table>
+                </p-card>
+            </div>
+            <div class="col-12">
+                <p-card header="Latest Documents">
+                    <p-table [value]="legislations" class="p-datatable-sm">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Title</th>
+                                <th>Year</th>
+                                <th>Added By</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr>
+                                <td>
+                                    <p>
+                                        {{ item.title_eng }}
+                                    </p>
+                                    <p>
+                                        {{ item.title_dzo }}
+                                    </p>
+                                </td>
+                                <td>{{ item.documentYear }}</td>
+                                <td>{{ item.status }}</td>
+                                <td>{{ item.quantity }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-card>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <p-card header="Popular Legislations">
+            <p-table [value]="legislations" class="p-datatable-sm">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Title</th>
+                        <th>View Counts</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <td>
+                            <p>
+                                {{ item.title_eng }}
+                            </p>
+                            <p>
+                                {{ item.title_dzo }}
+                            </p>
+                        </td>
+                        <td>{{ item.documentYear }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-card>
+    </div>
+</div>

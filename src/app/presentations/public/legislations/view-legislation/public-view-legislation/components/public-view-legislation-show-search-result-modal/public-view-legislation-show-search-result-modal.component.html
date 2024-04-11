@@ -1,0 +1,30 @@
+<div class="p-6">
+    <h4 class="mb-4">
+        {{ searchResults.results.length }}
+        <span *ngIf="searchResults.results.length > 1"> Matches</span>
+        <span *ngIf="searchResults.results.length <= 1"> Match</span>
+
+        for
+        <span class="font-bold italic">
+            {{ searchResults.searchKeyword }}
+        </span>
+    </h4>
+    <div class="flex flex-column gap-2">
+        <div
+            *ngFor="let item of searchResults.results"
+            class="cursor-pointer hover:surface-100"
+            (click)="navigateTo(item)"
+            [ngClass]="getSectionStyles(item.type, 'ENG')"
+        >
+            <div
+                [innerHTML]="
+                    sanitizeHtml(
+                        item?.clause_eng
+                            | highlighter : searchResults.searchKeyword
+                    )
+                "
+            ></div>
+            <hr />
+        </div>
+    </div>
+</div>

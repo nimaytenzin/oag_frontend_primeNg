@@ -1,0 +1,20 @@
+.navbar {
+    position: relative;
+
+    &::before {
+        content: "";
+        background-image: url("../../../../../assets/images/header_bg.png");
+        background-repeat: repeat;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        opacity: 0.5;
+        z-index: -1;
+    }
+}
+:host ::ng-deep .p-menubar {
+    background: transparent !important;
+    border: none !important;
+}

@@ -5,7 +5,7 @@ import { API_URL } from '../../constants/constants';
 import {
     PaginatedData,
     PaginatedParamsOptions,
-} from '../../dto/paginated-data.dto';
+} from '../../dto/utility/paginated-data.dto';
 import { TenantDTO } from '../../dto/users/tenant.dto';
 import { Observable } from 'rxjs';
 

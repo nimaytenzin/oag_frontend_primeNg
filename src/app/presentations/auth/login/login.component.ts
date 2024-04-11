@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/dataservice/users-and-auth/auth.service';
-import { LayoutService } from 'src/app/presentations/layout/service/app.layout.service';
+import { LayoutService } from 'src/app/presentations/layouts/admin/service/app.layout.service';
 
 @Component({
     selector: 'app-login',
@@ -29,15 +29,16 @@ export class LoginComponent {
     ) {}
 
     login() {
-        this.authService
-            .Login({
-                phoneNumber: 17263764,
-                password: 'overlord123',
-            })
-            .subscribe((res: any) => {
-                console.log(res);
-                this.authService.SetAuthToken(res.token);
-                this.router.navigate(['/admin']);
-            });
+        // this.authService
+        //     .Login({
+        //         phoneNumber: 17263764,
+        //         password: 'overlord123',
+        //     })
+        //     .subscribe((res: any) => {
+        //         console.log(res);
+        //         this.authService.SetAuthToken(res.token);
+        //         this.router.navigate(['/admin']);
+        //     });
+        this.router.navigate(['/admin']);
     }
 }
