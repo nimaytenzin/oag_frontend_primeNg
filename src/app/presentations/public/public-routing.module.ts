@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PublicHomeComponent } from './public-home/public-home.component';
+import { PublicHomeComponent } from './home/public-home/public-home.component';
 import { PublicLayoutComponent } from '../layouts/public/public-layout.component';
 import { PublicListBilledLegislationsComponent } from './legislations/list/public-list-billed-legislations/public-list-billed-legislations.component';
 import { PublicListRepealedLegislationsComponent } from './legislations/list/public-list-repealed-legislations/public-list-repealed-legislations.component';
@@ -13,6 +13,7 @@ import { PublicListRevokedDelegatedLegislationsComponent } from './delegated-leg
 import { PublicListModifiedDelegatedLegislationsComponent } from './delegated-legislations/list-delegated-legislations/public-list-modified-delegated-legislations/public-list-modified-delegated-legislations.component';
 import { PublicGuidesTechnicalDescriptionComponent } from './guides/public-guides-technical-description/public-guides-technical-description.component';
 import { PublicViewDelegatedLegislationComponent } from './delegated-legislations/view-delegated-legislations/public-view-delegated-legislation/public-view-delegated-legislation.component';
+import { PublicHomeSearchResultsComponent } from './home/public-home-search-results/public-home-search-results.component';
 
 const routes: Routes = [
     {
@@ -21,7 +22,16 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                component: PublicHomeComponent,
+                children: [
+                    {
+                        path: '',
+                        component: PublicHomeComponent,
+                    },
+                    {
+                        path: 'search',
+                        component: PublicHomeSearchResultsComponent,
+                    },
+                ],
             },
 
             {

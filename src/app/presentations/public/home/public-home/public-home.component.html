@@ -2,6 +2,8 @@
     class="flex flex-column align-items-center justify-content-center"
     style="min-height: 80vh"
 >
+    <p-toast></p-toast>
+
     <div class="pb-4 text-center">
         <h1 class="font-serif text-7xl text-center">
             Explore Bhutanese legislations with ease
@@ -19,32 +21,29 @@
         <div class="flex gap-2">
             <div class="p-fluid">
                 <div>
-                    <div class="p-input-icon-left" styleClass="w-full">
-                        <i class="pi pi-search"></i>
-                        <input
-                            type="text"
-                            pInputText
-                            placeholder="Key words"
-                            [(ngModel)]="searchKeyword"
-                        />
-                    </div>
+                    <p-chips
+                        [(ngModel)]="searchKeywords"
+                        [addOnBlur]="true"
+                        [addOnTab]="true"
+                        placeholder="Enter Keyword. press Enter to add more tags"
+                    ></p-chips>
                 </div>
 
                 <div class="flex gap-2 my-2">
                     <div class="flex align-items-center">
                         <p-checkbox
                             label="Title"
-                            name="title"
-                            value="Title"
-                            [(ngModel)]="searchIn"
+                            [binary]="true"
+                            [(ngModel)]="searchInTitle"
+                            (onChange)="toggleCheckbox('Title')"
                         ></p-checkbox>
                     </div>
                     <div class="flex align-items-center">
                         <p-checkbox
                             label="Content"
-                            name="content"
-                            value="Content"
-                            [(ngModel)]="searchIn"
+                            [binary]="true"
+                            [(ngModel)]="!searchInTitle"
+                            (onChange)="toggleCheckbox('Content')"
                         ></p-checkbox>
                     </div>
                 </div>

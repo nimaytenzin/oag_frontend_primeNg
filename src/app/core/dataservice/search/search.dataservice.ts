@@ -4,6 +4,7 @@ import { Observable, startWith } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import { SectionDto } from '../../dto/legislation/section.dto';
+import { PaginatedData } from '../../dto/utility/paginated-data.dto';
 
 export interface SearchInLegislationDto {
     keyword: string;
@@ -46,6 +47,26 @@ export class SearchService {
         return this.http.post<SectionDto[]>(
             `${this.apiUrl}/p/delegated-legislation/search`,
             data
+        );
+    }
+
+    PublicSearchForKeywordInLegislations(options: {
+        keywords: string;
+        searchIn: string;
+        searchWithin: string;
+    }): Observable<PaginatedData<SectionDto>> {
+        const { keywords, searchIn, searchWithin } = options;
+
+        let params = new HttpParams()
+            .set('Keywords', keywords.toString())
+            .set('In', searchIn.toString())
+            .set('Within', searchWithin.toString());
+
+        return this.http.get<PaginatedData<SectionDto>>(
+            `${this.apiUrl}/p/legislations/adv/search`,
+            {
+                params,
+            }
         );
     }
 }

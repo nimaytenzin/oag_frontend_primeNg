@@ -7,6 +7,9 @@ import { AdminLayoutModule } from './presentations/layouts/admin/admin/admin-lay
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { MarkdownModule } from 'ngx-markdown';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { MessagesModule } from 'primeng/messages';
 
 @NgModule({
     declarations: [AppComponent],

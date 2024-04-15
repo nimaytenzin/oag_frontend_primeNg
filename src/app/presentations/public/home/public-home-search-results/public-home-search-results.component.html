@@ -1,0 +1,110 @@
+<div style="min-height: 80vh; padding: 4rem 12rem" class="bg-white">
+    <h2 class="font-serif">Search</h2>
+    <div class="flex flex-column align-items-start justify-content-start gap-3">
+        <p class="mt-2">Search for keywords in the title or content.</p>
+        <div class="flex gap-2">
+            <div class="p-fluid flex-grow-1">
+                <div>
+                    <p-chips
+                        [(ngModel)]="searchKeywords"
+                        [addOnBlur]="true"
+                        [addOnTab]="true"
+                        placeholder="Enter Keyword. press Enter to add more tags"
+                    ></p-chips>
+                </div>
+
+                <div class="flex gap-2 my-2">
+                    <div class="flex align-items-center">
+                        <p-checkbox
+                            label="Title"
+                            [binary]="true"
+                            [(ngModel)]="searchInTitle"
+                            (onChange)="toggleCheckbox('Title')"
+                        ></p-checkbox>
+                    </div>
+                    <div class="flex align-items-center">
+                        <p-checkbox
+                            label="Content"
+                            [binary]="true"
+                            [(ngModel)]="!searchInTitle"
+                            (onChange)="toggleCheckbox('Content')"
+                        ></p-checkbox>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex p-fluid gap-2">
+                <p-dropdown
+                    [options]="documentTypes"
+                    [(ngModel)]="searchDocumentType"
+                    [showClear]="true"
+                    placeholder="Search for keyword(s) in"
+                >
+                </p-dropdown>
+
+                <p-button
+                    label="Search"
+                    (click)="search()"
+                    icon="pi pi-search"
+                    iconPos="right"
+                ></p-button>
+            </div>
+        </div>
+    </div>
+    <p-divider></p-divider>
+
+    <div class="searchresult" *ngIf="!isSearching">
+        <div
+            class="bg-white mb-6 flex align-items-center justify-content-between"
+        >
+            <div>
+                <p class="font-serif text-3xl font-normal">
+                    Showing results for keyword
+                    <strong>{{ searchKeywords }}</strong> in
+                    <strong> {{ searchDocumentType }}</strong> within
+                    <strong> {{ searchInTitle ? "Title" : "Content" }}</strong>
+                </p>
+                <p>
+                    Showing
+                    {{ paginatedSections.data.length }} of
+                    {{ paginatedSections.count }} Matches
+                </p>
+            </div>
+            <div class="">
+                <p-paginator
+                    (onPageChange)="onPageChange($event)"
+                    [first]="firstPageNumber"
+                    [rows]="rows"
+                    [totalRecords]="paginatedSections.count"
+                    [rowsPerPageOptions]="rowsPerPageOptions"
+                    [showFirstLastIcon]="true"
+                    #paginator
+                ></p-paginator>
+            </div>
+        </div>
+
+        <hr class="mb-6" />
+        <div
+            *ngFor="let item of paginatedSections.data"
+            class="font-serif text-2xl text-secondary-700"
+        >
+            <div
+                class="cursor-pointer hover:surface-100"
+                [innerHTML]="
+                    sanitizeHtml(
+                        item?.clause_eng
+                            | highlighter : searchKeywords.join(',')
+                    )
+                "
+            ></div>
+
+            <p
+                class="cursor-pointer text-right text-blue-800 font-normal hover:underline hover:text-blue-600 text-base font-norbal"
+            >
+                {{ item?.legislation?.title_eng | titlecase }}
+            </p>
+            <hr />
+        </div>
+    </div>
+    <div *ngIf="isSearching">searching our databases</div>
+</div>

@@ -56,6 +56,7 @@ export enum DocumentStatus {
 export enum DocumentType {
     LEGISLATION = 'LEGISLATION',
     DELEGATED_LEGISLATION = 'DELEGATED_LEGISLATION',
+    AMENDMENT = 'AMENDMENT',
 }
 
 export enum SectionChangeType {
@@ -90,4 +91,9 @@ export enum ChangeValueAttirbutes {
 export enum USERROLES {
     SUPERADMIN = 'superadmin',
     ADMIN = 'admin',
+}
+
+export enum SEARCHDOCUMENTYPES {
+    LEGISLATIONS = 'Legislations',
+    DELEGATEDLEGISLATIONS = 'Delegated Legislations',
 }
