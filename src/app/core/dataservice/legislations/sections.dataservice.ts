@@ -31,4 +31,21 @@ export class SectionDataService {
             `${this.apiUrl}/section/toc/by-legislation/${legislationId}`
         );
     }
+
+    //***************** */ PUBLIC ROUTES
+
+    PublicGetSectionsByDelegatedLegislation(
+        delegatedLegislationId: number
+    ): Observable<SectionDto[]> {
+        return this.http.get<SectionDto[]>(
+            `${this.apiUrl}/p/delegated-legislation/sections/${delegatedLegislationId}`
+        );
+    }
+    PublicGetTOCByDelegatedLegislation(
+        delegatedLegislationId: number
+    ): Observable<SectionDto[]> {
+        return this.http.get<SectionDto[]>(
+            `${this.apiUrl}/p/delegated-legislation/toc/${delegatedLegislationId}`
+        );
+    }
 }

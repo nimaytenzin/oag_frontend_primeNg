@@ -26,6 +26,13 @@ export class DelegatedLegislationDataService {
     }
 
     // ************************* PUBLIC ROUTES
+    PublicGetDelegatedLegislationDetails(
+        delegatedLegislationId: number
+    ): Observable<DelegatedLegislationDto> {
+        return this.http.get<DelegatedLegislationDto>(
+            `${this.apiUrl}/p/delegated-legislation/${delegatedLegislationId}`
+        );
+    }
 
     PublicGetCurrentDelegatedLegislationsPaginated(
         options: {
@@ -60,7 +67,7 @@ export class DelegatedLegislationDataService {
             pageSize?: number;
             startsWith?: string;
         } = {}
-    ): Observable<PaginatedData<LegislationDto>> {
+    ): Observable<PaginatedData<DelegatedLegislationDto>> {
         const { page, pageSize, startsWith } = options;
         let params = new HttpParams();
         if (page) {
@@ -73,8 +80,8 @@ export class DelegatedLegislationDataService {
             params = params.set('startsWith', startsWith);
         }
 
-        return this.http.get<PaginatedData<LegislationDto>>(
-            `${this.apiUrl}/p/conventions`,
+        return this.http.get<PaginatedData<DelegatedLegislationDto>>(
+            `${this.apiUrl}/p/delegated-legislations/modified`,
             {
                 params,
             }
@@ -87,7 +94,7 @@ export class DelegatedLegislationDataService {
             pageSize?: number;
             startsWith?: string;
         } = {}
-    ): Observable<PaginatedData<LegislationDto>> {
+    ): Observable<PaginatedData<DelegatedLegislationDto>> {
         const { page, pageSize, startsWith } = options;
         let params = new HttpParams();
         if (page) {
@@ -100,8 +107,8 @@ export class DelegatedLegislationDataService {
             params = params.set('startsWith', startsWith);
         }
 
-        return this.http.get<PaginatedData<LegislationDto>>(
-            `${this.apiUrl}/p/conventions`,
+        return this.http.get<PaginatedData<DelegatedLegislationDto>>(
+            `${this.apiUrl}/p/delegated-legislations/revoked`,
             {
                 params,
             }

@@ -2,17 +2,17 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PublicHomeComponent } from './public-home/public-home.component';
 import { PublicLayoutComponent } from '../layouts/public/public-layout.component';
-import { PublicListBilledLegislationsComponent } from './legislations/list-legislations/public-list-billed-legislations/public-list-billed-legislations.component';
-import { PublicListRepealedLegislationsComponent } from './legislations/list-legislations/public-list-repealed-legislations/public-list-repealed-legislations.component';
-import { PublicListAmmendedLegislationsComponent } from './legislations/list-legislations/public-list-ammended-legislations/public-list-ammended-legislations.component';
-import { PublicListCurrentLegislationsComponent } from './legislations/list-legislations/public-list-current-legislations/public-list-current-legislations.component';
-import { PublicViewLegislationComponent } from './legislations/view-legislation/public-view-legislation/public-view-legislation.component';
-import { PublicListConventionsComponent } from './legislations/list-legislations/public-list-conventions/public-list-conventions.component';
+import { PublicListBilledLegislationsComponent } from './legislations/list/public-list-billed-legislations/public-list-billed-legislations.component';
+import { PublicListRepealedLegislationsComponent } from './legislations/list/public-list-repealed-legislations/public-list-repealed-legislations.component';
+import { PublicListAmmendedLegislationsComponent } from './legislations/list/public-list-ammended-legislations/public-list-ammended-legislations.component';
+import { PublicListCurrentLegislationsComponent } from './legislations/list/public-list-current-legislations/public-list-current-legislations.component';
+import { PublicViewLegislationComponent } from './legislations/view/public-view-legislation/public-view-legislation.component';
+import { PublicListConventionsComponent } from './legislations/list/public-list-conventions/public-list-conventions.component';
 import { PublicListCurrentDelegatedLegislationsComponent } from './delegated-legislations/list-delegated-legislations/public-list-current-delegated-legislations/public-list-current-delegated-legislations.component';
 import { PublicListRevokedDelegatedLegislationsComponent } from './delegated-legislations/list-delegated-legislations/public-list-revoked-delegated-legislations/public-list-revoked-delegated-legislations.component';
 import { PublicListModifiedDelegatedLegislationsComponent } from './delegated-legislations/list-delegated-legislations/public-list-modified-delegated-legislations/public-list-modified-delegated-legislations.component';
 import { PublicGuidesTechnicalDescriptionComponent } from './guides/public-guides-technical-description/public-guides-technical-description.component';
-import { PublicLoginComponent } from './auth/public-login/public-login.component';
+import { PublicViewDelegatedLegislationComponent } from './delegated-legislations/view-delegated-legislations/public-view-delegated-legislation/public-view-delegated-legislation.component';
 
 const routes: Routes = [
     {
@@ -62,15 +62,7 @@ const routes: Routes = [
                     },
                 ],
             },
-            {
-                path: 'login',
-                children: [
-                    {
-                        path: '',
-                        component: PublicLoginComponent,
-                    },
-                ],
-            },
+
             {
                 path: 'delegated-legislations',
                 children: [
@@ -88,6 +80,10 @@ const routes: Routes = [
                         path: 'modified',
                         component:
                             PublicListModifiedDelegatedLegislationsComponent,
+                    },
+                    {
+                        path: 'view/:delegatedLegislationId',
+                        component: PublicViewDelegatedLegislationComponent,
                     },
                 ],
             },

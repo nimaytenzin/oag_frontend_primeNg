@@ -43,6 +43,7 @@
                     shape="circle"
                     (click)="profile.toggle($event)"
                 ></p-avatar>
+
                 <p class="text-lg">Nima Yoezer Tenzin</p>
             </div>
             <hr />
@@ -58,6 +59,7 @@
                 <div
                     pRipple
                     class="flex gap-2 noselect hover:surface-50 px-2 border-round py-2 cursor-pointer"
+                    (click)="logout()"
                 >
                     <i class="pi pi-replay"></i>
                     <span>Logout</span>

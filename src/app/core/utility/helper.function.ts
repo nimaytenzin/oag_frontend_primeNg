@@ -1,5 +1,3 @@
-import { FLOORLEVELS } from '../constants/enums';
-
 export function PARSEBUILDINGFLOORS(
     regularFloorCount: number,
     basementCount: number,

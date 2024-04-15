@@ -120,6 +120,7 @@ export class PublicListCurrentDelegatedLegislationsComponent {
         if (this.selectedAlphabet !== this.alphabets[0]) {
             queryParams.startsWith = this.selectedAlphabet;
         }
+        this.updateSearchTitle();
 
         this.delegatedLegislationDataService
             .PublicGetCurrentDelegatedLegislationsPaginated(queryParams)
@@ -145,7 +146,9 @@ export class PublicListCurrentDelegatedLegislationsComponent {
     //     );
     // }
 
-    viewLegislation(legislation: LegislationDto) {
-        this.router.navigate(['legislations/view/' + legislation.id]);
+    view(delegatedLegislation: DelegatedLegislationDto) {
+        this.router.navigate([
+            'delegated-legislations/view/' + delegatedLegislation.id,
+        ]);
     }
 }

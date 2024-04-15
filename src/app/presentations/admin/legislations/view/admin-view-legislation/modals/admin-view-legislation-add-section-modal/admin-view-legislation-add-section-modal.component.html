@@ -1,0 +1,85 @@
+<div class="p-4 flex flex-column">
+    <div class="grid">
+        <div class="col-12">
+            <p>Type</p>
+            <p-dropdown
+                [options]="sectionTypes"
+                optionLabel="label"
+                [(ngModel)]="selectedSectionType"
+                optionValue="value"
+                [showClear]="true"
+                placeholder="Type"
+            ></p-dropdown>
+        </div>
+    </div>
+    <div class="grid flex-grow-1" *ngIf="selectedSectionType === 'CLAUSE'">
+        <div class="col">
+            <p>Contents in English</p>
+            <editor
+                apiKey="0k2x3inbdfpo8juduthw9844fmn3cnjzcipqocembrim4ivw"
+                [init]="{
+                    height: 700,
+                    plugins:
+                        'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks visualchars wordcount',
+                    toolbar:
+                        'undo redo | fontsize | bold italic underline strikethrough | numlist bullist indent outdent | link image media table | align lineheight | removeformat',
+                    content_style: 'body { line-height: 2; }'
+                }"
+                [(ngModel)]="clause_eng"
+            ></editor>
+        </div>
+
+        <div class="col">
+            <p>Contents in Dzongkha</p>
+            <editor
+                apiKey="0k2x3inbdfpo8juduthw9844fmn3cnjzcipqocembrim4ivw"
+                [init]="{
+                    height: 700,
+                    plugins:
+                        'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks visualchars wordcount',
+                    toolbar:
+                        'undo redo | fontsize | bold italic underline strikethrough | numlist bullist indent outdent | link image media table | align lineheight | removeformat',
+                    content_style: 'body { line-height: 2; }'
+                }"
+                [(ngModel)]="clause_dzo"
+            ></editor>
+        </div>
+    </div>
+
+    <div class="grid flex-grow-1" *ngIf="selectedSectionType !== 'CLAUSE'">
+        <div class="col">
+            <div class="flex flex-column gap-2">
+                <label for="username">
+                    {{ getLabelByValue(selectedSectionType) }} (English)
+                </label>
+                <textarea
+                    pInputText
+                    id="username"
+                    rows="12"
+                    aria-describedby="username-help"
+                    [(ngModel)]="clause_eng"
+                >
+                </textarea>
+            </div>
+        </div>
+        <div class="col">
+            <div class="flex flex-column gap-2">
+                <label for="username">
+                    {{ getLabelByValue(selectedSectionType) }} (Dzongkha)
+                </label>
+                <textarea
+                    pInputText
+                    id="username"
+                    rows="12"
+                    aria-describedby="username-help"
+                    [(ngModel)]="clause_dzo"
+                >
+                </textarea>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <p-button label="Add Section"></p-button>
+    </div>
+</div>

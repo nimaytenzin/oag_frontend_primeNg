@@ -3,6 +3,7 @@ import { MenuItem } from 'primeng/api';
 import { LayoutService } from '../../service/app.layout.service';
 import { AdminLayoutService } from '../service/admin-layout.service';
 import { COMPANY_NAME } from 'src/app/core/constants/constants';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-admin-topbar',
@@ -19,5 +20,12 @@ export class AdminTopbarComponent {
 
     @ViewChild('topbarmenu') menu!: ElementRef;
 
-    constructor(public layoutService: AdminLayoutService) {}
+    constructor(
+        public layoutService: AdminLayoutService,
+        private router: Router
+    ) {}
+
+    logout() {
+        this.router.navigate(['/auth/login']);
+    }
 }

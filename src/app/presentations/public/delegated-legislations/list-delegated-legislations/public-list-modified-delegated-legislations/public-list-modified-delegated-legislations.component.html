@@ -1,4 +1,4 @@
-<div class="p-6" style="min-height: 80vh">
+<div class="p-6 bg-white" style="min-height: 80vh">
     <h2 class="font-serif">{{ pageTitle }} A-Z</h2>
 
     <div
@@ -78,8 +78,9 @@
                 <div>
                     <h3 class="font-serif">Showing {{ searchTitle }}</h3>
                     <p>
-                        Showing {{ paginatedLegislations.data.length }} of
-                        {{ paginatedLegislations.count }} Entries
+                        Showing
+                        {{ paginatedDelegatedLegislations.data.length }} of
+                        {{ paginatedDelegatedLegislations.count }} Entries
                     </p>
                 </div>
                 <div class="">
@@ -87,7 +88,7 @@
                         (onPageChange)="onPageChange($event)"
                         [first]="firstPageNumber"
                         [rows]="rows"
-                        [totalRecords]="paginatedLegislations.count"
+                        [totalRecords]="paginatedDelegatedLegislations.count"
                         [rowsPerPageOptions]="rowsPerPageOptions"
                         [showFirstLastIcon]="true"
                         #paginator
@@ -98,9 +99,10 @@
             <p-table
                 #clt1
                 *ngIf="
-                    paginatedLegislations && paginatedLegislations.data.length
+                    paginatedDelegatedLegislations &&
+                    paginatedDelegatedLegislations.data.length
                 "
-                [value]="paginatedLegislations.data"
+                [value]="paginatedDelegatedLegislations.data"
                 [globalFilterFields]="['title_eng', 'documentYear']"
             >
                 <ng-template pTemplate="header">
@@ -119,7 +121,7 @@
                     <tr>
                         <td
                             class="hover:text-primary cursor-pointer"
-                            (click)="viewLegislation(item)"
+                            (click)="view(item)"
                         >
                             <p>
                                 {{ item.title_eng }}
@@ -243,7 +245,7 @@
             </p-table>
 
             <div
-                *ngIf="!paginatedLegislations.data.length"
+                *ngIf="!paginatedDelegatedLegislations.data.length"
                 class="py-4 text-xl"
             >
                 No {{ searchTitle }}

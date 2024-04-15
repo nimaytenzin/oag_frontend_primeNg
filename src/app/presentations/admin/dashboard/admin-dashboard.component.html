@@ -108,7 +108,10 @@
     <div class="col-6">
         <div class="grid">
             <div class="col-6">
-                <p-card class="p-card" header="Published Legisaltions">
+                <p-card class="p-card">
+                    <p class="text-2xl font-semibold font-serif">
+                        Published Legislations
+                    </p>
                     <table>
                         <tr>
                             <td
@@ -146,10 +149,10 @@
                 </p-card>
             </div>
             <div class="col-6">
-                <p-card
-                    class="p-card"
-                    header="Published Delegated Legislations"
-                >
+                <p-card class="p-card">
+                    <p class="text-2xl font-semibold font-serif">
+                        Published Delegated Legislation
+                    </p>
                     <table>
                         <tr>
                             <td
@@ -157,7 +160,7 @@
                             >
                                 {{ publishedLegislationStatistics.current }}
                             </td>
-                            <td>Current Legislations</td>
+                            <td>Current</td>
                         </tr>
                         <tr>
                             <td
@@ -165,29 +168,25 @@
                             >
                                 {{ publishedLegislationStatistics.repealed }}
                             </td>
-                            <td>Repealed Legislations</td>
+                            <td>Revoked</td>
                         </tr>
-                        <tr>
-                            <td
-                                class="px-4 mb-2 text-2xl font-bold text-primray"
-                            >
-                                {{ publishedLegislationStatistics.bills }}
-                            </td>
-                            <td>Bills</td>
-                        </tr>
+
                         <tr>
                             <td
                                 class="px-4 mb-2 text-2xl font-bold text-primray"
                             >
                                 {{ publishedLegislationStatistics.conventions }}
                             </td>
-                            <td>Conventions</td>
+                            <td>Modifications</td>
                         </tr>
                     </table>
                 </p-card>
             </div>
             <div class="col-12">
-                <p-card header="Latest Documents">
+                <p-card>
+                    <p class="text-2xl font-semibold font-serif mb-3">
+                        Latest Legislations
+                    </p>
                     <p-table [value]="legislations" class="p-datatable-sm">
                         <ng-template pTemplate="header">
                             <tr>
@@ -200,10 +199,10 @@
                             <tr>
                                 <td>
                                     <p>
-                                        {{ item.title_eng }}
+                                        {{ item.title_eng | titlecase }}
                                     </p>
                                     <p>
-                                        {{ item.title_dzo }}
+                                        {{ item.title_dzo | titlecase }}
                                     </p>
                                 </td>
                                 <td>{{ item.documentYear }}</td>
@@ -217,7 +216,10 @@
         </div>
     </div>
     <div class="col-6">
-        <p-card header="Popular Legislations">
+        <p-card>
+            <p class="text-2xl font-semibold font-serif mb-3">
+                Popular Legislations
+            </p>
             <p-table [value]="legislations" class="p-datatable-sm">
                 <ng-template pTemplate="header">
                     <tr>
@@ -229,10 +231,10 @@
                     <tr>
                         <td>
                             <p>
-                                {{ item.title_eng }}
+                                {{ item.title_eng | titlecase }}
                             </p>
                             <p>
-                                {{ item.title_dzo }}
+                                {{ item.title_dzo | titlecase }}
                             </p>
                         </td>
                         <td>{{ item.documentYear }}</td>

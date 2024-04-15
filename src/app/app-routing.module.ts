@@ -21,6 +21,13 @@ import { AdminLayoutComponent } from './presentations/layouts/admin/admin/admin-
                             './presentations/admin/admin-routing.module'
                         ).then((m) => m.AdminRoutingModule),
                 },
+                {
+                    path: 'auth',
+                    loadChildren: () =>
+                        import('./presentations/auth/auth-routing.module').then(
+                            (m) => m.AuthRoutingModule
+                        ),
+                },
             ],
             {
                 scrollPositionRestoration: 'enabled',

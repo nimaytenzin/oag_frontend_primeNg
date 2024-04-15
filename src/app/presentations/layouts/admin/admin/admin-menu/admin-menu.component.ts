@@ -21,6 +21,11 @@ export class AdminMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/admin/'],
                     },
+                    {
+                        label: 'Search Module',
+                        icon: 'pi pi-fw pi-search',
+                        routerLink: ['/admin/'],
+                    },
                 ],
             },
             {
@@ -99,10 +104,12 @@ export class AdminMenuComponent implements OnInit {
                     {
                         label: 'Profile',
                         icon: 'pi pi-fw pi-user',
+                        routerLink: ['/admin/user/profile'],
                     },
                     {
                         label: 'Users',
                         icon: 'pi pi-fw pi-users',
+                        routerLink: ['/admin/user/all'],
                     },
                     {
                         label: 'Global Settings',

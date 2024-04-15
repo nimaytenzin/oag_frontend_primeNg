@@ -2,6 +2,7 @@
 
 $gutter: 1rem; //for primeflex grid system
 $buttonPadding: 0.2rem 0.4rem;
+// $fontSize: 14px;
 
 @import "~leaflet/dist/leaflet.css";
 
@@ -32,7 +33,7 @@ $buttonPadding: 0.2rem 0.4rem;
     font-family: "Poppins", sans-serif;
 }
 :root {
-    --primary-color: red !important;
+    --primary-color: #204887 !important;
 }
 
 .capitalize {
@@ -52,4 +53,8 @@ $buttonPadding: 0.2rem 0.4rem;
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
+:host ::ng-deep button {
+    background-color: #4c63b6 !important;
 }

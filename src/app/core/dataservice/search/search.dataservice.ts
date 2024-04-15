@@ -9,6 +9,10 @@ export interface SearchInLegislationDto {
     keyword: string;
     legislationId: number;
 }
+export interface SearchInDelegatedLegislationDto {
+    keyword: string;
+    delegatedLegislationId: number;
+}
 @Injectable({
     providedIn: 'root',
 })
@@ -23,6 +27,24 @@ export class SearchService {
     ): Observable<SectionDto[]> {
         return this.http.post<SectionDto[]>(
             `${this.apiUrl}/section/search-in-legislation`,
+            data
+        );
+    }
+
+    //***************** PUBLIC ROUTES
+    PublicSearchInLegislation(
+        data: SearchInLegislationDto
+    ): Observable<SectionDto[]> {
+        return this.http.post<SectionDto[]>(
+            `${this.apiUrl}/section/search-in-legislation`,
+            data
+        );
+    }
+    PublicSearchInDelegatedLegislation(
+        data: SearchInDelegatedLegislationDto
+    ): Observable<SectionDto[]> {
+        return this.http.post<SectionDto[]>(
+            `${this.apiUrl}/p/delegated-legislation/search`,
             data
         );
     }

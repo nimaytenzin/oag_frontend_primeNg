@@ -153,6 +153,6 @@ export class AdminListConventionsComponent {
     // }
 
     viewLegislation(legislation: LegislationDto) {
-        this.router.navigate(['legislations/view/' + legislation.id]);
+        this.router.navigate(['admin/legislations/' + legislation.id]);
     }
 }

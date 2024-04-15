@@ -19,8 +19,6 @@ export function GetSectionStylesPublic(type: string, language: string) {
                 return '';
         }
     } else {
-        console.log('ok');
-
         switch (type) {
             case SectionType.HEADING_1:
                 return 'heading font-uchen text-5xl font-semibold text-center  mt-3 text-secondary-700';

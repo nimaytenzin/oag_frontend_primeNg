@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { PublicFooterComponent } from '../shared/public-footer/public-footer.component';
-import { PublicNavbarComponent } from '../shared/public-navbar/public-navbar.component';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
@@ -19,8 +17,6 @@ export interface PublicHomeSearchParameters {
     selector: 'app-public-home',
     standalone: true,
     imports: [
-        PublicFooterComponent,
-        PublicNavbarComponent,
         FormsModule,
         InputTextModule,
         CheckboxModule,
@@ -35,10 +31,10 @@ export class PublicHomeComponent {
     ref: DynamicDialogRef | undefined;
 
     searchKeyword: string;
-    searchDocumentType: string;
     searchIn: string = 'Title';
 
     documentTypes = ['Legislations', 'DelegatedLegislations'];
+    searchDocumentType: string = this.documentTypes[0];
 
     constructor(public dialogService: DialogService) {}
 

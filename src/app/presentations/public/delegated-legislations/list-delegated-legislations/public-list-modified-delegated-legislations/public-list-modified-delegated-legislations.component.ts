@@ -23,6 +23,7 @@ import {
 } from 'src/app/core/sessionStates/public.paginator.states';
 import { PublicListDelegatedLegislationsModalComponent } from '../../../legislations/components/public-list-delegated-legislations-modal/public-list-delegated-legislations-modal.component';
 import { DelegatedLegislationDataService } from 'src/app/core/dataservice/delegated-legislations/delegated-legislation.dataservice';
+import { DelegatedLegislationDto } from 'src/app/core/dto/delegated-legislation/delegated-legislation.dto';
 
 @Component({
     selector: 'app-public-list-modified-delegated-legislations',
@@ -62,7 +63,7 @@ export class PublicListModifiedDelegatedLegislationsComponent {
 
     date: Date[] | undefined;
 
-    paginatedLegislations: PaginatedData<LegislationDto> = {
+    paginatedDelegatedLegislations: PaginatedData<DelegatedLegislationDto> = {
         firstPage: 0,
         currentPage: 0,
         previousPage: 0,
@@ -130,10 +131,12 @@ export class PublicListModifiedDelegatedLegislationsComponent {
             queryParams.startsWith = this.selectedAlphabet;
         }
 
+        this.updateSearchTitle();
         this.delegatedLegislationDataService
             .PublicGetModifiedDelegatedLegislationsPaginated(queryParams)
             .subscribe((res) => {
-                this.paginatedLegislations = res;
+                console.log(res, 'MODIFIED DELEGATED LEGISLATION');
+                this.paginatedDelegatedLegislations = res;
                 this.updateSearchTitle();
             });
     }
@@ -153,7 +156,9 @@ export class PublicListModifiedDelegatedLegislationsComponent {
     //     );
     // }
 
-    viewLegislation(legislation: LegislationDto) {
-        this.router.navigate(['legislations/view/' + legislation.id]);
+    view(delegatedLegislation: DelegatedLegislationDto) {
+        this.router.navigate([
+            'delegated-legislations/view/' + delegatedLegislation.id,
+        ]);
     }
 }
