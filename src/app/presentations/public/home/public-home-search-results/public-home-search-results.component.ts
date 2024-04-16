@@ -17,7 +17,7 @@ import {
     ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -131,8 +131,11 @@ export class PublicHomeSearchResultsComponent implements OnInit {
         private sanitizer: DomSanitizer,
         private elementRef: ElementRef,
         private router: Router,
-        private activatedRoute: ActivatedRoute
-    ) {}
+        private activatedRoute: ActivatedRoute,
+        private titleService: Title
+    ) {
+        this.titleService.setTitle('Search Results');
+    }
 
     ngOnInit(): void {
         this.route.queryParams.subscribe((params) => {
@@ -156,34 +159,35 @@ export class PublicHomeSearchResultsComponent implements OnInit {
         if (this.searchInTitle) {
             if (this.searchDocumentType === 'Legislations') {
                 this.searchSubject = this.searchSubects.L_TITLE;
-                // this.searchService
-                //     .PublicSearchForKeywordInLegislationWithinTitle({
-                //         keywords: this.searchKeywords.join(','),
-                //         limit,
-                //     })
-                //     .subscribe((res) => {
-                //         this.paginatedLegislations = res;
-                //         this.isSearching = false;
-                //         this.searchTitle = `Results for keyword ${this.searchKeywords.join(
-                //             ','
-                //         )}`;
-                //     });
+                this.searchService
+                    .PublicSearchForKeywordInLegislationWithinTitle({
+                        keywords: this.searchKeywords.join(','),
+                        pageSize: this.rows,
+                        page: this.currentPage,
+                    })
+                    .subscribe((res) => {
+                        this.paginatedLegislations = res;
+                        this.isSearching = false;
+                        this.searchTitle = `Results for keyword ${this.searchKeywords.join(
+                            ','
+                        )}`;
+                    });
             } else {
                 this.searchSubject = this.searchSubects.DL_TITLE;
 
-                // this.searchService
-                //     .PublicSearchForKeywordInDelegatedLegislationWithinTitle({
-                //         keywords: this.searchKeywords.join(','),
-                //         limit: this.rows,
-                //         page: this.currentPage,
-                //     })
-                //     .subscribe((res) => {
-                //         this.paginatedDelegatedLegislations = res;
-                //         this.isSearching = false;
-                //         this.searchTitle = `Results for keyword ${this.searchKeywords.join(
-                //             ','
-                //         )}`;
-                //     });
+                this.searchService
+                    .PublicSearchForKeywordInDelegatedLegislationWithinTitle({
+                        keywords: this.searchKeywords.join(','),
+                        pageSize: this.rows,
+                        page: this.currentPage,
+                    })
+                    .subscribe((res) => {
+                        this.paginatedDelegatedLegislations = res;
+                        this.isSearching = false;
+                        this.searchTitle =
+                            'Results for keyword ' +
+                            this.searchKeywords.join(',');
+                    });
             }
         } else {
             this.searchSubject = this.searchSubects.SECTION;
@@ -245,23 +249,25 @@ export class PublicHomeSearchResultsComponent implements OnInit {
         if (this.searchInTitle) {
             this.paginatedSections.data = [];
             if (this.searchDocumentType === 'Legislations') {
-                // this.searchService
-                //     .PublicSearchForKeywordInLegislationWithinTitle({
-                //         keywords: this.searchKeywords.join(','),
-                //         limit: this.rows,
-                //     })
-                //     .subscribe((res) => {
-                //         this.paginatedLegislations = res;
-                //         this.isSearching = false;
-                //         this.searchTitle =
-                //             'Results for keyword ' +
-                //             this.searchKeywords.join(',');
-                //     });
+                this.searchService
+                    .PublicSearchForKeywordInLegislationWithinTitle({
+                        keywords: this.searchKeywords.join(','),
+                        pageSize: this.rows,
+                        page: this.currentPage,
+                    })
+                    .subscribe((res) => {
+                        this.paginatedLegislations = res;
+                        this.isSearching = false;
+                        this.searchTitle = `Results for keyword ${this.searchKeywords.join(
+                            ','
+                        )}`;
+                    });
             } else {
                 this.searchService
                     .PublicSearchForKeywordInDelegatedLegislationWithinTitle({
                         keywords: this.searchKeywords.join(','),
-                        limit: this.rows,
+                        pageSize: this.rows,
+                        page: this.currentPage,
                     })
                     .subscribe((res) => {
                         console.log(res);
@@ -323,5 +329,8 @@ export class PublicHomeSearchResultsComponent implements OnInit {
 
     viewLegislation(id) {
         this.router.navigate(['legislations/view/' + id]);
+    }
+    viewDelegatedLegislation(id) {
+        this.router.navigate(['delegated-legislations/view/' + id]);
     }
 }

@@ -18,6 +18,7 @@ export interface PublicHomeSearchParameters {
 import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
 import { SEARCHDOCUMENTYPES } from 'src/app/core/constants/enums';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-public-home',
@@ -48,8 +49,11 @@ export class PublicHomeComponent {
 
     constructor(
         private router: Router,
-        private messageService: MessageService
-    ) {}
+        private messageService: MessageService,
+        private titleService: Title
+    ) {
+        this.titleService.setTitle('Depository of Laws');
+    }
 
     searchForLegislations(): void {
         this.messageService.add({

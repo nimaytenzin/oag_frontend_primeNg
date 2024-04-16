@@ -1,13 +1,14 @@
+# OAG Depository of Law
+
+Status: Not started
 
 # Project Brief
 
-Project Title: Development of Depository of Laws Website
-
 Client: Office of the attorney General
 
-domain: www.legislation.gov.bt
+Vendor: SegmentX Private Limited
 
-vendor: SegmentX Private Limited
+domain: www.legislation.gov.bt
 
 # Entities and Relationship
 
@@ -35,7 +36,9 @@ vendor: SegmentX Private Limited
       delegatedLegislations:DelegatedLegislation[];
       
       sections:Section[];
-      amendments:Amendment[]
+      amendments:Amendment[];
+      legislationRelationships:LegislaitonRelationship[];
+    
     }
     ```
     
@@ -63,18 +66,19 @@ Definitions
     - A Document copy is defined as below:
         
         ```tsx
-        interface DocumentCopy {
+        interface DocumentCopy{
+        	language: Enum("Dzongkhag", "English", "Bilingual");
+        	amendment?:Amendment;
+          legislation?:Legislaiton;
+          delegatedLegislation?:DelegatedLegislation;
+          parentDocument?:ParentDocument;
           fileUri?: string;
-          language: LanguageType;
-          type: string;
-          status: string;
-          refId: string;
         }
         ```
         
         LanguageType = English, Dzongkha or Bilingual
         
-        Type ⇒ Document Type - Legislation,DelegatedLegislation, Amendment or ParentDocument
+        Type ⇒ Document Type - Legislation,DelegatedLegislation, Amendment and ParentDocument
         
 - A legislation will have many Delegated Legislations
 - A legislation will have many amendments - an amendment will amend a legislation and as such have many other details that enable change trackings and history keeping
@@ -93,7 +97,7 @@ Definitions
       documentYear: string;
     
       type: LegislationType;
-      status: LegislationStatus;
+      status: DelegatedLegislationStatus;
       
       isPublished: boolean;
       isActive: boolean;
@@ -108,8 +112,18 @@ Definitions
       
       sections:Section[];
       amendments:Amendment[];
-      
-      
+      delegatedLegislationRelationships:DelegatedLegislaitonRelationship[];
+     
+    }
+    ```
+    
+- Earlier Delegated legislations had similar status to the legislations i.e enacted,bill,ammended, repealed. however there are some differences and the status has been changed as follows:
+    
+    ```tsx
+    enum DelegatedLegislationStatus {
+      ENACTED = 'ENACTED',
+      REVOKED = 'REVOKED',
+      MODIFIED = 'MODIFIED',
     }
     ```
     
@@ -127,6 +141,7 @@ Definitions
     	delegatedLegislation:DelegatedLegislation;
     	title_eng:string;
     	title_dzo:string;
+    	date:Date;
     	type: Enum('Executive Order', 'Circular','Office Order')
     	fileUri:string
     }
@@ -141,23 +156,26 @@ It will have one of the   following status
 
 ## Sections
 
-A section will hold the content of the legislative document.
-
-It will have content in english and dzongkhag
-
-it will have a type of the following
-
-- Chapter Number
-- Chapter Name
-- Section Heading
-- Section
-
-These types not only defines what type a section/clause is but also is used for formatting when displaying. 
-
-However these has been redefined as follows to cater for any future requirements;
+A section will hold the content of the legislative document, be it legislation, delegated Legislation or an Amendments/Modifications and is defined as follows:
 
 ```tsx
-export enum SectionType {
+ interface Section {
+  order: number;
+  type: SectionType;
+  content_eng: string;
+  content_dzo: string;
+  legislationId?: number;
+  delegatedLegislationId?: number;
+  amendmentId?:number;
+}
+```
+
+Although Section is used when referring to Legislation and Clause when referring to Delegated Legislations, the system will use Section to refer to both section as well as clause.
+
+It will have content in english and Dzongkha. It will have the following types and it not only defines what type a section/clause is but also is used for formatting when displaying on the webpage. 
+
+```tsx
+enum SectionType {
   HEADING_1 = 'HEADING_1',
   HEADING_2 = 'HEADING_2',
   HEADING_3 = 'HEADING_3',
@@ -167,20 +185,46 @@ export enum SectionType {
 }
 ```
 
-The mapping is as follows:
+The Section Type for the purpose for usage and understanding is further remapped into the following terms when presenting it in the admin interface.
 
-- Chapter Number = HEADING_1
-- Chapter Name = HEADING_2
-- Section Heading= SUBSECTION_H1
-- Section = CLAUSE
+- HEADING_1 ⇒ Chapter Number
+- HEADING_2 ⇒ Chapter Name
+- SUBSECTION_H1 ⇒ Section Heading
+- CLAUSE ⇒ Section
 
-# Amendments and Tracking Changes
+# Change Tracking - Amendment, Repeal and Insertion of Sections/Clause
 
 ---
 
 ## Amendments
 
-It will have same structure as a legislative Document
+It will have same structure as a legislative Document as defined below:
+
+```tsx
+interface Amendment {
+
+	legislation:Legislation;
+	delegatedLegislation:DelegatedLegislation;
+	
+  title_eng: string;
+  title_dzo: string;
+  
+  documentYear: string;
+
+  status: AmendmentStatus;
+  
+  isPublished: boolean;
+  isActive: boolean;
+  
+  enactmentDate?: string;
+  commencementDate?: string;
+  repealDate?: string;
+  
+  documentCopies:DocumentCopy[];  
+  sections:Section[];
+	
+}
+```
 
 It will have an additional attribute amendedLegislationId and amendedDelegatedLegislationId
 
@@ -205,11 +249,120 @@ A change type is displayed to public with following labels
 - Deletion - ‘In the Act, Section No is repealed’
 - Modification - ‘In the Act, Section 205 is amended as: ${newValue}’
 
-# Workflow in adding a Legislation
+## Repeal/ Revoke
 
----
+To achieve both grouping all related legislation together and finding the relationship amongst the legislation (such as superseding relationships) following two entities are used:
 
-in addition to the above core attributes, it has two additional attributes namely **isActive** and  **isPublished.**
+- **LegislationGroups/DelegatedLegislationGroup**:It allows for logically grouping related legislations together. This proves useful in organizing legislations that are part of the same legislative history or that are related in some way.
+    
+    it is defined as below:
+    
+    ```tsx
+    interface LegislationGroup {
+      name: string;
+      remarks:string;
+    }
+    ```
+    
+- **LegislationRelationships/DelegatedLegislationRelationship**: It will map the relationships amongst legislations. Actor,Action and ActedUpon is used to model the relationship. Currenly it caters to only supersede/repeal/revoke and  consolidate action type.
+    
+    ```tsx
+    interface LegislationRelationships {
+    	actingLegislation:Legislation;
+    	action:Enum("Repeals","Consolidates");
+    	affectedLegislation:Legislation;
+    }
+    
+    interface DelegatedLegislationRelationships {
+    	actingDelegatedLegislation:DelegatedLegislation;
+    	action:Enum("Revokes","Consolidates");
+    	affectedDelegatedLegislation:DelegatedLegislation;
+    }
+    ```
+    
 
-- A document is in draft if it  !isPublished  and !isActive
-- A document is published when all details are added and the is Published and isActive.
+Taking the Local Government Act,  The first is the "Local Government Act 2007" which has been repealed. The second is the "Local Government Act 2009" which is currently enacted and supersedes the 2007 Act. The third is the "Local Government Amendment Act 2014" which is enacted and amends the 2009 Act. These three pieces of legislation belong to the same group, indicating they are part of the same legislative history. In the software model, this relationship would be maintained using the `LegislationGroups` entity to group these related legislations together. The `LegislationRelationships` entity would capture the supersession and amendment relationship would be captured by the Amendments Entity.
+
+# Search Functions
+
+- Search by keyword in title or content (Chapter Name, Section Header) by Legislation,Delegated Legisaltion and Amendments
+
+## Case study: Local government Act
+
+Add Legislation LG ACT 2007 
+
+Add Thromde Act 2007
+
+Add LG ACT 2009 under  the same legislation Group via Adding a version in the Legislative Version
+
+LG Act 2009 supersedes LG Act 2007 
+
+→ Define a new LegislationRelationship
+
+- actingLegislation = LG Act 2009
+- action = repeals
+- affectedLegislation = LG Act 2007
+
+Change status of LG Act 2007 to repealed and add the repeal date based on the superseding legislation 
+
+LG Act 2009 is further amended by the LG Amendment ACT 2014
+
+**under Legislative History → Add an Amendment to the LG Act 2009**
+
+> amendedLegislation:Legislation;
+amendedDelegatedLegislation:null;
+title_eng: LG Amendment Act 2014;  
+ documentYear: 2014;
+ status: Enacted;
+ isPublished: True;
+  sActive: True;
+  enactmentDate?: 2014;
+  commencementDate?: 2014;
+  repealDate?: null;
+> 
+
+public interface
+
+1. Clicks on LG Act 2007
+    1. status is repealed, and i want to know what act repealed it.
+        1. Query the LegislationRelationship 
+        2. Where type = ‘Repeals’ and affectedLegislation = LG Act 2007
+        3. get the acting legislation Details and show repealed date = acting Legislation enactment Date
+2. Clicks on LG Act 2009
+    1. status is enacted but i want to know its history
+        1. so i query the legislative group and get all the versions
+        2. Relationships
+            1. LegislationRelationships: It has two relations
+                1. LG Act 2009  repeals LG Act 2007
+                2. LG Act 2009 repeals Thromde Act 2007
+            2. Amendments:
+                1. LG Act Amendment  2014
+                    1. can list all change and change values and its revisions can be seen in the sections of LG Act 2009
+                    2. can be viewed separately
+    
+    **Future Scenario**
+    
+    1. Repealed? easy same procedure
+    2. New amendment 2016 is there
+        1. Add another amendment under the LG ACt 2009
+            1. Amend the necessary sections
+    3. when clikcing the LG Act 2009 now it will have two amendments
+        1. Amendment Act 2014
+        2. Amendment Act 2016
+    
+    Lacking? : Showing the unmodified version of the Act
+    
+    - Before 2016 but with 2014
+    - without 2016 and 2014
+    
+    # todo
+    
+    - Document Copy Module
+        - update integration with both L and DL
+        - get document copy routes
+    - Amendments
+        - workflow
+            - sections
+            - document copy
+            - Amends table
+    -

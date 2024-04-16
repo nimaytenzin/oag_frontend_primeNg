@@ -117,7 +117,7 @@
                             <td
                                 class="px-4 mb-2 text-2xl font-bold text-primray"
                             >
-                                {{ publishedLegislationStatistics.current }}
+                                {{ publishedLegislationStatistics?.current }}
                             </td>
                             <td>Current Legislations</td>
                         </tr>
@@ -125,7 +125,7 @@
                             <td
                                 class="px-4 mb-2 text-2xl font-bold text-primray"
                             >
-                                {{ publishedLegislationStatistics.repealed }}
+                                {{ publishedLegislationStatistics?.repealed }}
                             </td>
                             <td>Repealed Legislations</td>
                         </tr>
@@ -133,7 +133,7 @@
                             <td
                                 class="px-4 mb-2 text-2xl font-bold text-primray"
                             >
-                                {{ publishedLegislationStatistics.bills }}
+                                {{ publishedLegislationStatistics?.bills }}
                             </td>
                             <td>Bills</td>
                         </tr>
@@ -141,7 +141,9 @@
                             <td
                                 class="px-4 mb-2 text-2xl font-bold text-primray"
                             >
-                                {{ publishedLegislationStatistics.conventions }}
+                                {{
+                                    publishedLegislationStatistics?.conventions
+                                }}
                             </td>
                             <td>Conventions</td>
                         </tr>

@@ -73,13 +73,16 @@ export class SearchService {
     }
     PublicSearchForKeywordInLegislationWithinTitle(options: {
         keywords: string;
-        limit: number;
+        pageSize?: number;
+        page?: number;
     }): Observable<PaginatedData<LegislationDto>> {
-        const { keywords, limit } = options;
+        const { keywords, page, pageSize } = options;
 
         let params = new HttpParams()
             .set('Keywords', keywords.toString())
-            .set('limit', limit);
+            .set('limit', pageSize)
+            .set('page', page);
+
         return this.http.get<PaginatedData<LegislationDto>>(
             `${this.apiUrl}/p/legislations/adv/search-title`,
             {
@@ -110,13 +113,15 @@ export class SearchService {
     }
     PublicSearchForKeywordInDelegatedLegislationWithinTitle(options: {
         keywords: string;
-        limit: number;
+        pageSize?: number;
+        page?: number;
     }): Observable<PaginatedData<DelegatedLegislationDto>> {
-        const { keywords, limit } = options;
+        const { keywords, page, pageSize } = options;
 
         let params = new HttpParams()
             .set('Keywords', keywords.toString())
-            .set('limit', limit);
+            .set('limit', pageSize)
+            .set('page', page);
 
         return this.http.get<PaginatedData<DelegatedLegislationDto>>(
             `${this.apiUrl}/p/delegated-legislations/adv/search-title`,

@@ -52,14 +52,8 @@
         </div>
     </div>
 
-    <div class="searchresult" *ngIf="!isSearching">
-        <div
-            #paginatedSection
-            *ngIf="
-                paginatedSections.data.length &&
-                searchSubject === searchSubjects.SECTION
-            "
-        >
+    <div class="searchresult" class="mt-6" *ngIf="!isSearching">
+        <div #paginatedSection *ngIf="paginatedSections.data.length">
             <div
                 class="bg-white mb-6 flex align-items-center justify-content-between"
             >
@@ -108,27 +102,28 @@
 
                 <p
                     *ngIf="item.legislationId"
+                    (click)="viewLegislation(item.legislationId)"
                     class="cursor-pointer text-right text-blue-800 font-normal hover:underline hover:text-blue-600 text-base font-norbal"
                 >
-                    {{ item?.legislation?.title_eng | titlecase }}
+                    {{ item?.legislation?.title_eng | titlecase }} ({{
+                        item?.legislation?.status | titlecase
+                    }})
                 </p>
                 <p
                     *ngIf="item.delegatedLegislationId"
+                    (click)="
+                        viewDelegatedLegislation(item.delegatedLegislationId)
+                    "
                     class="cursor-pointer text-right text-blue-800 font-normal hover:underline hover:text-blue-600 text-base font-norbal"
                 >
                     {{ item?.delegatedLegislation?.title_eng | titlecase }}
+                    ({{ item?.delegatedLegislation?.status | titlecase }})
                 </p>
                 <hr />
             </div>
         </div>
 
-        <div
-            #paginagtedLegislation
-            *ngIf="
-                paginatedLegislations.data.length &&
-                searchSubject === searchSubjects.L_TITLE
-            "
-        >
+        <div #paginagtedLegislation *ngIf="paginatedLegislations.data.length">
             <div
                 class="bg-white mb-6 flex align-items-center justify-content-between"
             >
@@ -178,10 +173,7 @@
 
         <div
             #paginagtedDelegatedLegislation
-            *ngIf="
-                paginatedDelegatedLegislations.data.length &&
-                searchSubject === searchSubjects.DL_TITLE
-            "
+            *ngIf="paginatedDelegatedLegislations.data.length"
         >
             <div
                 class="bg-white mb-6 flex align-items-center justify-content-between"
@@ -221,7 +213,7 @@
             >
                 <div
                     class="cursor-pointer text-xl hover:underline"
-                    (click)="viewLegislation(item.id)"
+                    (click)="viewDelegatedLegislation(item.id)"
                 >
                     {{ item.title_eng | titlecase }}
                 </div>
