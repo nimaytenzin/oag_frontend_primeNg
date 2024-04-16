@@ -19,7 +19,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ChipsModule } from 'primeng/chips';
@@ -35,6 +35,14 @@ import { PageEvent, ROWSPERPAGEOPTION } from 'src/app/core/constants/constants';
 import { PaginatedData } from 'src/app/core/dto/utility/paginated-data.dto';
 import { SectionDto } from 'src/app/core/dto/legislation/section.dto';
 import { DocumentType, SEARCHDOCUMENTYPES } from 'src/app/core/constants/enums';
+import { LegislationDto } from 'src/app/core/dto/legislation/legislation.dto';
+import { DelegatedLegislationDto } from 'src/app/core/dto/delegated-legislation/delegated-legislation.dto';
+
+enum SEARCHSUBJECT {
+    DL_TITLE = 'DelegatedLegislation_Title',
+    L_TITLE = 'Legislation_Title',
+    SECTION = 'Sections',
+}
 
 @Component({
     selector: 'app-public-home-search-results',
@@ -65,6 +73,7 @@ import { DocumentType, SEARCHDOCUMENTYPES } from 'src/app/core/constants/enums';
 })
 export class PublicHomeSearchResultsComponent implements OnInit {
     searchKeywords: string[] = [];
+    searchKeywordsBar: string[] = [];
     searchInTitle: boolean = true;
     isSearching: boolean = true;
 
@@ -86,27 +95,51 @@ export class PublicHomeSearchResultsComponent implements OnInit {
         data: [],
     };
 
+    paginatedLegislations: PaginatedData<LegislationDto> = {
+        firstPage: 0,
+        currentPage: 0,
+        previousPage: 0,
+        nextPage: 0,
+        lastPage: 0,
+        limit: 0,
+        count: 0,
+        data: [],
+    };
+
+    paginatedDelegatedLegislations: PaginatedData<DelegatedLegislationDto> = {
+        firstPage: 0,
+        currentPage: 0,
+        previousPage: 0,
+        nextPage: 0,
+        lastPage: 0,
+        limit: 0,
+        count: 0,
+        data: [],
+    };
+
     getSectionStyles = GetSectionStylesPublic;
     documentTypes = Object.values(SEARCHDOCUMENTYPES);
     documentType = SEARCHDOCUMENTYPES;
     searchDocumentType: string;
 
+    searchSubject: string;
+    searchSubects = SEARCHSUBJECT;
+
     constructor(
         private route: ActivatedRoute,
         private searchService: SearchService,
         private sanitizer: DomSanitizer,
-        private elementRef: ElementRef
+        private elementRef: ElementRef,
+        private router: Router,
+        private activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit(): void {
         this.route.queryParams.subscribe((params) => {
-            console.log(params); // Logs the current query parameters
-            // Example: Accessing a specific query parameter
-
             this.searchKeywords = params['Keyword'].split(',');
+            this.searchKeywordsBar = params['Keyword'].split(',');
             this.searchDocumentType = params['In'];
             this.searchInTitle = params['Within'] === 'Title' ? true : false;
-
             this.search();
         });
     }
@@ -115,30 +148,163 @@ export class PublicHomeSearchResultsComponent implements OnInit {
         this.firstPageNumber = event.first;
         this.currentPage = event.page + 1;
         this.rows = event.rows;
-        // this.handlePagination();
+        this.handlePagination();
+    }
+
+    handlePagination() {
+        this.isSearching = true;
+        if (this.searchInTitle) {
+            if (this.searchDocumentType === 'Legislations') {
+                this.searchSubject = this.searchSubects.L_TITLE;
+                // this.searchService
+                //     .PublicSearchForKeywordInLegislationWithinTitle({
+                //         keywords: this.searchKeywords.join(','),
+                //         limit,
+                //     })
+                //     .subscribe((res) => {
+                //         this.paginatedLegislations = res;
+                //         this.isSearching = false;
+                //         this.searchTitle = `Results for keyword ${this.searchKeywords.join(
+                //             ','
+                //         )}`;
+                //     });
+            } else {
+                this.searchSubject = this.searchSubects.DL_TITLE;
+
+                // this.searchService
+                //     .PublicSearchForKeywordInDelegatedLegislationWithinTitle({
+                //         keywords: this.searchKeywords.join(','),
+                //         limit: this.rows,
+                //         page: this.currentPage,
+                //     })
+                //     .subscribe((res) => {
+                //         this.paginatedDelegatedLegislations = res;
+                //         this.isSearching = false;
+                //         this.searchTitle = `Results for keyword ${this.searchKeywords.join(
+                //             ','
+                //         )}`;
+                //     });
+            }
+        } else {
+            this.searchSubject = this.searchSubects.SECTION;
+
+            if (this.searchDocumentType === 'Legislations') {
+                this.searchService
+                    .PublicSearchForKeywordInLegislationWithinContent({
+                        keywords: this.searchKeywords.join(','),
+                        pageSize: this.rows,
+                        page: this.currentPage,
+                    })
+                    .subscribe((res) => {
+                        this.paginatedSections = res;
+                        this.isSearching = false;
+                        this.searchTitle = `Results for keyword ${this.searchKeywords.join(
+                            ','
+                        )}`;
+                    });
+            } else {
+                this.searchService
+                    .PublicSearchForKeywordInDelegatedLegislationWithinContent({
+                        keywords: this.searchKeywords.join(','),
+                        pageSize: this.rows,
+                        page: this.currentPage,
+                    })
+                    .subscribe((res) => {
+                        this.paginatedSections = res;
+                        this.isSearching = false;
+                        this.searchTitle = `Results for keyword ${this.searchKeywords.join(
+                            ','
+                        )}`;
+                    });
+            }
+        }
+    }
+
+    public updateQueryParams(keyword, queryIn, queryWithin) {
+        const queryParams = {
+            Keyword: keyword,
+            In: queryIn,
+            Within: queryWithin,
+        };
+
+        this.router.navigate([], {
+            relativeTo: this.activatedRoute,
+            queryParams,
+            queryParamsHandling: 'merge',
+        });
     }
 
     search() {
         this.isSearching = true;
+        this.searchKeywords = this.searchKeywordsBar;
+        this.updateQueryParams(
+            this.searchKeywords.join(','),
+            this.searchDocumentType,
+            this.searchInTitle ? 'Title' : 'Content'
+        );
         if (this.searchInTitle) {
-            alert('IMPLEMENT SEARCH IN TITLE');
-        } else {
+            this.paginatedSections.data = [];
             if (this.searchDocumentType === 'Legislations') {
+                // this.searchService
+                //     .PublicSearchForKeywordInLegislationWithinTitle({
+                //         keywords: this.searchKeywords.join(','),
+                //         limit: this.rows,
+                //     })
+                //     .subscribe((res) => {
+                //         this.paginatedLegislations = res;
+                //         this.isSearching = false;
+                //         this.searchTitle =
+                //             'Results for keyword ' +
+                //             this.searchKeywords.join(',');
+                //     });
+            } else {
                 this.searchService
-                    .PublicSearchForKeywordInLegislations({
+                    .PublicSearchForKeywordInDelegatedLegislationWithinTitle({
                         keywords: this.searchKeywords.join(','),
-                        searchIn: this.searchDocumentType,
-                        searchWithin: this.searchInTitle ? 'Title' : 'Content',
+                        limit: this.rows,
                     })
                     .subscribe((res) => {
+                        console.log(res);
+                        this.paginatedDelegatedLegislations = res;
+                        this.isSearching = false;
+                        this.searchTitle =
+                            'Results for keyword ' +
+                            this.searchKeywords.join(',');
+                    });
+            }
+        } else {
+            this.paginatedLegislations.data = [];
+            this.paginatedDelegatedLegislations.data = [];
+
+            if (this.searchDocumentType === 'Legislations') {
+                this.searchService
+                    .PublicSearchForKeywordInLegislationWithinContent({
+                        keywords: this.searchKeywords.join(','),
+                        pageSize: this.rows,
+                        page: this.currentPage,
+                    })
+                    .subscribe((res) => {
+                        this.paginatedSections = res;
+                        this.isSearching = false;
+                        this.searchTitle = `Results for keyword ${this.searchKeywords.join(
+                            ','
+                        )}`;
+                    });
+            } else {
+                this.searchService
+                    .PublicSearchForKeywordInDelegatedLegislationWithinContent({
+                        keywords: this.searchKeywords.join(','),
+                        page: this.currentPage,
+                        pageSize: this.rows,
+                    })
+                    .subscribe((res) => {
+                        console.log(res);
                         this.paginatedSections = res;
                         this.isSearching = false;
                         this.searchTitle =
                             'Results for keyword ' +
                             this.searchKeywords.join(',');
                     });
-            } else {
-                alert('IMPLEMENT SEARCH IN CONTENT OF DELEGATED LEGISLATIONS');
             }
         }
     }
@@ -153,5 +319,9 @@ export class PublicHomeSearchResultsComponent implements OnInit {
 
     sanitizeHtml(html: string): SafeHtml {
         return this.sanitizer.bypassSecurityTrustHtml(html);
+    }
+
+    viewLegislation(id) {
+        this.router.navigate(['legislations/view/' + id]);
     }
 }

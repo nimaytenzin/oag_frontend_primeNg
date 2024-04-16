@@ -6,7 +6,7 @@
             <div class="p-fluid flex-grow-1">
                 <div>
                     <p-chips
-                        [(ngModel)]="searchKeywords"
+                        [(ngModel)]="searchKeywordsBar"
                         [addOnBlur]="true"
                         [addOnTab]="true"
                         placeholder="Enter Keyword. press Enter to add more tags"
@@ -51,60 +51,187 @@
             </div>
         </div>
     </div>
-    <p-divider></p-divider>
 
     <div class="searchresult" *ngIf="!isSearching">
         <div
-            class="bg-white mb-6 flex align-items-center justify-content-between"
-        >
-            <div>
-                <p class="font-serif text-3xl font-normal">
-                    Showing results for keyword
-                    <strong>{{ searchKeywords }}</strong> in
-                    <strong> {{ searchDocumentType }}</strong> within
-                    <strong> {{ searchInTitle ? "Title" : "Content" }}</strong>
-                </p>
-                <p>
-                    Showing
-                    {{ paginatedSections.data.length }} of
-                    {{ paginatedSections.count }} Matches
-                </p>
-            </div>
-            <div class="">
-                <p-paginator
-                    (onPageChange)="onPageChange($event)"
-                    [first]="firstPageNumber"
-                    [rows]="rows"
-                    [totalRecords]="paginatedSections.count"
-                    [rowsPerPageOptions]="rowsPerPageOptions"
-                    [showFirstLastIcon]="true"
-                    #paginator
-                ></p-paginator>
-            </div>
-        </div>
-
-        <hr class="mb-6" />
-        <div
-            *ngFor="let item of paginatedSections.data"
-            class="font-serif text-2xl text-secondary-700"
+            #paginatedSection
+            *ngIf="
+                paginatedSections.data.length &&
+                searchSubject === searchSubjects.SECTION
+            "
         >
             <div
-                class="cursor-pointer hover:surface-100"
-                [innerHTML]="
-                    sanitizeHtml(
-                        item?.clause_eng
-                            | highlighter : searchKeywords.join(',')
-                    )
-                "
-            ></div>
-
-            <p
-                class="cursor-pointer text-right text-blue-800 font-normal hover:underline hover:text-blue-600 text-base font-norbal"
+                class="bg-white mb-6 flex align-items-center justify-content-between"
             >
-                {{ item?.legislation?.title_eng | titlecase }}
-            </p>
-            <hr />
+                <div>
+                    <p class="font-serif text-3xl font-normal">
+                        Showing results for keyword
+                        <strong>{{ searchKeywords }}</strong> in
+                        <strong> {{ searchDocumentType }}</strong> within
+                        <strong>
+                            {{ searchInTitle ? "Title" : "Content" }}</strong
+                        >
+                    </p>
+                    <p>
+                        Showing
+                        {{ paginatedSections.data.length }} of
+                        {{ paginatedSections.count }} Matches
+                    </p>
+                </div>
+                <div class="">
+                    <p-paginator
+                        (onPageChange)="onPageChange($event)"
+                        [first]="firstPageNumber"
+                        [rows]="rows"
+                        [totalRecords]="paginatedSections.count"
+                        [rowsPerPageOptions]="rowsPerPageOptions"
+                        [showFirstLastIcon]="true"
+                        #paginator
+                    ></p-paginator>
+                </div>
+            </div>
+
+            <hr class="mb-6" />
+            <div
+                *ngFor="let item of paginatedSections.data"
+                class="font-serif text-2xl text-secondary-700"
+            >
+                <div
+                    class="cursor-pointer hover:surface-100"
+                    [innerHTML]="
+                        sanitizeHtml(
+                            item?.clause_eng
+                                | highlighter : searchKeywords.join(',')
+                        )
+                    "
+                ></div>
+
+                <p
+                    *ngIf="item.legislationId"
+                    class="cursor-pointer text-right text-blue-800 font-normal hover:underline hover:text-blue-600 text-base font-norbal"
+                >
+                    {{ item?.legislation?.title_eng | titlecase }}
+                </p>
+                <p
+                    *ngIf="item.delegatedLegislationId"
+                    class="cursor-pointer text-right text-blue-800 font-normal hover:underline hover:text-blue-600 text-base font-norbal"
+                >
+                    {{ item?.delegatedLegislation?.title_eng | titlecase }}
+                </p>
+                <hr />
+            </div>
+        </div>
+
+        <div
+            #paginagtedLegislation
+            *ngIf="
+                paginatedLegislations.data.length &&
+                searchSubject === searchSubjects.L_TITLE
+            "
+        >
+            <div
+                class="bg-white mb-6 flex align-items-center justify-content-between"
+            >
+                <div>
+                    <p class="font-serif text-3xl font-normal">
+                        Showing results for keyword
+                        <strong>{{ searchKeywords }}</strong> in
+                        <strong> {{ searchDocumentType }}</strong> within
+                        <strong>
+                            {{ searchInTitle ? "Title" : "Content" }}</strong
+                        >
+                    </p>
+                    <p>
+                        Showing
+                        {{ paginatedLegislations.data.length }} of
+                        {{ paginatedLegislations.count }} Matches
+                    </p>
+                </div>
+                <div class="">
+                    <p-paginator
+                        (onPageChange)="onPageChange($event)"
+                        [first]="firstPageNumber"
+                        [rows]="rows"
+                        [totalRecords]="paginatedLegislations.count"
+                        [rowsPerPageOptions]="rowsPerPageOptions"
+                        [showFirstLastIcon]="true"
+                        #paginator
+                    ></p-paginator>
+                </div>
+            </div>
+
+            <hr class="mb-6" />
+            <div
+                *ngFor="let item of paginatedLegislations.data"
+                class="font-serif text-2xl text-secondary-700"
+            >
+                <div
+                    class="cursor-pointer text-xl hover:underline"
+                    (click)="viewLegislation(item.id)"
+                >
+                    {{ item.title_eng | titlecase }}
+                </div>
+
+                <hr />
+            </div>
+        </div>
+
+        <div
+            #paginagtedDelegatedLegislation
+            *ngIf="
+                paginatedDelegatedLegislations.data.length &&
+                searchSubject === searchSubjects.DL_TITLE
+            "
+        >
+            <div
+                class="bg-white mb-6 flex align-items-center justify-content-between"
+            >
+                <div>
+                    <p class="font-serif text-3xl font-normal">
+                        Showing results for keyword
+                        <strong>{{ searchKeywords }}</strong> in
+                        <strong> {{ searchDocumentType }}</strong> within
+                        <strong>
+                            {{ searchInTitle ? "Title" : "Content" }}</strong
+                        >
+                    </p>
+                    <p>
+                        Showing
+                        {{ paginatedDelegatedLegislations.data.length }} of
+                        {{ paginatedDelegatedLegislations.count }} Matches
+                    </p>
+                </div>
+                <div class="">
+                    <p-paginator
+                        (onPageChange)="onPageChange($event)"
+                        [first]="firstPageNumber"
+                        [rows]="rows"
+                        [totalRecords]="paginatedDelegatedLegislations.count"
+                        [rowsPerPageOptions]="rowsPerPageOptions"
+                        [showFirstLastIcon]="true"
+                        #paginator
+                    ></p-paginator>
+                </div>
+            </div>
+
+            <hr class="mb-6" />
+            <div
+                *ngFor="let item of paginatedDelegatedLegislations.data"
+                class="font-serif text-2xl text-secondary-700"
+            >
+                <div
+                    class="cursor-pointer text-xl hover:underline"
+                    (click)="viewLegislation(item.id)"
+                >
+                    {{ item.title_eng | titlecase }}
+                </div>
+
+                <hr />
+            </div>
         </div>
     </div>
-    <div *ngIf="isSearching">searching our databases</div>
+    <div *ngIf="isSearching" class="flex mt-6 align-items-center gap-2">
+        <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+        loading....
+    </div>
 </div>

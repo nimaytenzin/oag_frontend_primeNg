@@ -40,8 +40,7 @@ export class PublicHomeComponent {
     ref: DynamicDialogRef | undefined;
 
     searchKeywords: string[];
-    searchInTitle: boolean = true;
-    searchInContent: boolean = false;
+    searchInTitle: boolean = false;
 
     documentTypes = Object.values(SEARCHDOCUMENTYPES);
     documentType = SEARCHDOCUMENTYPES;
