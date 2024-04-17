@@ -76,7 +76,7 @@ export class PublicNavbarComponent implements OnInit {
                 icon: 'pi pi-fw pi-user',
                 items: [
                     {
-                        label: 'FAQs',
+                        label: 'Feedbacks',
                         icon: 'pi pi-fw pi-user-plus',
                     },
                     {

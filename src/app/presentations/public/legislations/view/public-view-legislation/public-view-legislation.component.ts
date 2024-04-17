@@ -61,7 +61,7 @@ export class PublicViewLegislationComponent implements OnInit {
     delegatedLegislations: DelegatedLegislationDto[];
 
     documentCopies: DocumentCopyDto[];
-    private fontSizeHeadingSubject = new BehaviorSubject<number>(32);
+    private fontSizeHeadingSubject = new BehaviorSubject<number>(26);
     private fontSizeContentSubject = new BehaviorSubject<number>(20);
     private fontSizeAmmendmentNoteSubject = new BehaviorSubject<number>(18);
 

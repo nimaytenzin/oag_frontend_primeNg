@@ -18,3 +18,9 @@
     background: transparent !important;
     border: none !important;
 }
+
+:host ::ng-deep .p-menuitem-text {
+    color: #295bac !important;
+    font-weight: bold;
+    font-size: medium;
+}

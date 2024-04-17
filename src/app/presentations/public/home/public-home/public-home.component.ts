@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
@@ -19,6 +19,10 @@ import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
 import { SEARCHDOCUMENTYPES } from 'src/app/core/constants/enums';
 import { Title } from '@angular/platform-browser';
+import { TableModule } from 'primeng/table';
+import { LegislationDto } from 'src/app/core/dto/legislation/legislation.dto';
+import { CardModule } from 'primeng/card';
+import { LegislationDataService } from 'src/app/core/dataservice/legislations/legislations.dataservice';
 
 @Component({
     selector: 'app-public-home',
@@ -32,17 +36,19 @@ import { Title } from '@angular/platform-browser';
         ChipsModule,
         MessagesModule,
         ToastModule,
+        CardModule,
+        TableModule,
     ],
     providers: [DialogService, MessageService],
     templateUrl: './public-home.component.html',
     styleUrl: './public-home.component.scss',
 })
-export class PublicHomeComponent {
+export class PublicHomeComponent implements OnInit {
     ref: DynamicDialogRef | undefined;
 
     searchKeywords: string[];
     searchInTitle: boolean = false;
-
+    legislations: LegislationDto[] = [];
     documentTypes = Object.values(SEARCHDOCUMENTYPES);
     documentType = SEARCHDOCUMENTYPES;
     searchDocumentType: string = this.documentType.LEGISLATIONS;
@@ -50,9 +56,17 @@ export class PublicHomeComponent {
     constructor(
         private router: Router,
         private messageService: MessageService,
-        private titleService: Title
+        private titleService: Title,
+        private legislationDataService: LegislationDataService
     ) {
         this.titleService.setTitle('Depository of Laws');
+    }
+    ngOnInit(): void {
+        this.legislationDataService
+            .GetLatestLegislations(9)
+            .subscribe((res) => {
+                this.legislations = res;
+            });
     }
 
     searchForLegislations(): void {

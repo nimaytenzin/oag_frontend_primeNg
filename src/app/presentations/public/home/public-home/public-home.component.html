@@ -1,74 +1,29 @@
-<div
-    class="flex flex-column align-items-center justify-content-center"
-    style="min-height: 80vh"
->
-    <p-toast></p-toast>
-
-    <div class="pb-4 text-center">
-        <h1 class="font-serif text-7xl text-center">
-            Explore Bhutanese legislations with ease
-        </h1>
-        <p class="text-lg">
-            This platform, managed by the
-            <a href="#"> Office of Attorney General</a> , is your gateway to
-            authorized Bhutanese legislation and related information.
-        </p>
-    </div>
-    <div
-        class="flex flex-column align-items-center justify-content-center gap-3"
-    >
-        <p class="mt-2">Search for keywords in the title or content.</p>
-        <div class="flex gap-2">
-            <div class="p-fluid">
-                <div>
-                    <p-chips
-                        [(ngModel)]="searchKeywords"
-                        [addOnBlur]="true"
-                        [addOnTab]="true"
-                        placeholder="search for .."
-                    ></p-chips>
-                </div>
-
-                <div class="flex gap-2 my-2">
-                    <div class="flex align-items-center">
-                        <p-checkbox
-                            label="Title"
-                            [binary]="true"
-                            [(ngModel)]="searchInTitle"
-                            (onChange)="toggleCheckbox('Title')"
-                        ></p-checkbox>
-                    </div>
-                    <div class="flex align-items-center">
-                        <p-checkbox
-                            label="Content"
-                            [binary]="true"
-                            [(ngModel)]="!searchInTitle"
-                            (onChange)="toggleCheckbox('Content')"
-                        ></p-checkbox>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex p-fluid gap-2">
-                <p-dropdown
-                    [options]="documentTypes"
-                    [(ngModel)]="searchDocumentType"
-                    [showClear]="true"
-                    placeholder="Search for keyword(s) in"
-                >
-                </p-dropdown>
-
-                <p-button
-                    label="Search"
-                    (click)="searchForLegislations()"
-                    icon="pi pi-search"
-                    iconPos="right"
-                ></p-button>
+<div class="grid">
+    <div class="col-5 p-7">
+        <div class="flex gap-2 align-items-center mb-6">
+            <img src="/assets/images/hm.png" style="width: 20%" />
+            <div class="flex-grow-1">
+                <p class="text-xl">
+                    <span class="text-2xl font-semibold">"</span>
+                    There cannot be enduring peace, prosperity, equality and
+                    brotherhood in this world if our aims are so separate and
+                    divergent, if we do not accept that in the end we are
+                    people, all alike, sharing the Earth among ourselves and
+                    also with other sentient beings, all of whom have an equal
+                    role and stake in the state
+                    <span class="text-2xl font-semibold">"</span>
+                </p>
+                <p class="text-right mt-2">
+                    - His majesty the Fifth King of Bhutan
+                </p>
             </div>
         </div>
 
-        <hr />
-        <p class="text-center mt-6 w-8 text-lg">
+        <hr style="margin: 5rem 0" />
+        <h1 class="font-serif text-6xl text-blue-700 text-left">
+            Welcome to Depository of Law
+        </h1>
+        <p class="text-justify text-xl">
             The Office of Attorney General 's Law Depository website provides
             access to authorized Bhutanese legislation and related information.
             This website is managed by the Office of Attorney General and aims
@@ -84,5 +39,113 @@
             reliable and user-friendly resource for accessing Bhutanese
             legislation and related information.
         </p>
+    </div>
+
+    <div class="col-1"></div>
+    <div class="col-6 p-7">
+        <div
+            class="flex flex-column align-items-start justify-content-start hero"
+            style="min-height: 80vh"
+        >
+            <p-toast></p-toast>
+
+            <div class="text-left">
+                <h1 class="font-serif text-5xl text-center">Search</h1>
+                <!-- <p class="text-lg">
+            This platform, managed by the
+            <a href="#"> Office of Attorney General</a> , is your gateway to
+            authorized Bhutanese legislation and related information.
+        </p> -->
+            </div>
+            <div
+                class="flex w-full flex-column p-fluid align-items-center justify-content-center gap-3"
+            >
+                <p class="mt-2 text-left">
+                    Search for keywords in the title or content.
+                </p>
+                <div class="flex gap-2">
+                    <div class="p-fluid">
+                        <div>
+                            <p-chips
+                                [(ngModel)]="searchKeywords"
+                                [addOnBlur]="true"
+                                [addOnTab]="true"
+                                placeholder="search for .."
+                            ></p-chips>
+                        </div>
+
+                        <div class="flex gap-2 my-2">
+                            <div class="flex align-items-center">
+                                <p-checkbox
+                                    label="Title"
+                                    [binary]="true"
+                                    [(ngModel)]="searchInTitle"
+                                    (onChange)="toggleCheckbox('Title')"
+                                ></p-checkbox>
+                            </div>
+                            <div class="flex align-items-center">
+                                <p-checkbox
+                                    label="Content"
+                                    [binary]="true"
+                                    [(ngModel)]="!searchInTitle"
+                                    (onChange)="toggleCheckbox('Content')"
+                                ></p-checkbox>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex p-fluid gap-2">
+                        <p-dropdown
+                            [options]="documentTypes"
+                            [(ngModel)]="searchDocumentType"
+                            [showClear]="true"
+                            placeholder="Search for keyword(s) in"
+                        >
+                        </p-dropdown>
+
+                        <p-button
+                            label="Search"
+                            (click)="searchForLegislations()"
+                            icon="pi pi-search"
+                            iconPos="right"
+                        ></p-button>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="w-full">
+                    <p-card class="w-full">
+                        <p class="text-2xl font-semibold font-serif mb-3">
+                            Latest Legislations
+                        </p>
+                        <p-table [value]="legislations" class="p-datatable-sm">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Year</th>
+                                    <th>Added By</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-item>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            {{ item.title_eng }}
+                                        </p>
+                                        <p>
+                                            {{ item.title_dzo }}
+                                        </p>
+                                    </td>
+                                    <td>{{ item.documentYear }}</td>
+                                    <td>{{ item.status }}</td>
+                                    <td>{{ item.quantity }}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </p-card>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
