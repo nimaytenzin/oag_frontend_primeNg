@@ -160,7 +160,9 @@
                             <td
                                 class="px-4 mb-2 text-2xl font-bold text-primray"
                             >
-                                {{ publishedLegislationStatistics?.current }}
+                                {{
+                                    publishedDelegatedLegisaltionStatistics?.current
+                                }}
                             </td>
                             <td>Current</td>
                         </tr>
@@ -168,7 +170,9 @@
                             <td
                                 class="px-4 mb-2 text-2xl font-bold text-primray"
                             >
-                                {{ publishedLegislationStatistics?.repealed }}
+                                {{
+                                    publishedDelegatedLegisaltionStatistics?.revoked
+                                }}
                             </td>
                             <td>Revoked</td>
                         </tr>
@@ -178,7 +182,7 @@
                                 class="px-4 mb-2 text-2xl font-bold text-primray"
                             >
                                 {{
-                                    publishedLegislationStatistics?.conventions
+                                    publishedDelegatedLegisaltionStatistics?.modified
                                 }}
                             </td>
                             <td>Modifications</td>

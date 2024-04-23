@@ -1,0 +1,116 @@
+<div>
+    <div class="grid formgrid p-fluid">
+        <div class="field mb-4 col-12">
+            <label for="nickname" class="font-medium text-900"
+                >Title in English </label
+            ><input
+                [(ngModel)]="draftLegislation.title_eng"
+                id="nickname"
+                type="text"
+                pinputtext=""
+                class="p-inputtext p-component p-element"
+                required
+                [ngClass]="{
+                    'ng-invalid ng-dirty':
+                        submitted && !draftLegislation.title_eng
+                }"
+            />
+            <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submitted && !draftLegislation.title_dzo"
+                >Title in English is required.</small
+            >
+        </div>
+        <div class="field mb-4 col-12">
+            <label for="nickname" class="font-medium text-900"
+                >Title in Dzongkha </label
+            ><input
+                [(ngModel)]="draftLegislation.title_dzo"
+                id="nickname"
+                type="text"
+                pinputtext=""
+                class="p-inputtext p-component p-element"
+            />
+        </div>
+        <!-- <div class="field mb-4 col-12">
+            <label for="nickname" class="font-medium text-900"
+                >Title in Dzongkha </label
+            ><input
+                formControlName="title_dzo"
+                id="nickname"
+                type="text"
+                pinputtext=""
+                class="p-inputtext p-component p-element"
+            />
+        </div>
+
+        <div class="field mb-4 col-12 md:col-6">
+            <label for="city" class="font-medium text-900"
+                >Legislation Type</label
+            >
+            <p-dropdown
+                appendTo="body"
+                formControlName="type"
+                [options]="legislationTypes"
+                placeholder="Select Legislation Type"
+            ></p-dropdown>
+        </div>
+        <div class="field mb-4 col-12 md:col-6">
+            <label for="city" class="font-medium text-900"
+                >Legislation Status</label
+            >
+
+            <p-dropdown
+                appendTo="body"
+                formControlName="status"
+                [options]="legislationStatuses"
+                placeholder="Select Legislation Status"
+            ></p-dropdown>
+        </div>
+
+        <div class="field mb-4 col-6">
+            <label for="nickname" class="font-medium text-900"
+                >Tabled Date
+            </label>
+            <p-calendar
+                appendTo="body"
+                formControlName="enactmentDate"
+                dateFormat="dd-mm-yy"
+            ></p-calendar>
+        </div>
+        <div class="field mb-4 col-6">
+            <label for="nickname" class="font-medium text-900"
+                >Enactment Date
+            </label>
+            <p-calendar
+                appendTo="body"
+                formControlName="enactmentDate"
+                dateFormat="dd-mm-yy"
+            ></p-calendar>
+        </div>
+        <div class="field mb-4 col-6">
+            <label for="nickname" class="font-medium text-900"
+                >Repeal Date
+            </label>
+            <p-calendar
+                appendTo="body"
+                formControlName="repealDate"
+                dateFormat="dd-mm-yy"
+            ></p-calendar>
+        </div> -->
+    </div>
+
+    <div class="flex w-full gap-4 justify-content-end mt-3">
+        <p-button
+            severity="secondary"
+            icon="pi pi-times"
+            label="Cancel"
+            [text]="true"
+        ></p-button>
+        <p-button
+            (click)="createNewDraftLegislation()"
+            label="Save"
+            icon="pi pi-check"
+        ></p-button>
+    </div>
+</div>

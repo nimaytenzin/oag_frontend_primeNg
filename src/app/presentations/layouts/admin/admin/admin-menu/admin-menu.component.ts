@@ -24,7 +24,33 @@ export class AdminMenuComponent implements OnInit {
                     {
                         label: 'Search Module',
                         icon: 'pi pi-fw pi-search',
-                        routerLink: ['/admin/'],
+                        routerLink: ['/admin/search'],
+                    },
+                ],
+            },
+
+            {
+                label: 'Draft',
+                items: [
+                    {
+                        label: 'Legislations',
+                        icon: 'pi pi-fw pi-file-edit',
+                        routerLink: ['/admin/draft/legislations'],
+                    },
+                    {
+                        label: 'Delegated Legislations',
+                        icon: 'pi pi-fw pi-file-edit',
+                        routerLink: ['/admin/draft/delegated-legislations'],
+                    },
+                    {
+                        label: 'International Conventions',
+                        icon: 'pi pi-fw pi-file-edit',
+                        routerLink: ['/admin/draft/conventions'],
+                    },
+                    {
+                        label: 'Amendments',
+                        icon: 'pi pi-fw pi-file-edit',
+                        routerLink: ['/admin/draft/amendments'],
                     },
                 ],
             },
@@ -76,24 +102,6 @@ export class AdminMenuComponent implements OnInit {
                     {
                         label: 'Current',
                         icon: 'pi pi-fw pi-file',
-                    },
-                ],
-            },
-
-            {
-                label: 'Drafts',
-                items: [
-                    {
-                        label: 'Legislations',
-                        icon: 'pi pi-fw pi-file-edit',
-                    },
-                    {
-                        label: 'Delegated Legislations',
-                        icon: 'pi pi-fw pi-file-edit',
-                    },
-                    {
-                        label: 'International Conventions',
-                        icon: 'pi pi-fw pi-file-edit',
                     },
                 ],
             },

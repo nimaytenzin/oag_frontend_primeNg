@@ -18,8 +18,11 @@ export class AuthService {
         return this.http.post(`${this.apiUrl}/auth/login`, credentials);
     }
 
-    getToken(): string | null {
+    getToken(): string {
         return localStorage.getItem('oag_token');
+    }
+    setToken(token: string) {
+        return localStorage.setItem('oag_token', token);
     }
 
     getDecodedTokenObject(): JwtDto | null {
@@ -40,5 +43,9 @@ export class AuthService {
         if (this.getToken() === null) return true;
         const expiry = this.getDecodedTokenObject()?.exp!;
         return Math.floor(new Date().getTime() / 1000) >= expiry;
+    }
+
+    signOut() {
+        return localStorage.removeItem('oag_token');
     }
 }

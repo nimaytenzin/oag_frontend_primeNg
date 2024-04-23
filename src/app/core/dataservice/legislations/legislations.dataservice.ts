@@ -14,7 +14,33 @@ export class LegislationDataService {
 
     private apiUrl = environment.apiUrl;
 
-    //new
+    //ADMIN PROTECTED ROUTES
+    AdminGetCurrentLegislationsPaginated(
+        options: {
+            page?: number;
+            pageSize?: number;
+            startsWith?: string;
+        } = {}
+    ): Observable<PaginatedData<LegislationDto>> {
+        const { page, pageSize, startsWith } = options;
+        let params = new HttpParams();
+        if (page) {
+            params = params.set('page', page);
+        }
+        if (pageSize) {
+            params = params.set('limit', pageSize.toString());
+        }
+        if (startsWith) {
+            params = params.set('startsWith', startsWith);
+        }
+
+        return this.http.get<PaginatedData<LegislationDto>>(
+            `${this.apiUrl}/legislation/p/current`,
+            {
+                params,
+            }
+        );
+    }
 
     GetLatestLegislations(number: number): Observable<LegislationDto[]> {
         return this.http.get<LegislationDto[]>(
@@ -162,6 +188,34 @@ export class LegislationDataService {
 
         return this.http.get<PaginatedData<LegislationDto>>(
             `${this.apiUrl}/p/conventions`,
+            {
+                params,
+            }
+        );
+    }
+
+    // ****************************** ADMIN DRAFT LEGISLATION ROUTES ****************** //
+    AdminGetDraftLegisaltionsPaginated(
+        options: {
+            page?: number;
+            pageSize?: number;
+            startsWith?: string;
+        } = {}
+    ): Observable<PaginatedData<LegislationDto>> {
+        const { page, pageSize, startsWith } = options;
+        let params = new HttpParams();
+        if (page) {
+            params = params.set('page', page);
+        }
+        if (pageSize) {
+            params = params.set('limit', pageSize.toString());
+        }
+        if (startsWith) {
+            params = params.set('startsWith', startsWith);
+        }
+
+        return this.http.get<PaginatedData<LegislationDto>>(
+            `${this.apiUrl}/legislation/p/draft/legislations`,
             {
                 params,
             }

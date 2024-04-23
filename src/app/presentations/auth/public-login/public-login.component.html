@@ -1,6 +1,8 @@
 <div
     class="LOGIN h-screen w-full flex justify-content-center align-items-center"
 >
+    <p-toast></p-toast>
+
     <div
         class="surface-card p-5 sm:px-7 shadow-2 flex flex-column w-11 sm:w-30rem"
         style="border-radius: 14px"
@@ -9,6 +11,7 @@
             <p class="text-4xl font-serif">Depository of Laws</p>
             <p class="text-sm">Welcome to OAG's Depository of Law</p>
             <p-divider></p-divider>
+
             <div class="p-fluid">
                 <div class="p-input-icon-left mb-4">
                     <i class="pi pi-user"></i
@@ -16,18 +19,21 @@
                         type="text"
                         pinputtext=""
                         placeholder="Email"
+                        [(ngModel)]="email"
                         class="p-inputtext p-component p-element w-full"
                     />
                 </div>
 
-                <span class="p-input-icon-left mb-4"
-                    ><i class="pi pi-key"></i
+                <div class="p-input-icon-left mb-4">
+                    <i class="pi pi-key"></i
                     ><input
                         type="password"
                         pinputtext=""
                         placeholder="Password"
+                        [(ngModel)]="password"
                         class="p-inputtext p-component p-element w-full"
-                /></span>
+                    />
+                </div>
 
                 <button
                     pbutton=""

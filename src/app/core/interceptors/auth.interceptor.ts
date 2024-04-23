@@ -4,14 +4,19 @@ import {
     HttpHandler,
     HttpRequest,
 } from '@angular/common/http';
-import { AuthService } from '../dataservice/users-and-auth/auth.service';
+import { AuthService } from '../dataservice/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-    constructor(private authService: AuthService) {}
+    constructor(private authService: AuthService, private router: Router) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler) {
-        const authToken = this.authService.GetToken();
+        if (this.authService.isTokenExpired()) {
+            this.router.navigate(['/auth/login']);
+        }
+
+        const authToken = this.authService.getToken();
         const authRequest = request.clone({
             headers: request.headers.set(
                 'Authorization',

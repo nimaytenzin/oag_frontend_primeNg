@@ -7,13 +7,15 @@ import {
     Validators,
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { Message, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DividerModule } from 'primeng/divider';
 import { InputTextModule } from 'primeng/inputtext';
+import { MessagesModule } from 'primeng/messages';
 import { AuthService } from 'src/app/core/dataservice/auth/auth.service';
-import { LoginDto } from 'src/app/core/dto/users-auth/login.dto';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
     selector: 'app-public-login',
@@ -27,20 +29,61 @@ import { LoginDto } from 'src/app/core/dto/users-auth/login.dto';
         CheckboxModule,
         FormsModule,
         RouterModule,
+        MessagesModule,
+        ToastModule,
     ],
+    providers: [MessageService],
     templateUrl: './public-login.component.html',
     styleUrl: './public-login.component.scss',
 })
 export class PublicLoginComponent {
     rememberMe: boolean = false;
-    constructor(private authService: AuthService, private router: Router) {}
+    email: string = 'kwangyel@gmail.com';
+    password: string = 'overlord123';
+    messages: Message[] | undefined;
+
+    constructor(
+        private authService: AuthService,
+        private router: Router,
+        private messageService: MessageService
+    ) {}
     ngOnInit(): void {
-        if (!this.authService.isTokenExpired()) {
-            this.router.navigate(['/admin/']);
-        }
+        this.messageService.add({
+            severity: 'success',
+            summary: 'Login Saved',
+            detail: 'Redirecting to admins page',
+        });
+        // if (!this.authService.isTokenExpired()) {
+        //     this.messageService.add({
+        //         severity: 'success',
+        //         summary: 'Login Saved',
+        //         detail: 'Redirecting to admins page',
+        //     });
+        //     setTimeout(() => {
+        //         this.router.navigate(['/admin/']);
+        //     }, 1000);
+        // }
     }
 
     login() {
-        this.router.navigate(['/admin/']);
+        this.authService
+            .login({
+                email: this.email,
+                password: this.password,
+            })
+            .subscribe({
+                next: (res) => {
+                    if (res.statusCode === 200) {
+                        this.authService.setToken(res.token);
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Success',
+                            detail: 'User authenticated! Welcome to Depository Admin interface',
+                        });
+                        this.router.navigate(['/admin']);
+                    }
+                },
+                error: (err) => {},
+            });
     }
 }

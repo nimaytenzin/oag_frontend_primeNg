@@ -5,3 +5,9 @@ export interface PublishedLegislationStatisticsSummaryDto {
     ammendments: number;
     conventions: number;
 }
+
+export interface PublishedDelegatedLegislationStatisticsSummaryDto {
+    current: number;
+    revoked: number;
+    modified: number;
+}
