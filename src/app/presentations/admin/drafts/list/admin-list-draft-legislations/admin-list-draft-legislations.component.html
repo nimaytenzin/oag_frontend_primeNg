@@ -60,23 +60,25 @@
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Type</th>
-                        <th pSortableColumn="title_eng">
-                            Title <p-sortIcon field="title_eng"> </p-sortIcon>
-                        </th>
+                        <th pSortableColumn="title_eng">Title</th>
                         <th>Status</th>
-                        <th>Created</th>
-
-                        <th pSortableColumn="documentYear">
-                            Added by
-                            <p-sortIcon field="documentYear"> </p-sortIcon>
-                        </th>
+                        <th>added on</th>
+                        <th pSortableColumn="documentYear">added by</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-item>
                     <tr>
                         <td>
-                            {{ item.type | titlecase }}
+                            <div class="flex gap-1 align-items-center mb-2">
+                                <div
+                                    class="h-1rem w-1rem bg-red-200 border-circle"
+                                ></div>
+                                <p class="flex-grow-1">
+                                    Draft {{ item.type | titlecase }}
+                                </p>
+                            </div>
                         </td>
+
                         <td
                             class="hover:text-primary cursor-pointer"
                             (click)="viewDraftLegislation(item)"
@@ -89,6 +91,9 @@
                             </p>
                         </td>
 
+                        <td>
+                            <p>{{ item.status | titlecase }}</p>
+                        </td>
                         <td>
                             <p>{{ item.createdAt | date }}</p>
                         </td>

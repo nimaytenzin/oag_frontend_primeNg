@@ -25,6 +25,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { AdminAddDraftLegislationModalComponent } from '../components/admin-add-draft-legislation-modal/admin-add-draft-legislation-modal.component';
 import { TagModule } from 'primeng/tag';
+import { ChipsModule } from 'primeng/chips';
 
 @Component({
     selector: 'app-admin-list-draft-legislations',
@@ -37,6 +38,7 @@ import { TagModule } from 'primeng/tag';
         InputTextModule,
         ConfirmDialogModule,
         ToastModule,
+        ChipsModule,
         TagModule,
     ],
     providers: [DialogService, ConfirmationService, MessageService],
@@ -187,6 +189,11 @@ export class AdminListDraftLegislationsComponent {
                 baseZIndex: 10000,
             }
         );
+        this.ref.onClose.subscribe((res) => {
+            if (res && res.status === 201) {
+                this.handlePagination();
+            }
+        });
     }
 
     // applyGlobalFilter() {

@@ -4,6 +4,11 @@
         box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.02),
             0px 0px 2px rgba(0, 0, 0, 0.05), 0px 1px 4px rgba(0, 0, 0, 0.08);
     "
+    [ngClass]="
+        selectedEditingMode === editingModes.AMENDMENT
+            ? 'shadow-2	border-1 border-red-400'
+            : 'border-1 border-white'
+    "
 >
     <p-toast></p-toast>
     <div
@@ -11,9 +16,7 @@
         style="height: 100dvh; top: 5rem"
     >
         <div class="bg-white">
-            <div
-                class="flex justify-content-between align-items-center border-bottom-2"
-            >
+            <!-- <div class="flex justify-content-between align-items-center">
                 <div
                     *ngIf="legislation?.isPublished"
                     class="flex gap-1 align-items-center mb-2"
@@ -28,53 +31,55 @@
                     <div class="h-1rem w-1rem bg-red-500 border-circle"></div>
                     <p>Draft</p>
                 </div>
+                <div class="flex gap-2">
+                    <p-button
+                        label="Delete"
+                        size="small"
+                        severity="danger"
+                        icon="pi pi-trash"
+                    ></p-button>
+                </div>
+            </div>
+
+            <hr /> -->
+            <div class="flex gap-2 justify-content-between">
+                <p
+                    class="font-serif text-3xl font-bold"
+                    style="text-transform: capitalize"
+                >
+                    {{
+                        selectedLanguage === languageType.ENG
+                            ? legislation?.title_eng
+                            : legislation?.title_dzo
+                    }}
+
+                    (<strong>{{ legislation?.status | titlecase }}</strong
+                    >)
+                </p>
                 <p-button
-                    label="Publish"
-                    size="small"
-                    severity="danger"
-                    icon="pi pi-save"
+                    icon="pi pi-pencil"
+                    (click)="openEditLegislationModal()"
+                    [rounded]="true"
+                    [text]="true"
                 ></p-button>
             </div>
 
-            <p
-                class="font-serif text-3xl font-bold"
-                style="text-transform: capitalize"
-            >
-                {{
-                    selectedLanguage === languageType.ENG
-                        ? legislation?.title_eng
-                        : legislation?.title_dzo
-                }}
-            </p>
+            <p-divider type="solid"> </p-divider>
 
-            <hr />
-
-            <div class="my-1 text-xl">
-                <p class="">
-                    Status: <strong>{{ legislation?.status }}</strong>
-                </p>
-                <p class="text-base text-gray-600">
-                    Enactment Date: {{ legislation?.enactmentDate }}
-                </p>
-                <p class="text-base text-gray-600">
-                    Commencement Date:
-                    {{
-                        legislation?.commencementDate
-                            ? legislation?.commencementDate
-                            : "NA"
-                    }}
-                </p>
-                <p class="text-base text-gray-600">
-                    Repeal Date:
-                    {{
-                        legislation?.repealDate ? legislation?.repealDate : "NA"
-                    }}
-                </p>
+            <div class="my-1 text-lg">
+                <div *ngFor="let item of legislationDates">
+                    <p>
+                        - {{ item.particular }} :
+                        <strong>{{
+                            item.date ? (item.date | date) : "NA"
+                        }}</strong>
+                    </p>
+                </div>
             </div>
-
+            <hr />
             <div class="flex gap-2 mt-4">
-                <p *ngIf="!documentCopies?.length" class="text-red-700">
-                    - No Document copies
+                <p *ngIf="!documentCopies?.length" class="text-blue-700">
+                    - Document Copies not added
                 </p>
                 <a
                     *ngFor="let item of documentCopies"
@@ -157,53 +162,53 @@
             </div>
         </div>
     </div>
-    <div class="col-12 lg:col-9 px-8">
-        <div
-            class="sticky bg-white sticky"
-            style="top: 5rem; z-index: 99"
-            id="nima"
-        >
+    <div class="col-12 flex flex-column md:col-9 px-8">
+        <div class="sticky top-0">
             <div
                 class="flex justify-content-between align-items-end border-bottom-1 py-2 border-yellow-300"
             >
-                <div class="flex gap-4 align-items-end">
+                <div
+                    class="flex justify-content-start align-items-end text-xl gap-2"
+                >
                     <p>Editing Mode:</p>
-                    <p-selectButton
-                        class="p-element ng-valid ng-dirty ng-touched"
-                        [options]="editingModes"
-                        [(ngModel)]="selectedEditingMode"
-                    ></p-selectButton>
+                    <p
+                        (click)="switchEditingMode(editingModes.NORMAL)"
+                        class="cursor-pointer"
+                        [ngClass]="
+                            selectedEditingMode === editingModes.NORMAL
+                                ? 'text-gray-900 '
+                                : 'text-gray-400'
+                        "
+                    >
+                        Normal
+                    </p>
+                    <p
+                        (click)="switchEditingMode(editingModes.AMENDMENT)"
+                        class="cursor-pointer"
+                        [ngClass]="
+                            selectedEditingMode === editingModes.AMENDMENT
+                                ? ' text-red-700 '
+                                : 'text-gray-400'
+                        "
+                    >
+                        Ammendment
+                    </p>
                 </div>
 
                 <div class="flex gap-4 align-items-center">
-                    <div class="flex align-items-center gap-1">
-                        <p
-                            class="noselect px-2 text-xl py-1 border-round text-blue-800 border-blue-800 hover:bg-blue-800 hover:text-white cursor-pointer"
-                            style="transition: 200ms all ease-in-out"
-                            (click)="increaseFontSize()"
-                            pTooltip="Increase font size"
-                        >
-                            A+
-                        </p>
-                        <p
-                            class="noselect px-2 py-1 text-xl border-round text-blue-800 border-blue-800 hover:bg-blue-800 hover:text-white cursor-pointer"
-                            style="transition: 200ms all ease-in-out"
-                            (click)="decreaseFontSize()"
-                            pTooltip="Decrease font size"
-                        >
-                            A-
-                        </p>
-                    </div>
-                    <span class="p-input-icon-left">
-                        <i class="pi pi-search"></i>
-                        <input
-                            type="text"
-                            placeholder="press enter to search"
-                            pInputText
-                            [(ngModel)]="searchKeywords"
-                            (keydown.enter)="searchLegislation()"
-                        />
-                    </span>
+                    <p-button
+                        label="Publish"
+                        size="small"
+                        text="true"
+                        icon="pi pi-save"
+                    ></p-button>
+
+                    <p-button
+                        label="Delete"
+                        size="small"
+                        severity="danger"
+                        icon="pi pi-trash"
+                    ></p-button>
 
                     <p-dropdown
                         [options]="languageTypes"
@@ -213,157 +218,20 @@
                     </p-dropdown>
                 </div>
             </div>
+            <div>
+                <p-tabMenu
+                    [model]="items"
+                    [activeItem]="activeItem"
+                ></p-tabMenu>
+            </div>
         </div>
 
-        <div>
-            <p-tabMenu [model]="items" [activeItem]="activeItem"></p-tabMenu>
-        </div>
-        <div id="sectionTab" (scroll)="onContainerScroll($event)" class="mt-6">
-            <div
-                *ngFor="let item of sections"
-                [ngClass]="highlightSelectedSection(item)"
-                [id]="getSectionId(item)"
-            >
-                <div
-                    [ngClass]="getSectionStyles(item.type, selectedLanguage)"
-                    class="flex gap-2 justify-content-between my-5"
-                >
-                    <div class="flex-grow-1">
-                        <div
-                            *ngIf="item.type !== 'CLAUSE'"
-                            [style.fontSize.px]="fontSizeHeading$ | async"
-                            [ngClass]="
-                                item.softDelete
-                                    ? 'line-through text-red-700'
-                                    : ''
-                            "
-                        >
-                            {{
-                                selectedLanguage === languageType.ENG
-                                    ? item?.clause_eng
-                                    : item?.clause_dzo
-                            }}
-                        </div>
-                        <div
-                            *ngIf="item.type === 'CLAUSE'"
-                            [style.fontSize.px]="fontSizeContent$ | async"
-                            [ngClass]="
-                                item.softDelete
-                                    ? 'line-through text-red-700	'
-                                    : ''
-                            "
-                            [innerHTML]="
-                                sanitizeHtml(
-                                    selectedLanguage === languageType.ENG
-                                        ? item?.clause_eng
-                                        : item?.clause_dzo
-                                )
-                            "
-                        ></div>
-
-                        <div
-                            *ngIf="item?.changes?.[0]"
-                            class="text-right font-normal"
-                        >
-                            <div *ngIf="item?.changes">
-                                <div
-                                    *ngFor="let subitem of item?.changes"
-                                    (click)="
-                                        showAmmendmentDetails(subitem.amendment)
-                                    "
-                                    [style.fontSize.px]="
-                                        fontSizeAmmendmentNotes$ | async
-                                    "
-                                >
-                                    <p
-                                        class="cursor-pointer text-base text-blue-700 hover:underline"
-                                    >
-                                        -
-                                        {{
-                                            parseAmendmentChangeType(
-                                                subitem.changeType
-                                            )
-                                        }}
-                                        by
-                                        {{ subitem.amendment?.title_eng }}
-                                    </p>
-                                    <!-- <span
-                                class="cursor-pointer text-base text-blue-700 hover:underline"
-                            >
-                                View Unmodified
-                            </span> -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex">
-                        <p-button
-                            icon="pi pi-pencil"
-                            severity="info"
-                            [text]="true"
-                        ></p-button>
-                        <p-button
-                            icon="pi pi-trash"
-                            severity="danger"
-                            [text]="true"
-                        ></p-button>
-                    </div>
-                </div>
-
-                <div
-                    class="flex align-items-center text-center justify-content-between"
-                    *ngIf="sections.length !== sections.indexOf(item) + 1"
-                >
-                    <hr class="flex-grow-1" />
-                    <!-- <span class="p-float-label">
-                        <p-dropdown
-                            [options]="speeddialItems"
-                            optionLabel="label"
-                            optionValue
-                            inputId="float-label"
-                        ></p-dropdown>
-                        <label for="float-label">Add Content</label>
-                    </span> -->
-                    <!-- <p-splitButton
-                        label="add"
-                        size="sm"
-                        [model]="speeddialItems"
-                    ></p-splitButton> -->
-
-                    <p-button
-                        icon="pi pi-plus"
-                        severity="info"
-                        [text]="true"
-                        (click)="
-                            openInsertSectionInBetween(
-                                item,
-                                sections[sections.indexOf(item) + 1]
-                            )
-                        "
-                    ></p-button>
-
-                    <!-- <p-splitButton
-                        label="add"
-                        size="sm"
-                        [model]="speeddialItems"
-                    ></p-splitButton> -->
-                </div>
-            </div>
-
-            <div
-                class="flex align-items-center text-center justify-content-between"
-            >
-                <hr class="flex-grow-1" />
-
-                <p-button
-                    icon="pi pi-plus"
-                    severity="success"
-                    [text]="true"
-                    (click)="addSection()"
-                ></p-button>
-                <hr class="flex-grow-1" />
-            </div>
+        <div class="flex-grow-1">
+            <app-admin-view-draft-legislation-sections-tab
+                [sections]="sections"
+                [selectedLanguage]="selectedLanguage"
+                [legislationId]="legislationId"
+            ></app-admin-view-draft-legislation-sections-tab>
         </div>
     </div>
 </div>

@@ -16,7 +16,11 @@ import { TabMenuModule } from 'primeng/tabmenu';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { BehaviorSubject } from 'rxjs';
-import { LanguageType, SectionType } from 'src/app/core/constants/enums';
+import {
+    EditingModes,
+    LanguageType,
+    SectionType,
+} from 'src/app/core/constants/enums';
 import { DelegatedLegislationDataService } from 'src/app/core/dataservice/delegated-legislations/delegated-legislation.dataservice';
 import { LegislationDataService } from 'src/app/core/dataservice/legislations/legislations.dataservice';
 import { SectionDataService } from 'src/app/core/dataservice/legislations/sections.dataservice';
@@ -37,8 +41,14 @@ import { PublicViewLegislationShowAmmendmentModalComponent } from 'src/app/prese
 import { PublicViewLegislationShowDelegatedLegislationsComponent } from 'src/app/presentations/public/legislations/view/public-view-legislation/components/public-view-legislation-show-delegated-legislations/public-view-legislation-show-delegated-legislations.component';
 import { PublicViewLegislationShowLegislativeHistoryComponent } from 'src/app/presentations/public/legislations/view/public-view-legislation/components/public-view-legislation-show-legislative-history/public-view-legislation-show-legislative-history.component';
 import { PublicViewLegislationShowSearchResultModalComponent } from 'src/app/presentations/public/legislations/view/public-view-legislation/components/public-view-legislation-show-search-result-modal/public-view-legislation-show-search-result-modal.component';
-import { AdminViewLegislationAddSectionModalComponent } from '../../../legislations/view/admin-view-legislation/modals/admin-view-legislation-add-section-modal/admin-view-legislation-add-section-modal.component';
-import { AdminViewLegislationInsertSectionModalComponent } from '../../../legislations/view/admin-view-legislation/modals/admin-view-legislation-insert-section-modal/admin-view-legislation-insert-section-modal.component';
+import { AdminViewLegislationAddSectionModalComponent } from './modals/admin-view-legislation-add-section-modal/admin-view-legislation-add-section-modal.component';
+import { AdminViewLegislationInsertSectionModalComponent } from './modals/admin-view-legislation-insert-section-modal/admin-view-legislation-insert-section-modal.component';
+import { UserEditModePreference } from 'src/app/core/sessionStates/user-editing-mode.selection.service';
+import { AdminViewDraftLegislationEditLegislationModalComponent } from './components/admin-view-draft-legislation-edit-legislation-modal/admin-view-draft-legislation-edit-legislation-modal.component';
+import { TimelineModule } from 'primeng/timeline';
+import { FieldsetModule } from 'primeng/fieldset';
+import { DividerModule } from 'primeng/divider';
+import { AdminViewDraftLegislationSectionsTabComponent } from './tabs/admin-view-draft-legislation-sections-tab/admin-view-draft-legislation-sections-tab.component';
 
 @Component({
     selector: 'app-admin-view-draft-legislation',
@@ -57,29 +67,28 @@ import { AdminViewLegislationInsertSectionModalComponent } from '../../../legisl
         ToastModule,
         OverlayPanelModule,
         SelectButtonModule,
+        TimelineModule,
+        FieldsetModule,
+        DividerModule,
+        AdminViewDraftLegislationSectionsTabComponent,
     ],
-    providers: [DialogService, MessageService],
+    providers: [DialogService],
     templateUrl: './admin-view-draft-legislation.component.html',
     styleUrl: './admin-view-draft-legislation.component.scss',
 })
 export class AdminViewDraftLegislationComponent {
     legislationId: number;
+
     legislation: LegislationDto;
     legislativeHistory: LegislationDto[];
     sections: SectionDto[] = [];
     delegatedLegislations: DelegatedLegislationDto[];
 
+    legislationDates: any[];
+
+    editingModes = EditingModes;
     documentCopies: DocumentCopyDto[];
-    private fontSizeHeadingSubject = new BehaviorSubject<number>(20);
-    private fontSizeContentSubject = new BehaviorSubject<number>(18);
-    private fontSizeAmmendmentNoteSubject = new BehaviorSubject<number>(14);
 
-    public fontSizeAmmendmentNotes$ =
-        this.fontSizeAmmendmentNoteSubject.asObservable();
-    public fontSizeHeading$ = this.fontSizeHeadingSubject.asObservable();
-    public fontSizeContent$ = this.fontSizeContentSubject.asObservable();
-
-    getSectionStyles = GetSectionStylesPublic;
     getTocStyles = GetTocStylesAdmin;
     items: MenuItem[] | undefined;
     activeItem: MenuItem | undefined;
@@ -90,10 +99,8 @@ export class AdminViewDraftLegislationComponent {
 
     languageType = LanguageType;
     selectedLanguage: string = LanguageType.ENG;
-    searchKeywords: string;
 
-    editingModes = ['Normal', 'Amendment'];
-    selectedEditingMode = this.editingModes[0];
+    selectedEditingMode = this.editingModes.NORMAL;
 
     languageTypes: any[] = [
         {
@@ -119,14 +126,10 @@ export class AdminViewDraftLegislationComponent {
         private delegatedLegislationDataService: DelegatedLegislationDataService,
         private legislativeHistoryDataService: LegislativeHistoryDataService,
         private documentCopyDataService: DocumentCopyDataService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private userEditingModePreference: UserEditModePreference
     ) {}
     ngOnInit(): void {
-        this.messageService.add({
-            severity: 'info',
-            summary: 'hii',
-            detail: 'Welcome',
-        });
         this.route.params.subscribe((params) => {
             this.legislationId = params['legislationId'];
             this.getLegislationDetails();
@@ -162,52 +165,24 @@ export class AdminViewDraftLegislationComponent {
                 command: () => this.showDelegatedLegislations(),
             },
         ];
-        this.speeddialItems = [
-            {
-                label: 'Chapter Heading',
-                command: () => {
-                    this.addSection(SectionType.HEADING_1);
-                    this.messageService.add({
-                        severity: 'info',
-                        summary: 'Add',
-                        detail: 'Data Added',
-                    });
-                },
-            },
-            {
-                label: 'Chapter Name',
-                command: () => {
-                    this.addSection(SectionType.HEADING_2);
-                    this.messageService.add({
-                        severity: 'info',
-                        summary: 'Add',
-                        detail: 'Data Added',
-                    });
-                },
-            },
-            {
-                label: 'Section Heading',
-                command: () => {
-                    this.addSection(SectionType.SUBSECTION_H1);
-                    this.messageService.add({
-                        severity: 'info',
-                        summary: 'Add',
-                        detail: 'Data Added',
-                    });
-                },
-            },
-            {
-                label: 'Section/Clause',
-                command: () => {
-                    this.addSection(SectionType.CLAUSE);
-                    this.messageService.add({
-                        severity: 'info',
-                        summary: 'Add',
-                        detail: 'Data Added',
-                    });
-                },
-            },
-        ];
+    }
+
+    switchEditingMode(editingMode: EditingModes) {
+        if (editingMode === EditingModes.NORMAL) {
+            this.selectedEditingMode = EditingModes.NORMAL;
+            this.userEditingModePreference.setEditingMode(EditingModes.NORMAL);
+        }
+        if (editingMode === EditingModes.AMENDMENT) {
+            this.selectedEditingMode = EditingModes.AMENDMENT;
+            this.messageService.add({
+                severity: 'warn',
+                summary: 'Caution',
+                detail: 'Switched to amendment Mode! All changes will be tracked',
+            });
+            this.userEditingModePreference.setEditingMode(
+                EditingModes.AMENDMENT
+            );
+        }
     }
 
     getLegislationDetails() {
@@ -216,38 +191,42 @@ export class AdminViewDraftLegislationComponent {
             .subscribe((res) => {
                 this.legislation = res;
                 this.titleService.setTitle(res.title_eng);
-                this.legislativeHistoryDataService
-                    .GetLegislationsSortedByLegislationGroup(
-                        this.legislation.legislationGroupId
-                    )
-                    .subscribe((res) => {
-                        this.legislativeHistory = res;
-                    });
+
+                this.legislationDates = [
+                    {
+                        particular: 'Tabled Date',
+                        date: this.legislation.tabledDate
+                            ? this.legislation.tabledDate
+                            : null,
+                    },
+                    {
+                        particular: 'Enactment Date',
+                        date: this.legislation.enactmentDate
+                            ? this.legislation.enactmentDate
+                            : null,
+                    },
+                    {
+                        particular: 'Commencement  Date',
+                        date: this.legislation.commencementDate
+                            ? this.legislation.commencementDate
+                            : null,
+                    },
+                    {
+                        particular: 'Repeal Date',
+                        date: this.legislation.repealDate
+                            ? this.legislation.commencementDate
+                            : null,
+                    },
+                ];
             });
     }
 
-    public increaseFontSize(): void {
-        this.fontSizeAmmendmentNoteSubject.next(
-            this.fontSizeAmmendmentNoteSubject.getValue() + 1
-        );
-        this.fontSizeHeadingSubject.next(
-            this.fontSizeHeadingSubject.getValue() + 1
-        );
-        this.fontSizeContentSubject.next(
-            this.fontSizeContentSubject.getValue() + 1
-        );
-    }
-
-    public decreaseFontSize(): void {
-        this.fontSizeAmmendmentNoteSubject.next(
-            this.fontSizeAmmendmentNoteSubject.getValue() - 1
-        );
-        this.fontSizeHeadingSubject.next(
-            this.fontSizeHeadingSubject.getValue() - 1
-        );
-        this.fontSizeContentSubject.next(
-            this.fontSizeContentSubject.getValue() - 1
-        );
+    getSectionId(section: SectionDto) {
+        if (section?.type === SectionType.CLAUSE) {
+            return `clause-${section.id}`;
+        } else {
+            return `section-${section.id}`;
+        }
     }
 
     getSections() {
@@ -255,6 +234,7 @@ export class AdminViewDraftLegislationComponent {
             .GetAllSectionsByLegislation(this.legislationId)
             .subscribe((res) => {
                 this.sections = res;
+                console.log(this.sections, 'INSIDE PARENT');
             });
     }
     getTableOfContents() {
@@ -262,34 +242,6 @@ export class AdminViewDraftLegislationComponent {
             .GetTableOfContentByLegislation(this.legislationId)
             .subscribe((res) => {
                 this.tableOfContent = res;
-            });
-    }
-
-    searchLegislation() {
-        this.searchService
-            .SearchInLegislation({
-                keyword: this.searchKeywords,
-                legislationId: this.legislationId,
-            })
-            .subscribe((res) => {
-                this.dialogService
-                    .open(PublicViewLegislationShowSearchResultModalComponent, {
-                        header: 'Search Results',
-                        data: {
-                            searchKeyword: this.searchKeywords,
-                            results: res,
-                        },
-                        width: '70%',
-                        contentStyle: { overflow: 'auto' },
-                        baseZIndex: 10000,
-                        maximizable: true,
-                    })
-                    .onClose.subscribe((item: SectionDto) => {
-                        if (item) {
-                            this.activeSectionId = 'section-' + item.id;
-                            this.scroll(this.getSectionId(item));
-                        }
-                    });
             });
     }
 
@@ -352,28 +304,6 @@ export class AdminViewDraftLegislationComponent {
             });
     }
 
-    getSectionId(section: SectionDto) {
-        if (section?.type === SectionType.CLAUSE) {
-            return `clause-${section.id}`;
-        } else {
-            return `section-${section.id}`;
-        }
-    }
-
-    highlightSelectedSection(section: SectionDto) {
-        if (section.type === SectionType.CLAUSE) {
-            if ('clause-' + section.id === this.activeSectionId) {
-                return ' border-left-2 surface-100';
-            }
-        } else {
-            if ('section-' + section.id === this.activeSectionId) {
-                return ' border-left-2 surface-100';
-            }
-        }
-
-        return 'border-left-2 border-transparent';
-    }
-
     getToolTipLabel(lang: string): string | void {
         if (lang === LanguageType.BI) {
             return 'Download copy in Bilingual';
@@ -402,100 +332,35 @@ export class AdminViewDraftLegislationComponent {
         return this.documentCopyDataService.getDocumentUri(path);
     }
 
-    scroll(id: string) {
-        this.activeSectionId = id;
-        let el = document.getElementById(id)!;
-        let elementPosition = el.getBoundingClientRect().top;
-        let offsetPosition =
-            elementPosition +
-            window.pageYOffset -
-            document.getElementById('nima').clientHeight -
-            30;
-
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth',
-        });
-    }
-
-    onContainerScroll(event: any) {
-        const container = event.target; // Use the event target to get the container
-        const sectionElements = document.getElementsByClassName('heading');
-
-        // Assuming 'section' is the class name for your sections
-        let topSectionId: string | null = null;
-        let topSectionOffset = Infinity;
-
-        for (let i = 0; i < sectionElements.length; i++) {
-            const section = sectionElements[i] as HTMLElement;
-            const sectionRect = section.getBoundingClientRect();
-            const containerRect = container.getBoundingClientRect();
-
-            // Calculate the offset of the section from the top of the container
-            const offset = Math.abs(sectionRect.top - containerRect.top);
-
-            // Check if the section has passed the container
-            if (
-                sectionRect.top < containerRect.top &&
-                offset < topSectionOffset
-            ) {
-                topSectionId = section.id;
-                topSectionOffset = offset;
-            }
-        }
-
-        if (topSectionId) {
-            this.activeSectionId = topSectionId.split('-')[1];
-
-            // You can now use topSectionId to perform any action you need
-        }
-    }
-
     isActive(id: number) {
         return id === Number(this.activeSectionId) ? true : false;
     }
 
     //SECTIONS
 
-    addSection(type?: SectionType) {
-        this.ref = this.dialogService.open(
-            AdminViewLegislationAddSectionModalComponent,
-            {
-                header: 'Add Section | ' + this.legislation.title_eng,
-                maximizable: true,
-                width: '50%',
-                height: '50vh',
-                data: {
-                    type: type,
-                    legislation: this.legislation,
-                },
-            }
-        );
-    }
-
-    openInsertSectionInBetween(
-        topSection: SectionDto,
-        bottomSection: SectionDto
-    ) {
-        console.log('TOP SECTION', topSection);
-        console.log('BOTTOM ORDER', bottomSection);
-        this.ref = this.dialogService.open(
-            AdminViewLegislationInsertSectionModalComponent,
-            {
-                header: 'Insert Section | ' + this.legislation.title_eng,
-                maximizable: true,
-                width: '80vw',
-                height: '80vh',
-                data: {
-                    legislation: this.legislation,
-                    topSection: topSection,
-                    bottomSection: bottomSection,
-                },
-
-                modal: true,
-            }
-        );
-    }
-
     save() {}
+
+    //CRUD MODALS
+    openEditLegislationModal() {
+        this.ref = this.dialogService.open(
+            AdminViewDraftLegislationEditLegislationModalComponent,
+            {
+                header: 'Edit Legislation',
+                width: '40%',
+                data: this.legislation,
+
+                baseZIndex: 10000,
+            }
+        );
+        this.ref.onClose.subscribe((res) => {
+            if (res && res.status === 200) {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Saved',
+                    detail: 'Changes Saved',
+                });
+                this.getLegislationDetails();
+            }
+        });
+    }
 }

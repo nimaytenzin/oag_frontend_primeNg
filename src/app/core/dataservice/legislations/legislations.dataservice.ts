@@ -3,7 +3,11 @@ import { Injectable } from '@angular/core';
 import { Observable, startWith } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
-import { LegislationDto } from '../../dto/legislation/legislation.dto';
+import {
+    CreateLegislationDto,
+    LegislationDto,
+    UpdateLegislationDto,
+} from '../../dto/legislation/legislation.dto';
 import { PaginatedData } from '../../dto/utility/paginated-data.dto';
 
 @Injectable({
@@ -194,7 +198,7 @@ export class LegislationDataService {
         );
     }
 
-    // ****************************** ADMIN DRAFT LEGISLATION ROUTES ****************** //
+    // ****************************** ADMIN  LEGISLATION DRAFTING ROUTES ****************** //
     AdminGetDraftLegisaltionsPaginated(
         options: {
             page?: number;
@@ -220,5 +224,18 @@ export class LegislationDataService {
                 params,
             }
         );
+    }
+
+    AdminCreateLegislation(
+        data: CreateLegislationDto
+    ): Observable<LegislationDto> {
+        return this.http.post<LegislationDto>(
+            `${this.apiUrl}/legislation`,
+            data
+        );
+    }
+
+    AdminUpdateLegislation(id: number, data: UpdateLegislationDto) {
+        return this.http.patch(`${this.apiUrl}/legislation/${id}`, data);
     }
 }

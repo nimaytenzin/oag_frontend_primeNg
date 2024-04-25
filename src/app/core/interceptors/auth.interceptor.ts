@@ -12,8 +12,11 @@ export class AuthInterceptor implements HttpInterceptor {
     constructor(private authService: AuthService, private router: Router) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler) {
-        if (this.authService.isTokenExpired()) {
-            this.router.navigate(['/auth/login']);
+        if (request.url.includes('/admin')) {
+            // If the token is expired, redirect to login
+            if (this.authService.isTokenExpired()) {
+                this.router.navigate(['/auth/login']);
+            }
         }
 
         const authToken = this.authService.getToken();

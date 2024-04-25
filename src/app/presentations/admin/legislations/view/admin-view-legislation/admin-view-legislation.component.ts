@@ -35,10 +35,10 @@ import { PublicViewLegislationShowDelegatedLegislationsComponent } from 'src/app
 import { PublicViewLegislationShowLegislativeHistoryComponent } from 'src/app/presentations/public/legislations/view/public-view-legislation/components/public-view-legislation-show-legislative-history/public-view-legislation-show-legislative-history.component';
 import { PublicViewLegislationShowSearchResultModalComponent } from 'src/app/presentations/public/legislations/view/public-view-legislation/components/public-view-legislation-show-search-result-modal/public-view-legislation-show-search-result-modal.component';
 import { ToastModule } from 'primeng/toast';
-import { AdminViewLegislationAddSectionModalComponent } from './modals/admin-view-legislation-add-section-modal/admin-view-legislation-add-section-modal.component';
+import { AdminViewLegislationAddSectionModalComponent } from '../../../drafts/view/admin-view-draft-legislation/modals/admin-view-legislation-add-section-modal/admin-view-legislation-add-section-modal.component';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { OverlayPanel, OverlayPanelModule } from 'primeng/overlaypanel';
-import { AdminViewLegislationInsertSectionModalComponent } from './modals/admin-view-legislation-insert-section-modal/admin-view-legislation-insert-section-modal.component';
+import { AdminViewLegislationInsertSectionModalComponent } from '../../../drafts/view/admin-view-draft-legislation/modals/admin-view-legislation-insert-section-modal/admin-view-legislation-insert-section-modal.component';
 
 @Component({
     selector: 'app-admin-view-legislation',

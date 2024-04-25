@@ -18,8 +18,11 @@ import { MessagesModule } from 'primeng/messages';
         AppLayoutModule,
         AdminLayoutModule,
         MarkdownModule.forRoot(),
+        ToastModule,
+        MessagesModule,
     ],
     providers: [
+        MessageService,
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     ],

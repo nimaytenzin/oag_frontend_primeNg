@@ -43,3 +43,11 @@ export function GETMONTHNAME(monthNumber) {
 
     return monthNames[monthNumber - 1];
 }
+
+export function PARSETOMYSQLDATE(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear().toString();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`; // Return the da
+}

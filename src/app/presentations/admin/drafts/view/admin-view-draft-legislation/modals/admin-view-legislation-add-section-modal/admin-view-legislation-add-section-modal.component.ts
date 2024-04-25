@@ -33,29 +33,29 @@ import { InputTextModule } from 'primeng/inputtext';
     styleUrl: './admin-view-legislation-add-section-modal.component.scss',
 })
 export class AdminViewLegislationAddSectionModalComponent {
-    items: MenuItem[] | undefined;
     instance: DynamicDialogComponent | undefined;
     legislation: LegislationDto;
-    text: string | undefined;
-    mode: string;
+    data: any;
 
-    selectedSectionType: SectionType;
+    clause_eng: string;
+    clause_dzo: string;
+
+    selectedSectionType: SectionType = SectionType.HEADING_1;
     sectionTypes = [
         { label: 'Chapter Heading', value: 'HEADING_1' },
         { label: 'Chapter Name', value: 'HEADING_2' },
         { label: 'Section Heading', value: 'SUBSECTION_H1' },
         { label: 'Content', value: 'CLAUSE' },
     ];
-
     constructor(
         public ref: DynamicDialogRef,
         private dialogService: DialogService,
         private sanitizer: DomSanitizer
     ) {
         this.instance = this.dialogService.getInstance(this.ref);
-        this.legislation = this.instance.data.legislation;
-        this.selectedSectionType = this.instance.data.type;
+        this.data = this.instance.data;
     }
+
     getLabelByValue(value) {
         const found = this.sectionTypes.find((item) => item.value === value);
         return found ? found.label : undefined;
