@@ -1,5 +1,7 @@
-<div>
-    <div class="flex justify-content-end align-items-center gap-2">
+<div id="nima">
+    <div
+        class="flex justify-content-between bg-white py-2 align-items-end gap-2"
+    >
         <div class="p-input-icon-left">
             <i class="pi pi-search"></i>
             <input
@@ -10,30 +12,39 @@
                 (keydown.enter)="searchLegislation()"
             />
         </div>
+        <div class="flex align-items-center">
+            <p>Scroll to Start</p>
+            <p>Scroll to End</p>
 
-        <p
-            class="noselect px-2 text-xl py-1 border-round text-blue-800 border-blue-800 hover:bg-blue-800 hover:text-white cursor-pointer"
-            style="transition: 200ms all ease-in-out"
-            (click)="increaseFontSize()"
-            pTooltip="Increase font size"
-        >
-            A+
-        </p>
-        <p
-            class="noselect px-2 py-1 text-xl border-round text-blue-800 border-blue-800 hover:bg-blue-800 hover:text-white cursor-pointer"
-            style="transition: 200ms all ease-in-out"
-            (click)="decreaseFontSize()"
-            pTooltip="Decrease font size"
-        >
-            A-
-        </p>
+            <p
+                class="noselect px-2 text-xl py-1 border-round text-blue-800 border-blue-800 hover:bg-blue-800 hover:text-white cursor-pointer"
+                style="transition: 200ms all ease-in-out"
+                (click)="increaseFontSize()"
+                pTooltip="Increase font size"
+            >
+                A+
+            </p>
+            <p
+                class="noselect px-2 py-1 text-xl border-round text-blue-800 border-blue-800 hover:bg-blue-800 hover:text-white cursor-pointer"
+                style="transition: 200ms all ease-in-out"
+                (click)="decreaseFontSize()"
+                pTooltip="Decrease font size"
+            >
+                A-
+            </p>
+        </div>
     </div>
 </div>
-<div id="sectionTab" (scroll)="onContainerScroll($event)" class="mt-6">
+<div
+    id="sectionTab"
+    (scroll)="onContainerScroll($event)"
+    class="h-screen px-6 overflow-y-scroll"
+>
     <div
         *ngFor="let item of sections"
         [ngClass]="highlightSelectedSection(item)"
         [id]="getSectionId(item)"
+        class="hover:surface-50"
     >
         <div
             [ngClass]="getSectionStyles(item.type, selectedLanguage)"
@@ -68,7 +79,7 @@
                     "
                 ></div>
 
-                <div *ngIf="item?.changes?.[0]" class="text-right font-normal">
+                <!-- <div *ngIf="item?.changes?.[0]" class="text-right font-normal">
                     <div *ngIf="item?.changes">
                         <div
                             *ngFor="let subitem of item?.changes"
@@ -87,30 +98,38 @@
                                 by
                                 {{ subitem.amendment?.title_eng }}
                             </p>
-                            <!-- <span
-                                class="cursor-pointer text-base text-blue-700 hover:underline"
-                            >
-                                View Unmodified
-                            </span> -->
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <div class="flex">
                 <p-button
                     icon="pi pi-pencil"
-                    severity="info"
                     [text]="true"
+                    (click)="openEditSectionModal(item)"
                 ></p-button>
+
                 <p-button
                     icon="pi pi-trash"
                     severity="danger"
+                    (click)="openDeleteConfirmModal(item)"
                     [text]="true"
                 ></p-button>
             </div>
         </div>
 
+        <div *ngIf="item?.changes">
+            <p *ngFor="let subitem of item.changes" class="text-right">
+                - {{ getChangeTypeLabel(subitem?.changeType) }}
+                <span
+                    class="text-blue-700 hover:underline cursor-pointer"
+                    (click)="openViewAmendmentModal(subitem.amendment)"
+                >
+                    {{ subitem?.amendment?.title_eng | titlecase }}
+                </span>
+            </p>
+        </div>
         <div
             class="flex align-items-center text-center justify-content-between"
             *ngIf="sections.length !== sections.indexOf(item) + 1"
@@ -144,7 +163,7 @@
             icon="pi pi-plus"
             severity="success"
             [text]="true"
-            (click)="addSection()"
+            (click)="addSectionModal()"
         ></p-button>
         <hr class="flex-grow-1" />
     </div>

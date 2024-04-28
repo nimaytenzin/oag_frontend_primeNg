@@ -7,9 +7,10 @@ import { AdminLayoutModule } from './presentations/layouts/admin/admin/admin-lay
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { MarkdownModule } from 'ngx-markdown';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { MessagesModule } from 'primeng/messages';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
     declarations: [AppComponent],
@@ -20,9 +21,11 @@ import { MessagesModule } from 'primeng/messages';
         MarkdownModule.forRoot(),
         ToastModule,
         MessagesModule,
+        ConfirmDialogModule,
     ],
     providers: [
         MessageService,
+        ConfirmationService,
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     ],

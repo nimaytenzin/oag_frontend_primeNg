@@ -1,50 +1,70 @@
 <div
-    class="lg:px-6 grid relative bg-white border-round"
-    style="
-        box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.02),
-            0px 0px 2px rgba(0, 0, 0, 0.05), 0px 1px 4px rgba(0, 0, 0, 0.08);
-    "
+    class="grid relative bg-white border-round pt-2 view-container"
     [ngClass]="
         selectedEditingMode === editingModes.AMENDMENT
             ? 'shadow-2	border-1 border-red-400'
             : 'border-1 border-white'
     "
 >
-    <p-toast></p-toast>
-    <div
-        class="hidden lg:flex lg:flex-column lg:col-3 sticky"
-        style="height: 100dvh; top: 5rem"
-    >
-        <div class="bg-white">
-            <!-- <div class="flex justify-content-between align-items-center">
-                <div
-                    *ngIf="legislation?.isPublished"
-                    class="flex gap-1 align-items-center mb-2"
-                >
-                    <div class="h-1rem w-1rem bg-green-500 border-circle"></div>
-                    <p>Published</p>
-                </div>
-                <div
-                    *ngIf="!legislation?.isPublished"
-                    class="flex gap-1 align-items-center mb-2"
-                >
-                    <div class="h-1rem w-1rem bg-red-500 border-circle"></div>
-                    <p>Draft</p>
-                </div>
-                <div class="flex gap-2">
-                    <p-button
-                        label="Delete"
-                        size="small"
-                        severity="danger"
-                        icon="pi pi-trash"
-                    ></p-button>
-                </div>
-            </div>
+    <div class="bg-white col-12 py-0">
+        <div class="flex justify-content-between align-items-end">
+            <div class="flex gap-4 align-items-center">
+                <p-button
+                    label="Publish"
+                    size="small"
+                    icon="pi pi-save"
+                ></p-button>
 
-            <hr /> -->
-            <div class="flex gap-2 justify-content-between">
+                <p-button
+                    size="small"
+                    severity="danger"
+                    icon="pi pi-trash"
+                ></p-button>
+
+                <p-dropdown
+                    [options]="languageTypes"
+                    [(ngModel)]="selectedLanguage"
+                    placeholder="Select language"
+                >
+                </p-dropdown>
+            </div>
+            <div
+                class="flex justify-content-start align-items-end text-base gap-2"
+            >
+                <p>Editing Mode:</p>
                 <p
-                    class="font-serif text-3xl font-bold"
+                    (click)="switchEditingMode(editingModes.NORMAL)"
+                    class="cursor-pointer"
+                    [ngClass]="
+                        selectedEditingMode === editingModes.NORMAL
+                            ? 'text-gray-900  underline '
+                            : 'text-gray-400'
+                    "
+                >
+                    Normal
+                </p>
+                <p
+                    (click)="switchEditingMode(editingModes.AMENDMENT)"
+                    class="cursor-pointer"
+                    [ngClass]="
+                        selectedEditingMode === editingModes.AMENDMENT
+                            ? ' text-red-700   underline'
+                            : 'text-gray-400'
+                    "
+                >
+                    Ammendment
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-column col-3 h-screen">
+        <div class="bg-white">
+            <p class="bg-blue-800 text-white px-2">
+                {{ legislation.isPublished ? "Published" : "Draft" }}
+            </p>
+            <div class="flex justify-content-between">
+                <p
+                    class="font-serif text-2xl font-bold"
                     style="text-transform: capitalize"
                 >
                     {{
@@ -64,7 +84,7 @@
                 ></p-button>
             </div>
 
-            <p-divider type="solid"> </p-divider>
+            <!-- <p-divider type="solid"> </p-divider>
 
             <div class="my-1 text-lg">
                 <div *ngFor="let item of legislationDates">
@@ -77,7 +97,7 @@
                 </div>
             </div>
             <hr />
-            <div class="flex gap-2 mt-4">
+            <div class="flex flex-wrap gap-2 mt-4">
                 <p *ngIf="!documentCopies?.length" class="text-blue-700">
                     - Document Copies not added
                 </p>
@@ -132,13 +152,12 @@
                     </svg>
                     <p>({{ parseDocumentLanguage(item.language) }})</p>
                 </a>
-            </div>
-
+            </div> -->
             <hr />
-
-            <h4 class="font-serif">Table of Content</h4>
+            <p class="text-xl font-semibold font-serif">Table of Content</p>
+            <hr />
         </div>
-        <div class="lg:flex-grow-1 lg:overflow-y-scroll">
+        <div class="flex-grow-1 font-serif overflow-y-scroll">
             <div
                 *ngFor="let item of tableOfContent"
                 class="cursor-pointer hover:surface-200 hover:text-black border-left-2 border-white hover:border-left-2 hover:border-blue-700 hover:underline"
@@ -162,76 +181,39 @@
             </div>
         </div>
     </div>
-    <div class="col-12 flex flex-column md:col-9 px-8">
-        <div class="sticky top-0">
-            <div
-                class="flex justify-content-between align-items-end border-bottom-1 py-2 border-yellow-300"
-            >
-                <div
-                    class="flex justify-content-start align-items-end text-xl gap-2"
-                >
-                    <p>Editing Mode:</p>
-                    <p
-                        (click)="switchEditingMode(editingModes.NORMAL)"
-                        class="cursor-pointer"
-                        [ngClass]="
-                            selectedEditingMode === editingModes.NORMAL
-                                ? 'text-gray-900 '
-                                : 'text-gray-400'
-                        "
-                    >
-                        Normal
-                    </p>
-                    <p
-                        (click)="switchEditingMode(editingModes.AMENDMENT)"
-                        class="cursor-pointer"
-                        [ngClass]="
-                            selectedEditingMode === editingModes.AMENDMENT
-                                ? ' text-red-700 '
-                                : 'text-gray-400'
-                        "
-                    >
-                        Ammendment
-                    </p>
-                </div>
-
-                <div class="flex gap-4 align-items-center">
-                    <p-button
-                        label="Publish"
-                        size="small"
-                        text="true"
-                        icon="pi pi-save"
-                    ></p-button>
-
-                    <p-button
-                        label="Delete"
-                        size="small"
-                        severity="danger"
-                        icon="pi pi-trash"
-                    ></p-button>
-
-                    <p-dropdown
-                        [options]="languageTypes"
-                        [(ngModel)]="selectedLanguage"
-                        placeholder="Select language"
-                    >
-                    </p-dropdown>
-                </div>
-            </div>
-            <div>
-                <p-tabMenu
-                    [model]="items"
-                    [activeItem]="activeItem"
-                ></p-tabMenu>
-            </div>
+    <div class="flex flex-column col-9 h-screen">
+        <div class="border-top-2 border-blue-700">
+            <p-tabMenu [model]="items" [activeItem]="activeItem"></p-tabMenu>
         </div>
-
-        <div class="flex-grow-1">
+        <div>
             <app-admin-view-draft-legislation-sections-tab
+                *ngIf="activeItem.label === 'Sections'"
                 [sections]="sections"
                 [selectedLanguage]="selectedLanguage"
                 [legislationId]="legislationId"
+                [events]="eventsSubject.asObservable()"
+                (requestUpdateSection)="this.updateSectionAndTOC()"
             ></app-admin-view-draft-legislation-sections-tab>
+
+            <app-admin-view-draft-legislation-document-copy-tab
+                *ngIf="activeItem.label === 'Document Copies'"
+                [documentCopies]="documentCopies"
+                [legislation]="legislation"
+                (requestUpdateDocumentCopies)="this.getDocumentCopies()"
+            >
+            </app-admin-view-draft-legislation-document-copy-tab>
+
+            <app-admin-view-draft-legislation-delegated-legislation-tab
+                *ngIf="activeItem.label === 'Delegated Legislations'"
+            >
+            </app-admin-view-draft-legislation-delegated-legislation-tab>
+
+            <app-admin-view-draft-legislation-relationship-tab
+                *ngIf="activeItem.label === 'History'"
+                [legislation]="legislation"
+                (requestGetLegislativeHistory)="this.getLe()"
+            >
+            </app-admin-view-draft-legislation-relationship-tab>
         </div>
     </div>
 </div>

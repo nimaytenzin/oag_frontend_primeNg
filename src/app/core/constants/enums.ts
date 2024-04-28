@@ -25,6 +25,11 @@ export enum DelegatedLesiglationTypes {
     OTHERS = 'OTHERS',
 }
 
+export enum LegislationRelationshipActionEnum {
+    REPEALS = 'Repeals',
+    IsRepealedBy = 'Is Repealed by',
+}
+
 export enum CommitType {
     INTERNAL = 'INTERNAL',
     ENACTMENT = 'ENACTMENT',

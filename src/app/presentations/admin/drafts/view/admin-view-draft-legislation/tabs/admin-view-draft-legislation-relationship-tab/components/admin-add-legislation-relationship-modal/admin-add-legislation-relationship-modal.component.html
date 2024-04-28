@@ -1,0 +1,51 @@
+<div class="flex gap-2 p-fluid my-4">
+    <input
+        type="text"
+        disabled=""
+        pInputText
+        [(ngModel)]="legislation.title_eng"
+    />
+
+    <p-dropdown
+        [options]="actions"
+        [(ngModel)]="selectedAction"
+        placeholder="Action"
+        appendTo="body"
+    ></p-dropdown>
+
+    <hr />
+</div>
+
+<div class="flex gap-4 p-fluid align-items-center">
+    <p-dropdown
+        [options]="legislations"
+        [(ngModel)]="subjectLegislation"
+        [filter]="true"
+        filterBy="title_eng"
+        filterMatchMode="startsWith"
+        [showClear]="true"
+        appendTo="body"
+        placeholder="Select a Legislation"
+    >
+        <ng-template pTemplate="selectedItem">
+            <p *ngIf="subjectLegislation">
+                {{ subjectLegislation.title_eng | titlecase }}
+            </p>
+        </ng-template>
+        <ng-template let-item pTemplate="item">
+            <p>
+                {{ item.title_eng | titlecase }} ( {{ item.status }} )
+                <br />
+                {{ item.isPublished ? "Published" : "Draft" }}
+            </p>
+        </ng-template>
+    </p-dropdown>
+    <strong>IN</strong>
+    <p-dropdown
+        [options]="repealModes"
+        [(ngModel)]="selectedRepealMode"
+        placeholder="Action"
+        appendTo="body"
+    ></p-dropdown>
+</div>
+<p-button label="Add Relationship" (click)="addRelationship()"></p-button>

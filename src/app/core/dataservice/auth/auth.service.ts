@@ -40,6 +40,8 @@ export class AuthService {
     }
 
     isTokenExpired(): boolean {
+        console.log('CHECKING TOKE STATUS');
+        console.log(this.getDecodedTokenObject());
         if (this.getToken() === null) return true;
         const expiry = this.getDecodedTokenObject()?.exp!;
         return Math.floor(new Date().getTime() / 1000) >= expiry;

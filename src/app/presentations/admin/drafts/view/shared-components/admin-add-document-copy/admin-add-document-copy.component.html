@@ -1,0 +1,24 @@
+<div class="grid">
+    <div class="col-12">
+        <p class="mb-2">Type</p>
+        <p-dropdown
+            [options]="languageTypes"
+            [(ngModel)]="selectedLanguage"
+            placeholder="Language"
+        ></p-dropdown>
+    </div>
+</div>
+
+<p-fileUpload
+    name="file"
+    [multiple]="false"
+    accept="application/pdf"
+    maxFileSize="10000000"
+    customUpload="true"
+    (onSelect)="onSelect($event)"
+    (uploadHandler)="onUpload($event)"
+>
+    <ng-template let-file pTemplate="file">
+        <div>selected file: {{ file.name }}</div>
+    </ng-template>
+</p-fileUpload>

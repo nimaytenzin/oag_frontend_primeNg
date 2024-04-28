@@ -1,0 +1,52 @@
+<div *ngFor="let change of changes">
+    ID: {{ change.id }}
+    <div *ngIf="change.changeType === amendmentChangeTypes.CREATION">
+        <p>
+            Section
+            <span class="text-sky-700 underline cursor-pointer">
+                ({{ change.sectionId }})</span
+            >
+            is added as:
+        </p>
+        <div *ngFor="let item of change.changeValues">
+            <div
+                class="px-4 bg-slate-50 font-times text-sm"
+                *ngIf="item.attribute === changeValueAttributes.CLAUSE_ENG"
+                [innerHTML]="sanitizeHtml(item.newValue)"
+            ></div>
+        </div>
+    </div>
+
+    <div *ngIf="change.changeType === amendmentChangeTypes.MODIFICATION">
+        <div *ngFor="let item of change.changeValues">
+            <div
+                class="px-4 bg-slate-50 font-times text-sm"
+                *ngIf="item.attribute === changeValueAttributes.CLAUSE_ENG"
+                [innerHTML]="sanitizeHtml(item.oldValue)"
+            ></div>
+            amended as
+            <div
+                class="px-4 bg-slate-50 font-times text-sm"
+                *ngIf="item.attribute === changeValueAttributes.CLAUSE_ENG"
+                [innerHTML]="sanitizeHtml(item.newValue)"
+            ></div>
+        </div>
+    </div>
+
+    <div *ngIf="change.changeType === amendmentChangeTypes.DELETION">
+        <p>
+            Section
+            <span class="text-sky-700 underline cursor-pointer">
+                ({{ change.sectionId }})</span
+            >
+            is deleted as:
+        </p>
+        <div *ngFor="let item of change.changeValues">
+            <div
+                class="px-4 bg-slate-50 font-times text-sm"
+                *ngIf="item.attribute === changeValueAttributes.CLAUSE_ENG"
+                [innerHTML]="sanitizeHtml(item.oldValue)"
+            ></div>
+        </div>
+    </div>
+</div>

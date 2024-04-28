@@ -15,7 +15,7 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import {
     EditingModes,
     LanguageType,
@@ -49,6 +49,9 @@ import { TimelineModule } from 'primeng/timeline';
 import { FieldsetModule } from 'primeng/fieldset';
 import { DividerModule } from 'primeng/divider';
 import { AdminViewDraftLegislationSectionsTabComponent } from './tabs/admin-view-draft-legislation-sections-tab/admin-view-draft-legislation-sections-tab.component';
+import { AdminViewDraftLegislationDocumentCopyTabComponent } from './tabs/admin-view-draft-legislation-document-copy-tab/admin-view-draft-legislation-document-copy-tab.component';
+import { AdminViewDraftLegislationRelationshipTabComponent } from './tabs/admin-view-draft-legislation-relationship-tab/admin-view-draft-legislation-relationship-tab.component';
+import { AdminViewDraftLegislationDelegatedLegislationTabComponent } from './tabs/admin-view-draft-legislation-delegated-legislation-tab/admin-view-draft-legislation-delegated-legislation-tab.component';
 
 @Component({
     selector: 'app-admin-view-draft-legislation',
@@ -71,12 +74,17 @@ import { AdminViewDraftLegislationSectionsTabComponent } from './tabs/admin-view
         FieldsetModule,
         DividerModule,
         AdminViewDraftLegislationSectionsTabComponent,
+        AdminViewDraftLegislationDocumentCopyTabComponent,
+        AdminViewDraftLegislationRelationshipTabComponent,
+        AdminViewDraftLegislationDelegatedLegislationTabComponent,
     ],
     providers: [DialogService],
     templateUrl: './admin-view-draft-legislation.component.html',
     styleUrl: './admin-view-draft-legislation.component.scss',
 })
 export class AdminViewDraftLegislationComponent {
+    eventsSubject: Subject<string> = new Subject<string>();
+
     legislationId: number;
 
     legislation: LegislationDto;
@@ -122,9 +130,7 @@ export class AdminViewDraftLegislationComponent {
         private sanitizer: DomSanitizer,
         private dialogService: DialogService,
         private titleService: Title,
-        private searchService: SearchService,
         private delegatedLegislationDataService: DelegatedLegislationDataService,
-        private legislativeHistoryDataService: LegislativeHistoryDataService,
         private documentCopyDataService: DocumentCopyDataService,
         private messageService: MessageService,
         private userEditingModePreference: UserEditModePreference
@@ -135,9 +141,7 @@ export class AdminViewDraftLegislationComponent {
             this.getLegislationDetails();
             this.getSections();
             this.getTableOfContents();
-
             this.getDocumentCopies();
-
             this.delegatedLegislationDataService
                 .GetAllDelegatedLegislationByParentLegislation(
                     this.legislationId
@@ -150,26 +154,37 @@ export class AdminViewDraftLegislationComponent {
         this.items = [
             {
                 label: 'Sections',
-                command: () => this.showLegislativeHistory(),
+                command: () => this.switchTab(this.items[0]),
             },
             {
                 label: 'Document Copies',
-                command: () => this.showDelegatedLegislations(),
+                command: () => this.switchTab(this.items[1]),
             },
             {
-                label: 'Legislation Relationships',
-                command: () => this.showDelegatedLegislations(),
+                label: 'History',
+                command: () => this.switchTab(this.items[2]),
             },
             {
                 label: 'Delegated Legislations',
-                command: () => this.showDelegatedLegislations(),
+                command: () => this.switchTab(this.items[3]),
             },
         ];
+        this.activeItem = this.items[0];
+    }
+
+    switchTab(item: MenuItem) {
+        this.activeItem = item;
     }
 
     switchEditingMode(editingMode: EditingModes) {
         if (editingMode === EditingModes.NORMAL) {
             this.selectedEditingMode = EditingModes.NORMAL;
+
+            this.messageService.add({
+                severity: 'info',
+                summary: 'Normal Mode',
+                detail: 'Switched to Normal Mode!',
+            });
             this.userEditingModePreference.setEditingMode(EditingModes.NORMAL);
         }
         if (editingMode === EditingModes.AMENDMENT) {
@@ -231,10 +246,9 @@ export class AdminViewDraftLegislationComponent {
 
     getSections() {
         this.sectionDataService
-            .GetAllSectionsByLegislation(this.legislationId)
+            .AdminGetSectionsByLegislation(this.legislationId)
             .subscribe((res) => {
                 this.sections = res;
-                console.log(this.sections, 'INSIDE PARENT');
             });
     }
     getTableOfContents() {
@@ -245,12 +259,20 @@ export class AdminViewDraftLegislationComponent {
             });
     }
 
+    getLegislativeHistory() {
+        alert('GOT LEGISLATIVE HSITORY');
+    }
     sanitizeHtml(html: string | undefined): SafeHtml {
         if (html) {
             return this.sanitizer.bypassSecurityTrustHtml(html);
         } else {
             return this.sanitizer.bypassSecurityTrustHtml('');
         }
+    }
+
+    updateSectionAndTOC() {
+        this.getSections();
+        this.getTableOfContents();
     }
 
     showDelegatedLegislations() {
@@ -298,12 +320,28 @@ export class AdminViewDraftLegislationComponent {
 
     getDocumentCopies() {
         this.documentCopyDataService
-            .GetDocumentCopiesByLegislation(this.legislationId)
+            .AdminGetDocumentCopiesByLegislation(this.legislationId)
             .subscribe((res) => {
                 this.documentCopies = res;
             });
     }
 
+    scroll(id: string) {
+        this.eventsSubject.next(id);
+        // this.activeSectionId = id;
+        // let el = document.getElementById(id)!;
+        // let elementPosition = el.getBoundingClientRect().top;
+        // let offsetPosition =
+        //     elementPosition +
+        //     window.pageYOffset -
+        //     document.getElementById('nima').clientHeight -
+        //     80;
+
+        // window.scrollTo({
+        //     top: offsetPosition,
+        //     behavior: 'smooth',
+        // });
+    }
     getToolTipLabel(lang: string): string | void {
         if (lang === LanguageType.BI) {
             return 'Download copy in Bilingual';

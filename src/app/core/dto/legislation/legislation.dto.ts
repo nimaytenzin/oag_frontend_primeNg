@@ -88,3 +88,10 @@ export interface UpdateLegislationDto {
     legislationId?: number;
     isActive?: boolean;
 }
+
+export interface CreateLegislationRelationshipDto {
+    actingLegislationId: number;
+    action: string;
+    affectedLegislationId: number;
+    mode: string;
+}

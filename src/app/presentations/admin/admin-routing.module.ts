@@ -9,7 +9,6 @@ import { AdminListRepealedLegislationsComponent } from './legislations/list/admi
 import { AdminListConventionsComponent } from './legislations/list/admin-list-conventions/admin-list-conventions.component';
 import { AdminUserProfileComponent } from './users/admin-user-profile/admin-user-profile.component';
 import { AdminUserAllComponent } from './users/admin-user-all/admin-user-all.component';
-import { AdminViewLegislationComponent } from './legislations/view/admin-view-legislation/admin-view-legislation.component';
 import { AdminSearchModuleComponent } from './home/admin-search-module/admin-search-module.component';
 import { AdminListDraftLegislationsComponent } from './drafts/list/admin-list-draft-legislations/admin-list-draft-legislations.component';
 import { AdminListDraftDelegatedLegislationsComponent } from './drafts/list/admin-list-draft-delegated-legislations/admin-list-draft-delegated-legislations.component';
@@ -88,10 +87,7 @@ const routes: Routes = [
                     },
                 ],
             },
-            {
-                path: 'legislation/:legislationId',
-                component: AdminViewLegislationComponent,
-            },
+
             {
                 path: 'international-conventions',
                 component: AdminListConventionsComponent,

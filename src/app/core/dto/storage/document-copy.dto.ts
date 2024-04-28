@@ -2,16 +2,19 @@ import { LanguageType } from '../../constants/enums';
 
 export interface DocumentCopyDto {
     id: number;
-    refId: number;
+
     fileUri: string;
     language: LanguageType;
-    status: string;
-    type: string;
+
+    legislationId?: number;
+    delegatedLegislationId?: number;
+    amendmentId?: number;
 }
-export interface CreateDraftDocumentCopyDto {
-    refId: number;
+export interface CreateDocumentCopyDto {
     file: File;
     language: string;
-    status: string;
-    type: string;
+
+    legislationId?: number;
+    delegatedLegisaltionId?: number;
+    amendmentId?: number;
 }

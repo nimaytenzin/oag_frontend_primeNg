@@ -182,7 +182,7 @@ export class PublicViewLegislationComponent implements OnInit {
 
     getSections() {
         this.sectionDataService
-            .GetAllSectionsByLegislation(this.legislationId)
+            .PublicGetSectionsByLegislation(this.legislationId)
             .subscribe((res) => {
                 this.sections = res;
             });
@@ -277,7 +277,7 @@ export class PublicViewLegislationComponent implements OnInit {
 
     getDocumentCopies() {
         this.documentCopyDataService
-            .GetDocumentCopiesByLegislation(this.legislationId)
+            .AdminGetDocumentCopiesByLegislation(this.legislationId)
             .subscribe((res) => {
                 this.documentCopies = res;
             });

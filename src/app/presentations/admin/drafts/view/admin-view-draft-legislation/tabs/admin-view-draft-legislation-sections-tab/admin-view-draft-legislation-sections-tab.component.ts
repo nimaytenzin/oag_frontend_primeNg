@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule, ViewportScroller } from '@angular/common';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ButtonModule } from 'primeng/button';
@@ -9,14 +9,23 @@ import {
     DynamicDialogRef,
 } from 'primeng/dynamicdialog';
 import { InputTextModule } from 'primeng/inputtext';
-import { BehaviorSubject } from 'rxjs';
-import { LanguageType, SectionType } from 'src/app/core/constants/enums';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import {
+    AmendmentChangeType,
+    LanguageType,
+    SectionType,
+} from 'src/app/core/constants/enums';
 import { SearchService } from 'src/app/core/dataservice/search/search.dataservice';
 import { SectionDto } from 'src/app/core/dto/legislation/section.dto';
 import { GetSectionStylesPublic } from 'src/app/core/utility/documentStyles';
 import { AdminViewLegislationInsertSectionModalComponent } from 'src/app/presentations/admin/drafts/view/admin-view-draft-legislation/modals/admin-view-legislation-insert-section-modal/admin-view-legislation-insert-section-modal.component';
 import { PublicViewLegislationShowSearchResultModalComponent } from 'src/app/presentations/public/legislations/view/public-view-legislation/components/public-view-legislation-show-search-result-modal/public-view-legislation-show-search-result-modal.component';
 import { AdminViewLegislationAddSectionModalComponent } from '../../modals/admin-view-legislation-add-section-modal/admin-view-legislation-add-section-modal.component';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { SectionDataService } from 'src/app/core/dataservice/legislations/sections.dataservice';
+import { AdminViewLegislationEditSectionModalComponent } from '../../modals/admin-view-legislation-edit-section-modal/admin-view-legislation-edit-section-modal.component';
+import { AdminViewAmendmentsModalComponent } from '../../../shared-components/admin-view-amendments-modal/admin-view-amendments-modal.component';
+import { AmendmentDto } from 'src/app/core/dto/ammendment/ammendment.dto';
 
 @Component({
     selector: 'app-admin-view-draft-legislation-sections-tab',
@@ -30,6 +39,9 @@ export class AdminViewDraftLegislationSectionsTabComponent implements OnInit {
     @Input() sections: SectionDto[];
     @Input() selectedLanguage;
     @Input() legislationId;
+    @Input() events: Observable<string>;
+    private eventsSubscription: Subscription;
+    @Output() requestUpdateSection = new EventEmitter<string>();
 
     searchKeywords: string;
 
@@ -50,23 +62,36 @@ export class AdminViewDraftLegislationSectionsTabComponent implements OnInit {
     constructor(
         private sanitizer: DomSanitizer,
         private dialogService: DialogService,
-        private searchService: SearchService
+        private searchService: SearchService,
+        private messageService: MessageService,
+        private confirmationService: ConfirmationService,
+        private sectionDataservice: SectionDataService,
+        private viewportScroller: ViewportScroller
     ) {}
     ngOnInit(): void {
-        console.log('INSIDE SECTIO TAB');
-        console.log(this.sections);
+        this.eventsSubscription = this.events.subscribe((res) => {
+            this.scroll(res);
+        });
     }
 
-    addSection() {
-        this.ref = this.dialogService.open(
-            AdminViewLegislationAddSectionModalComponent,
-            {
-                header: 'Add Section',
-                maximizable: true,
-                width: '80%',
-                height: '80%',
-            }
-        );
+    getChangeTypeLabel(type: string) {
+        if (type === AmendmentChangeType.DELETION) {
+            return 'Repealed by';
+        }
+        if (type === AmendmentChangeType.MODIFICATION) {
+            return 'Amended by';
+        }
+        if (type === AmendmentChangeType.CREATION) {
+            return 'Added by';
+        }
+        return '';
+    }
+    openViewAmendmentModal(item: AmendmentDto) {
+        this.ref = this.dialogService.open(AdminViewAmendmentsModalComponent, {
+            header: item.title_eng,
+            width: '50%',
+            data: item,
+        });
     }
     sanitizeHtml(html: string | undefined): SafeHtml {
         if (html) {
@@ -112,30 +137,6 @@ export class AdminViewDraftLegislationSectionsTabComponent implements OnInit {
             this.activeSectionId = topSectionId.split('-')[1];
             // You can now use topSectionId to perform any action you need
         }
-    }
-
-    openInsertSectionInBetween(
-        topSection: SectionDto,
-        bottomSection: SectionDto
-    ) {
-        console.log('TOP SECTION', topSection);
-        console.log('BOTTOM ORDER', bottomSection);
-        this.ref = this.dialogService.open(
-            AdminViewLegislationInsertSectionModalComponent,
-            {
-                header: 'Insert Section',
-                maximizable: true,
-                width: '80%',
-                height: '80%',
-                appendTo: 'body',
-                data: {
-                    topSection: topSection,
-                    bottomSection: bottomSection,
-                },
-
-                modal: true,
-            }
-        );
     }
 
     // styles
@@ -209,18 +210,140 @@ export class AdminViewDraftLegislationSectionsTabComponent implements OnInit {
     }
 
     scroll(id: string) {
-        this.activeSectionId = id;
-        let el = document.getElementById(id)!;
-        let elementPosition = el.getBoundingClientRect().top;
-        let offsetPosition =
-            elementPosition +
-            window.pageYOffset -
-            document.getElementById('nima').clientHeight -
-            80;
+        // this.activeSectionId = id;
+        // let el = document.getElementById(id)!;
+        // let elementPosition =
+        //     el.getBoundingClientRect().top + window.pageYOffset;
+        // let headerHeight = document.getElementById('nima')?.clientHeight || 0;
+        // let offsetPosition = elementPosition - headerHeight;
 
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth',
+        // window.scrollTo({
+        //     top: offsetPosition,
+        //     behavior: 'smooth',
+        // });
+        this.activeSectionId = id;
+        let el = document.getElementById(id);
+        if (el) {
+            console.log('SCROLL TO ', 0, el.offsetTop);
+            this.viewportScroller.scrollToPosition([
+                0, // x-coordinate
+                el.offsetTop, // y-coordinate
+            ]);
+        }
+    }
+
+    // CRUD
+    openInsertSectionInBetween(
+        topSection: SectionDto,
+        bottomSection: SectionDto
+    ) {
+        this.ref = this.dialogService.open(
+            AdminViewLegislationInsertSectionModalComponent,
+            {
+                header: 'Insert Section',
+                maximizable: true,
+                width: '60%',
+
+                appendTo: 'body',
+                data: {
+                    topSection: topSection,
+                    legislationId: this.legislationId,
+                    bottomSection: bottomSection,
+                },
+
+                modal: true,
+            }
+        );
+        this.ref.onClose.subscribe((res) => {
+            if (res && res.status === 201) {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Added',
+                    detail: 'New Section Inserted successfully',
+                });
+                this.requestUpdateSection.emit('1');
+            }
+        });
+    }
+
+    addSectionModal() {
+        this.ref = this.dialogService.open(
+            AdminViewLegislationAddSectionModalComponent,
+            {
+                header: 'Add Section',
+                maximizable: true,
+                width: '60%',
+
+                data: { legislationId: this.legislationId },
+            }
+        );
+        this.ref.onClose.subscribe((res) => {
+            if (res && res.status === 201) {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Added',
+                    detail: 'New Section Added successfully',
+                });
+                this.requestUpdateSection.emit('1');
+            }
+        });
+    }
+
+    openEditSectionModal(item: SectionDto) {
+        this.ref = this.dialogService.open(
+            AdminViewLegislationEditSectionModalComponent,
+            {
+                header: 'Edit Section',
+                maximizable: true,
+                width: '60%',
+                data: { ...item },
+            }
+        );
+        this.ref.onClose.subscribe((res) => {
+            if (res && res.status === 200) {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Updated',
+                    detail: 'Updated successfully',
+                });
+                this.requestUpdateSection.emit('1');
+            }
+        });
+    }
+
+    openDeleteConfirmModal(item: SectionDto) {
+        this.confirmationService.confirm({
+            target: event.target as EventTarget,
+            message: 'Do you want to delete this record?',
+            header: 'Delete Confirmation',
+            icon: 'pi pi-info-circle',
+            acceptButtonStyleClass: 'p-button-danger p-button-text',
+            rejectButtonStyleClass: 'p-button-text p-button-text',
+            acceptIcon: 'none',
+            rejectIcon: 'none',
+
+            accept: () => {
+                this.sectionDataservice.AdminDeleteSection(item.id).subscribe({
+                    next: (res) => {
+                        if (res) {
+                            this.messageService.add({
+                                severity: 'info',
+                                summary: 'Confirmed',
+                                detail: 'Record deleted',
+                            });
+                            this.requestUpdateSection.emit('1');
+                        }
+                    },
+                    error: (err) => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Unexpected error',
+                            detail: 'Sorry la!',
+                        });
+                    },
+                });
+            },
+            reject: () => {},
         });
     }
 }

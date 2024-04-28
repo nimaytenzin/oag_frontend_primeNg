@@ -1,0 +1,52 @@
+<div class="flex gap-4 mt-4 justify-content-between">
+    <div>
+        <button
+            pButton
+            pRipple
+            (click)="openAddLegislationRelationshipModal()"
+            label="Add Relationship"
+            size="small"
+        ></button>
+    </div>
+
+    <div class="text-xl font-serif">Legislation History</div>
+</div>
+
+<p-divider></p-divider>
+
+<p-tabView>
+    <p-tabPanel header="Tree View">
+        <p-organizationChart [value]="data">
+            <ng-template let-node pTemplate="default">
+                <div>
+                    <i
+                        class="pi pi-check"
+                        *ngIf="node.key == legislation.id"
+                    ></i>
+                    <app-admin-legislation-detail-card
+                        [legislationId]="node.key"
+                    ></app-admin-legislation-detail-card>
+
+                    <p class="text-xs">
+                        {{
+                            node.data.mode
+                                ? "(Repealed in " + node.data.mode + ")"
+                                : ""
+                        }}
+                    </p>
+                </div>
+            </ng-template>
+        </p-organizationChart>
+    </p-tabPanel>
+    <p-tabPanel header="Time Line view">
+        <p>
+            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+            accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
+            quae ab illo inventore veritatis et quasi architecto beatae vitae
+            dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
+            aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
+            eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci
+            velit, sed quia non numquam eius modi.
+        </p>
+    </p-tabPanel>
+</p-tabView>

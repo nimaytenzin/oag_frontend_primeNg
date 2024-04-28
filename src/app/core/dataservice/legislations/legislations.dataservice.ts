@@ -46,6 +46,14 @@ export class LegislationDataService {
         );
     }
 
+    AdminGetLegislaitonDetails(
+        legislationId: number
+    ): Observable<LegislationDto> {
+        return this.http.get<LegislationDto>(
+            `${this.apiUrl}/legislation/${legislationId}`
+        );
+    }
+
     GetLatestLegislations(number: number): Observable<LegislationDto[]> {
         return this.http.get<LegislationDto[]>(
             `${this.apiUrl}/legislation/latest/legislation?number=${number}`
@@ -81,6 +89,13 @@ export class LegislationDataService {
         return this.http.get<LegislationDto[]>(`${this.apiUrl}/legislation`, {
             params,
         });
+    }
+
+    AdminGetAllLegislationMinified() {
+        return this.http.get<LegislationDto[]>(
+            `${this.apiUrl}/legislation/min/sm`,
+            {}
+        );
     }
 
     GetLegislationDetails(id: number): Observable<LegislationDto> {

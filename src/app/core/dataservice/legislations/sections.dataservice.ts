@@ -5,7 +5,12 @@ import { Observable, startWith } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LegislationDto } from '../../dto/legislation/legislation.dto';
 import { PaginatedData } from '../../dto/utility/paginated-data.dto';
-import { SectionDto } from '../../dto/legislation/section.dto';
+import {
+    CreateSectionDto,
+    InsertSectionDto,
+    SectionDto,
+    UpdateSectionDto,
+} from '../../dto/legislation/section.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -14,15 +19,6 @@ export class SectionDataService {
     constructor(private http: HttpClient) {}
 
     private apiUrl = environment.apiUrl;
-
-    //new
-    GetAllSectionsByLegislation(
-        legislationId: number
-    ): Observable<SectionDto[]> {
-        return this.http.get<SectionDto[]>(
-            `${this.apiUrl}/section/by-legislation/${legislationId}`
-        );
-    }
 
     GetTableOfContentByLegislation(
         legislationId: number
@@ -33,6 +29,14 @@ export class SectionDataService {
     }
 
     //***************** */ PUBLIC ROUTES
+
+    PublicGetSectionsByLegislation(
+        legislationId: number
+    ): Observable<SectionDto[]> {
+        return this.http.get<SectionDto[]>(
+            `${this.apiUrl}/p/legislation/sections/${legislationId}`
+        );
+    }
 
     PublicGetSectionsByDelegatedLegislation(
         delegatedLegislationId: number
@@ -47,5 +51,30 @@ export class SectionDataService {
         return this.http.get<SectionDto[]>(
             `${this.apiUrl}/p/delegated-legislation/toc/${delegatedLegislationId}`
         );
+    }
+
+    // ********************* ADMIN ROUTES
+    AdminGetSectionsByLegislation(
+        legislationId: number
+    ): Observable<SectionDto[]> {
+        return this.http.get<SectionDto[]>(
+            `${this.apiUrl}/section/legislation/${legislationId}`
+        );
+    }
+
+    AdminDeleteSection(sectionId: number) {
+        return this.http.delete(`${this.apiUrl}/section/${sectionId}`);
+    }
+
+    AdminUpdateSection(id: number, data: UpdateSectionDto) {
+        return this.http.patch(`${this.apiUrl}/section/${id}`, data);
+    }
+
+    AdminCreateNewSection(data: CreateSectionDto) {
+        return this.http.post(`${this.apiUrl}/section`, data);
+    }
+
+    AdminInsertNewDraftSection(data: InsertSectionDto) {
+        return this.http.post(`${this.apiUrl}/section/insert`, data);
     }
 }

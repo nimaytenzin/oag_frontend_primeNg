@@ -1,0 +1,30 @@
+<div>
+    <div>
+        <p *ngIf="legislation?.documentYear">
+            <strong> {{ legislation?.documentYear }} </strong>
+        </p>
+        <div
+            class="hover:underline text-blue-800 cursor-pointer"
+            (click)="viewLegislation()"
+        >
+            <p>
+                {{ legislation?.title_eng | titlecase }}
+            </p>
+            <p>
+                {{ legislation?.title_dzo }}
+            </p>
+        </div>
+        <p>Status: {{ legislation?.status | titlecase }}</p>
+    </div>
+
+    <div *ngIf="amendments?.length" class="text-left">
+        Amendments:
+        <p
+            *ngFor="let item of amendments"
+            class="hover:underline text-blue-800 cursor-pointer"
+            (click)="openViewAmendmentsModal(item)"
+        >
+            {{ item?.title_eng | titlecase }}
+        </p>
+    </div>
+</div>
