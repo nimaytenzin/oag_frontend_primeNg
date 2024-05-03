@@ -191,7 +191,10 @@ export class AdminListDraftLegislationsComponent {
         );
         this.ref.onClose.subscribe((res) => {
             if (res && res.status === 201) {
-                this.handlePagination();
+                this.router.navigate([
+                    'admin/draft/legislation/',
+                    res.legislationId,
+                ]);
             }
         });
     }

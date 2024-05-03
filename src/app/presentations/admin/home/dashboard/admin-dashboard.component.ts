@@ -11,8 +11,8 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 import { ButtonModule } from 'primeng/button';
 import { StatisticsDataService } from 'src/app/core/dataservice/statistics/statistics.dataservice';
 import {
-    PublishedDelegatedLegislationStatisticsSummaryDto,
-    PublishedLegislationStatisticsSummaryDto,
+    DelegatedLegislationStatisticsSummaryDto,
+    LegislationStatisticsSummaryDto,
 } from 'src/app/core/dto/statistics/legislation-stats.dto';
 import { CardModule } from 'primeng/card';
 import { LegislationDataService } from 'src/app/core/dataservice/legislations/legislations.dataservice';
@@ -40,8 +40,8 @@ export class AdminDashboardComponent implements OnInit {
 
     legislations!: LegislationDto[];
 
-    publishedLegislationStatistics: PublishedLegislationStatisticsSummaryDto;
-    publishedDelegatedLegisaltionStatistics: PublishedDelegatedLegislationStatisticsSummaryDto;
+    publishedLegislationStatistics: LegislationStatisticsSummaryDto;
+    publishedDelegatedLegisaltionStatistics: DelegatedLegislationStatisticsSummaryDto;
 
     constructor(
         private statDataService: StatisticsDataService,
@@ -50,13 +50,13 @@ export class AdminDashboardComponent implements OnInit {
 
     ngOnInit() {
         this.statDataService
-            .GetPublishedLegislationStatisticsSummary()
+            .GetLegislationStatisticsSummary()
             .subscribe((res) => {
                 this.publishedLegislationStatistics = res;
             });
 
         this.statDataService
-            .GetPublishedDelegatedLegislationStatisticsSummary()
+            .GetDelegatedLegislationStatisticsSummary()
             .subscribe((res) => {
                 this.publishedDelegatedLegisaltionStatistics = res;
             });

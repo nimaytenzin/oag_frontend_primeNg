@@ -1,0 +1,209 @@
+<p-messages
+    [(value)]="messages"
+    [enableService]="false"
+    [closable]="false"
+></p-messages>
+<p>Change Type: {{ requestChangeType }}</p>
+
+<div *ngFor="let key of objectKeys(data)">{{ key }}: {{ data[key] }}</div>
+
+<p-tabView [(activeIndex)]="activeIndex">
+    <p-tabPanel header="Select Amendment">
+        <p>Filter and select amendment</p>
+
+        <div class="p-fluid my-4">
+            <p-dropdown
+                appendTo="body"
+                id="status"
+                name="status"
+                [(ngModel)]="selectedAmendment"
+                [options]="amendments"
+                optionLabel="title_eng"
+                placeholder="Select Amendment"
+            ></p-dropdown>
+        </div>
+        <p-button
+            type="submit"
+            (click)="createNewSectionAmendment()"
+            label="Select Amendment"
+            icon="pi pi-file"
+        ></p-button>
+    </p-tabPanel>
+    <p-tabPanel header="Create New Amendment">
+        <form
+            class="grid formgrid p-fluid p-2"
+            [formGroup]="createAmendmentForm"
+            (ngSubmit)="createNewAmendment()"
+        >
+            <div class="field mb-4 col-12 md:col-6">
+                <label for="status" class="font-medium text-900">
+                    Status*
+                </label>
+
+                <p-dropdown
+                    appendTo="body"
+                    id="status"
+                    name="status"
+                    formControlName="status"
+                    [options]="legislationStatuses"
+                    placeholder="Status"
+                    [ngClass]="{
+                        'ng-invalid ng-dirty':
+                            createAmendmentForm.controls['status'].touched &&
+                            createAmendmentForm.controls['status'].invalid
+                    }"
+                ></p-dropdown>
+                <div
+                    class="text-red-500"
+                    *ngIf="
+                        createAmendmentForm.controls['status'].invalid &&
+                        (createAmendmentForm.controls['status'].touched ||
+                            createAmendmentForm.controls['status'].dirty)
+                    "
+                >
+                    <p
+                        *ngIf="createAmendmentForm.controls['status'].errors?.['required']"
+                    >
+                        Please select Amendment Status
+                    </p>
+                </div>
+            </div>
+            <div class="field mb-4 col-12">
+                <label for="title_eng" class="font-medium text-900"
+                    >Title in English* </label
+                ><input
+                    id="title_eng"
+                    name="title_eng"
+                    required
+                    formControlName="title_eng"
+                    type="text"
+                    pinputtext
+                    class="p-inputtext p-component p-element"
+                    [ngClass]="{
+                        'ng-invalid ng-dirty':
+                            createAmendmentForm.controls['title_eng'].touched &&
+                            createAmendmentForm.controls['title_eng'].invalid
+                    }"
+                />
+                <div
+                    class="text-red-500"
+                    *ngIf="
+                        createAmendmentForm.controls['title_eng'].invalid &&
+                        (createAmendmentForm.controls['title_eng'].touched ||
+                            createAmendmentForm.controls['title_eng'].dirty)
+                    "
+                >
+                    <p
+                        *ngIf="createAmendmentForm.controls['title_eng'].errors?.['required']"
+                    >
+                        Title in English is required.
+                    </p>
+                </div>
+            </div>
+            <div class="field mb-4 col-12">
+                <label for="title_dzo" class="font-medium text-900"
+                    >Title in Dzongkha </label
+                ><input
+                    formControlName="title_dzo"
+                    id="title_dzo"
+                    name="title_dzo"
+                    type="text"
+                    pinputtext=""
+                    class="p-inputtext p-component p-element"
+                />
+            </div>
+
+            <div class="field mb-4 col-12 md:col-6">
+                <label for="documentYear" class="font-medium text-900"
+                    >Document Year*</label
+                >
+                <input
+                    formControlName="documentYear"
+                    id="documentYear"
+                    name="documentYear"
+                    type="text"
+                    pinputtext=""
+                    class="p-inputtext p-component p-element"
+                    [ngClass]="{
+                        'ng-invalid ng-dirty':
+                            createAmendmentForm.controls['documentYear']
+                                .touched &&
+                            createAmendmentForm.controls['documentYear'].invalid
+                    }"
+                />
+
+                <div
+                    class="text-red-500"
+                    *ngIf="
+                        createAmendmentForm.controls['documentYear'].invalid &&
+                        (createAmendmentForm.controls['documentYear'].touched ||
+                            createAmendmentForm.controls['documentYear'].dirty)
+                    "
+                >
+                    <p
+                        *ngIf="createAmendmentForm.controls['documentYear'].errors?.['required']"
+                    >
+                        Document Year is required.
+                    </p>
+                </div>
+            </div>
+
+            <p-divider type="solid" class="col-12">
+                Legislation Dates
+            </p-divider>
+
+            <div class="field mb-4 col-12 md:col-6">
+                <label for="status" class="font-medium text-900"
+                    >Enactment Date</label
+                >
+                <p-calendar
+                    dateFormat="yy-mm-dd"
+                    appendTo="body"
+                    formControlName="enactmentDate"
+                    [iconDisplay]="'input'"
+                    [showIcon]="true"
+                ></p-calendar>
+            </div>
+
+            <div class="field mb-4 col-12 md:col-6">
+                <label for="status" class="font-medium text-900"
+                    >Commencement Date</label
+                >
+                <p-calendar
+                    dateFormat="yy-mm-dd"
+                    appendTo="body"
+                    formControlName="commencementDate"
+                    [iconDisplay]="'input'"
+                    [showIcon]="true"
+                ></p-calendar>
+            </div>
+            <div class="field mb-4 col-12 md:col-6">
+                <label for="status" class="font-medium text-900"
+                    >Repeal Date</label
+                >
+                <p-calendar
+                    dateFormat="yy-mm-dd"
+                    appendTo="body"
+                    formControlName="repealDate"
+                    [iconDisplay]="'input'"
+                    [showIcon]="true"
+                ></p-calendar>
+            </div>
+
+            <div class="field col-12 flex justify-content-end">
+                <p-button
+                    severity="secondary"
+                    icon="pi pi-times"
+                    label="Cancel"
+                    (click)="close()"
+                    [text]="true"
+                ></p-button>
+                <p-button
+                    type="submit"
+                    label="Save"
+                    icon="pi pi-check"
+                ></p-button>
+            </div>
+        </form>
+    </p-tabPanel>
+</p-tabView>

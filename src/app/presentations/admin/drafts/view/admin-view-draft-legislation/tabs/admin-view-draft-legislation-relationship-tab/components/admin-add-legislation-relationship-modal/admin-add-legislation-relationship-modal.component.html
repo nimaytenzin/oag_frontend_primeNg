@@ -21,22 +21,18 @@
         [options]="legislations"
         [(ngModel)]="subjectLegislation"
         [filter]="true"
+        optionLabel="title_eng"
         filterBy="title_eng"
-        filterMatchMode="startsWith"
+        filterMatchMode="contains"
         [showClear]="true"
         appendTo="body"
+        (onFilter)="logFilter($event)"
+        maxlength="22"
         placeholder="Select a Legislation"
     >
-        <ng-template pTemplate="selectedItem">
-            <p *ngIf="subjectLegislation">
-                {{ subjectLegislation.title_eng | titlecase }}
-            </p>
-        </ng-template>
         <ng-template let-item pTemplate="item">
-            <p>
-                {{ item.title_eng | titlecase }} ( {{ item.status }} )
-                <br />
-                {{ item.isPublished ? "Published" : "Draft" }}
+            <p style="max-width: 100px; text-wrap: pretty">
+                {{ item.title_eng | titlecase }}
             </p>
         </ng-template>
     </p-dropdown>
@@ -48,4 +44,10 @@
         appendTo="body"
     ></p-dropdown>
 </div>
-<p-button label="Add Relationship" (click)="addRelationship()"></p-button>
+
+<p-divider></p-divider>
+<p-button
+    label="Add Relationship"
+    class="mt-6"
+    (click)="addRelationship()"
+></p-button>

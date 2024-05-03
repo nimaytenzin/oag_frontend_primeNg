@@ -12,7 +12,7 @@ import {
     GetTocStylesAdmin,
 } from 'src/app/core/utility/documentStyles';
 import { TabMenuModule } from 'primeng/tabmenu';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { PublicViewLegislationShowDelegatedLegislationsComponent } from './components/public-view-legislation-show-delegated-legislations/public-view-legislation-show-delegated-legislations.component';
@@ -34,7 +34,10 @@ import { ParseAmendmentChangeType } from 'src/app/core/utility/parser';
 import { PublicViewLegislationShowAmmendmentModalComponent } from './components/public-view-legislation-show-ammendment-modal/public-view-legislation-show-ammendment-modal.component';
 import { AmendmentDto } from 'src/app/core/dto/ammendment/ammendment.dto';
 import { BehaviorSubject } from 'rxjs';
-
+import { HighlighterPipe } from 'src/app/core/utility/text.highlighter.pipes';
+import { LegislationRelationshipDataService } from 'src/app/core/dataservice/legislative-history/legislation-relationship.dataservice';
+import { ViewCountService } from 'src/app/core/dataservice/statistics/viewcount.dataservice';
+import { CreateViewCountDto } from 'src/app/core/dto/statistics/viewcount.dto';
 @Component({
     selector: 'app-public-view-legislation',
     standalone: true,
@@ -48,6 +51,7 @@ import { BehaviorSubject } from 'rxjs';
         InputTextModule,
         FormsModule,
         DropdownModule,
+        HighlighterPipe,
     ],
     templateUrl: './public-view-legislation.component.html',
     providers: [DialogService],
@@ -82,7 +86,9 @@ export class PublicViewLegislationComponent implements OnInit {
     languageType = LanguageType;
     selectedLanguage: string = LanguageType.ENG;
     searchKeywords: string;
+    isSearched: boolean = false;
 
+    history: any;
     languageTypes: any[] = [
         {
             label: 'རྫོང་ཁ',
@@ -106,17 +112,23 @@ export class PublicViewLegislationComponent implements OnInit {
         private searchService: SearchService,
         private delegatedLegislationDataService: DelegatedLegislationDataService,
         private legislativeHistoryDataService: LegislativeHistoryDataService,
-        private documentCopyDataService: DocumentCopyDataService
+        private documentCopyDataService: DocumentCopyDataService,
+        private legislationRelationShipDataService: LegislationRelationshipDataService,
+        private messageService: MessageService,
+        private viewCountService: ViewCountService
     ) {}
     ngOnInit(): void {
         this.route.params.subscribe((params) => {
             this.legislationId = params['legislationId'];
+            this.viewCountService.IncrementLegislationViewCount(
+                this.legislationId
+            );
+
             this.getLegislationDetails();
             this.getSections();
             this.getTableOfContents();
-
             this.getDocumentCopies();
-
+            this.getRepealHistory();
             this.delegatedLegislationDataService
                 .GetAllDelegatedLegislationByParentLegislation(
                     this.legislationId
@@ -217,6 +229,7 @@ export class PublicViewLegislationComponent implements OnInit {
                     .onClose.subscribe((item: SectionDto) => {
                         if (item) {
                             this.activeSectionId = 'section-' + item.id;
+                            this.isSearched = true;
                             this.scroll(this.getSectionId(item));
                         }
                     });
@@ -232,20 +245,38 @@ export class PublicViewLegislationComponent implements OnInit {
     }
 
     showDelegatedLegislations() {
-        this.ref = this.dialogService.open(
-            PublicViewLegislationShowDelegatedLegislationsComponent,
-            {
-                data: {
-                    delegatedLegislations: this.delegatedLegislations,
-                    legislation: this.legislation,
-                },
-                header: 'Delegated Legislations',
-                width: '50%',
-                contentStyle: { overflow: 'auto' },
-                baseZIndex: 10000,
-                maximizable: true,
-            }
-        );
+        if (this.delegatedLegislations.length) {
+            this.ref = this.dialogService.open(
+                PublicViewLegislationShowDelegatedLegislationsComponent,
+                {
+                    data: {
+                        delegatedLegislations: this.delegatedLegislations,
+                        legislation: this.legislation,
+                    },
+                    header: 'Delegated Legislations',
+                    width: '50%',
+                    contentStyle: { overflow: 'auto' },
+                    baseZIndex: 10000,
+                    maximizable: true,
+                }
+            );
+        } else {
+            this.messageService.add({
+                severity: 'info',
+                summary: 'No Delegated Legisaltions',
+                detail:
+                    'No Delegated Legisaltion under ' +
+                    this.legislation.title_eng,
+            });
+        }
+    }
+    getRepealHistory() {
+        this.legislationRelationShipDataService
+            .PublicGetRepealHistory(this.legislationId)
+            .subscribe((res) => {
+                this.history = res;
+                console.log('\nPUBLIC HISTORY\n', this.history);
+            });
     }
 
     showLegislativeHistory() {
@@ -256,6 +287,9 @@ export class PublicViewLegislationComponent implements OnInit {
                 width: '50%',
                 contentStyle: { overflow: 'auto' },
                 baseZIndex: 10000,
+                data: {
+                    ...this.history,
+                },
                 maximizable: true,
             }
         );

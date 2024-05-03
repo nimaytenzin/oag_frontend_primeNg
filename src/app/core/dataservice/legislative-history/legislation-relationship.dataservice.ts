@@ -40,4 +40,11 @@ export class LegislationRelationshipDataService {
             `${this.apiUrl}/amendment/legislation/${legislationId}`
         );
     }
+
+    //PUBLIC
+    PublicGetRepealHistory(legislatoinId: number) {
+        return this.http.get(
+            `${this.apiUrl}/p/legislation/history/${legislatoinId}`
+        );
+    }
 }

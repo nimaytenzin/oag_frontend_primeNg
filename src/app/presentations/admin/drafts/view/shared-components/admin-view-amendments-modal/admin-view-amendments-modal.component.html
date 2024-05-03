@@ -1,5 +1,6 @@
-<div *ngFor="let change of changes">
-    ID: {{ change.id }}
+<div *ngFor="let change of changes" class="text-xl">
+    <hr />
+
     <div *ngIf="change.changeType === amendmentChangeTypes.CREATION">
         <p>
             Section
@@ -10,7 +11,7 @@
         </p>
         <div *ngFor="let item of change.changeValues">
             <div
-                class="px-4 bg-slate-50 font-times text-sm"
+                class="bg-slate-50 font-times"
                 *ngIf="item.attribute === changeValueAttributes.CLAUSE_ENG"
                 [innerHTML]="sanitizeHtml(item.newValue)"
             ></div>
@@ -18,15 +19,22 @@
     </div>
 
     <div *ngIf="change.changeType === amendmentChangeTypes.MODIFICATION">
+        <p>
+            Section
+            <span class="text-sky-700 underline cursor-pointer">
+                ({{ change.sectionId }})</span
+            >
+            :
+        </p>
         <div *ngFor="let item of change.changeValues">
             <div
-                class="px-4 bg-slate-50 font-times text-sm"
+                class="px-4 bg-slate-50 font-times"
                 *ngIf="item.attribute === changeValueAttributes.CLAUSE_ENG"
                 [innerHTML]="sanitizeHtml(item.oldValue)"
             ></div>
-            amended as
+            <p>is amended as</p>
             <div
-                class="px-4 bg-slate-50 font-times text-sm"
+                class="px-4 bg-slate-50 font-times"
                 *ngIf="item.attribute === changeValueAttributes.CLAUSE_ENG"
                 [innerHTML]="sanitizeHtml(item.newValue)"
             ></div>
@@ -49,4 +57,5 @@
             ></div>
         </div>
     </div>
+    <hr />
 </div>

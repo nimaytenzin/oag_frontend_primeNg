@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, Title, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { MessageService, MenuItem } from 'primeng/api';
+import { MessageService, MenuItem, ConfirmationService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -19,6 +19,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import {
     EditingModes,
     LanguageType,
+    LegislationStatus,
     SectionType,
 } from 'src/app/core/constants/enums';
 import { DelegatedLegislationDataService } from 'src/app/core/dataservice/delegated-legislations/delegated-legislation.dataservice';
@@ -52,6 +53,8 @@ import { AdminViewDraftLegislationSectionsTabComponent } from './tabs/admin-view
 import { AdminViewDraftLegislationDocumentCopyTabComponent } from './tabs/admin-view-draft-legislation-document-copy-tab/admin-view-draft-legislation-document-copy-tab.component';
 import { AdminViewDraftLegislationRelationshipTabComponent } from './tabs/admin-view-draft-legislation-relationship-tab/admin-view-draft-legislation-relationship-tab.component';
 import { AdminViewDraftLegislationDelegatedLegislationTabComponent } from './tabs/admin-view-draft-legislation-delegated-legislation-tab/admin-view-draft-legislation-delegated-legislation-tab.component';
+import { LegislationRelationshipDataService } from 'src/app/core/dataservice/legislative-history/legislation-relationship.dataservice';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
     selector: 'app-admin-view-draft-legislation',
@@ -108,7 +111,7 @@ export class AdminViewDraftLegislationComponent {
     languageType = LanguageType;
     selectedLanguage: string = LanguageType.ENG;
 
-    selectedEditingMode = this.editingModes.NORMAL;
+    selectedEditingMode: string = this.editingModes.NORMAL;
 
     languageTypes: any[] = [
         {
@@ -120,8 +123,10 @@ export class AdminViewDraftLegislationComponent {
             value: LanguageType.ENG,
         },
     ];
+
     speeddialItems: MenuItem[];
     parseAmendmentChangeType = ParseAmendmentChangeType;
+    history: any;
 
     constructor(
         private route: ActivatedRoute,
@@ -133,15 +138,20 @@ export class AdminViewDraftLegislationComponent {
         private delegatedLegislationDataService: DelegatedLegislationDataService,
         private documentCopyDataService: DocumentCopyDataService,
         private messageService: MessageService,
-        private userEditingModePreference: UserEditModePreference
+        private userEditingModePreference: UserEditModePreference,
+        private legislationRelationshipDataService: LegislationRelationshipDataService,
+        private confirmationService: ConfirmationService
     ) {}
     ngOnInit(): void {
+        this.selectedEditingMode =
+            this.userEditingModePreference.getEditingMode();
         this.route.params.subscribe((params) => {
             this.legislationId = params['legislationId'];
             this.getLegislationDetails();
             this.getSections();
             this.getTableOfContents();
             this.getDocumentCopies();
+            this.getLegislativeHistory();
             this.delegatedLegislationDataService
                 .GetAllDelegatedLegislationByParentLegislation(
                     this.legislationId
@@ -170,6 +180,25 @@ export class AdminViewDraftLegislationComponent {
             },
         ];
         this.activeItem = this.items[0];
+    }
+
+    getStatusClassName(status: string): string {
+        switch (status) {
+            case LegislationStatus.ENACTED:
+                return 'text-green-700';
+            case LegislationStatus.REPEALED:
+                return 'text-red-500';
+            default:
+                return '';
+        }
+    }
+
+    getPublishedClassName(isPublished: boolean): string {
+        if (isPublished) {
+            return 'text-green-700';
+        } else {
+            return 'text-red-500';
+        }
     }
 
     switchTab(item: MenuItem) {
@@ -260,7 +289,24 @@ export class AdminViewDraftLegislationComponent {
     }
 
     getLegislativeHistory() {
-        alert('GOT LEGISLATIVE HSITORY');
+        this.legislationRelationshipDataService
+            .AdminGetRepealHistiry(this.legislationId)
+            .subscribe((res) => {
+                console.log('OLD LEGISLATIVE JISTORY', this.history);
+
+                this.history = res;
+                console.log('NEW LEGISLATIVE HISTORY', res);
+            });
+    }
+    getLegislativeHistory2() {
+        window.location.reload();
+        this.legislationRelationshipDataService
+            .AdminGetRepealHistiry(this.legislationId)
+            .subscribe((res) => {
+                console.log('OLD LEGISLATIVE JISTORY', this.history);
+                this.history = res;
+                console.log('NEW LEGISLATIVE HISTORY', res);
+            });
     }
     sanitizeHtml(html: string | undefined): SafeHtml {
         if (html) {
@@ -354,6 +400,62 @@ export class AdminViewDraftLegislationComponent {
         }
     }
 
+    publishLegislation(mode: string) {
+        this.confirmationService.confirm({
+            target: event.target as EventTarget,
+            message: 'Are you sure that you want to publish?',
+            header: 'Confirmation',
+            icon: 'pi pi-exclamation-triangle',
+            acceptIcon: 'none',
+            rejectIcon: 'none',
+            rejectButtonStyleClass: 'p-button-text',
+            accept: () => {
+                this.legislationDataService
+                    .AdminUpdateLegislation(this.legislationId, {
+                        isPublished: mode === 'publish' ? true : false,
+                    })
+                    .subscribe((res) => {
+                        if (res) {
+                            if (mode === 'publish') {
+                                this.messageService.add({
+                                    severity: 'info',
+                                    summary: 'Confirmed',
+                                    detail: 'You have published',
+                                });
+                            } else {
+                                this.messageService.add({
+                                    severity: 'info',
+                                    summary: 'Confirmed',
+                                    detail: 'You have un published ',
+                                });
+                            }
+                        }
+                        this.getLegislationDetails();
+                    });
+            },
+            reject: () => {},
+        });
+    }
+    confimDeleteLegislation() {
+        this.confirmationService.confirm({
+            target: event.target as EventTarget,
+            message: 'Are you sure that you want to Delete?',
+            header: 'Confirmation',
+            icon: 'pi pi-exclamation-triangle',
+            acceptIcon: 'none',
+            rejectIcon: 'none',
+            rejectButtonStyleClass: 'p-button-text',
+            accept: () => {
+                this.messageService.add({
+                    severity: 'info',
+                    summary: 'Confirmed',
+                    detail: 'You have Deleted the legislation',
+                });
+            },
+            reject: () => {},
+        });
+    }
+
     parseDocumentLanguage(lang: string): string | void {
         if (lang === LanguageType.BI) {
             return 'bilingual';
@@ -398,6 +500,7 @@ export class AdminViewDraftLegislationComponent {
                     detail: 'Changes Saved',
                 });
                 this.getLegislationDetails();
+                this.getLegislativeHistory();
             }
         });
     }

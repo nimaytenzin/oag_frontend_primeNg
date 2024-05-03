@@ -3,7 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
-import { DropdownModule } from 'primeng/dropdown';
+import { DividerModule } from 'primeng/divider';
+import { DropdownFilterEvent, DropdownModule } from 'primeng/dropdown';
 import {
     DialogService,
     DynamicDialogComponent,
@@ -28,6 +29,7 @@ import {
         FormsModule,
         InputTextModule,
         ButtonModule,
+        DividerModule,
     ],
     templateUrl: './admin-add-legislation-relationship-modal.component.html',
     styleUrl: './admin-add-legislation-relationship-modal.component.scss',
@@ -46,6 +48,8 @@ export class AdminAddLegislationRelationshipModalComponent implements OnInit {
 
     repealModes = ['Whole', 'Part'];
     selectedRepealMode = 'Whole';
+    searchKeyword: string;
+
     constructor(
         private messageService: MessageService,
         public ref: DynamicDialogRef,
@@ -66,6 +70,13 @@ export class AdminAddLegislationRelationshipModalComponent implements OnInit {
         });
     }
 
+    searchLegisaltion(event: KeyboardEvent) {
+        console.log(this.searchKeyword);
+    }
+
+    logFilter(event: DropdownFilterEvent) {
+        console.log(event);
+    }
     addRelationship() {
         if (this.selectedAction === LegislationRelationshipActionEnum.REPEALS) {
             const data: CreateLegislationRelationshipDto = {
@@ -74,7 +85,6 @@ export class AdminAddLegislationRelationshipModalComponent implements OnInit {
                 affectedLegislationId: this.subjectLegislation.id,
                 mode: this.selectedRepealMode,
             };
-            console.log(data);
             this.legislationRelationshipDataService
                 .AdminCreateNewLegislationRelationship(data)
                 .subscribe({

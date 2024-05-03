@@ -7,10 +7,9 @@ import { LegislationDto } from '../../dto/legislation/legislation.dto';
 import { PaginatedData } from '../../dto/utility/paginated-data.dto';
 import { SectionDto } from '../../dto/legislation/section.dto';
 import {
-    PublishedDelegatedLegislationStatisticsSummaryDto,
-    PublishedLegislationStatisticsSummaryDto,
+    DelegatedLegislationStatisticsSummaryDto,
+    LegislationStatisticsSummaryDto,
 } from '../../dto/statistics/legislation-stats.dto';
-
 @Injectable({
     providedIn: 'root',
 })
@@ -19,14 +18,14 @@ export class StatisticsDataService {
 
     private apiUrl = environment.apiUrl;
 
-    GetPublishedLegislationStatisticsSummary(): Observable<PublishedLegislationStatisticsSummaryDto> {
-        return this.http.get<PublishedLegislationStatisticsSummaryDto>(
+    GetLegislationStatisticsSummary(): Observable<LegislationStatisticsSummaryDto> {
+        return this.http.get<LegislationStatisticsSummaryDto>(
             `${this.apiUrl}/statistics/p/legislations`
         );
     }
 
-    GetPublishedDelegatedLegislationStatisticsSummary(): Observable<PublishedDelegatedLegislationStatisticsSummaryDto> {
-        return this.http.get<PublishedDelegatedLegislationStatisticsSummaryDto>(
+    GetDelegatedLegislationStatisticsSummary(): Observable<DelegatedLegislationStatisticsSummaryDto> {
+        return this.http.get<DelegatedLegislationStatisticsSummaryDto>(
             `${this.apiUrl}/statistics/p/delegated-legislations`
         );
     }

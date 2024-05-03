@@ -68,7 +68,7 @@ export interface CreateLegislationDto {
 }
 
 export interface UpdateLegislationDto {
-    id: number;
+    id?: number;
     title_eng?: string;
     title_dzo?: string;
 

@@ -1,18 +1,38 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MegaMenuItem, MenuItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { MegaMenuModule } from 'primeng/megamenu';
 import { MenubarModule } from 'primeng/menubar';
+import { SidebarModule } from 'primeng/sidebar';
+import { TieredMenuModule } from 'primeng/tieredmenu';
 
 @Component({
     selector: 'app-public-navbar',
     standalone: true,
-    imports: [MenubarModule, ButtonModule],
+    imports: [
+        MenubarModule,
+        ButtonModule,
+        CommonModule,
+        SidebarModule,
+        TieredMenuModule,
+    ],
     templateUrl: './public-navbar.component.html',
     styleUrl: './public-navbar.component.scss',
 })
 export class PublicNavbarComponent implements OnInit {
     items: MenuItem[] | undefined;
+    sidebarVisible: boolean = false;
+
+    makeNavBarBlock = [
+        'legislations',
+        'delegated-legisaltions',
+        'international-conventions',
+        '/help',
+    ].includes(this.router.url);
+
+    constructor(private router: Router, private route: ActivatedRoute) {}
 
     ngOnInit(): void {
         this.items = [
@@ -86,82 +106,15 @@ export class PublicNavbarComponent implements OnInit {
                     },
                 ],
             },
+            {
+                label: 'Login',
+                icon: 'pi pi-fw pi-user',
+                routerLink: ['/auth/login'],
+            },
         ];
     }
 
-    // this.items = [
-    //     {
-    //         label: 'Home',
-    //         routerLink: ['/'],
-    //     },
-    //     {
-    //         label: 'Legislations',
-    //         icon: 'pi pi-fw pi-file',
-    //         items: [
-    //             [
-    //                 {
-    //                     label: 'Current',
-    //                     routerLink: ['legislations/current'],
-    //                 },
-    //                 {
-    //                     label: 'Ammended',
-    //                     routerLink: ['legislations/ammended'],
-    //                 },
-    //                 {
-    //                     label: 'Repealed',
-    //                     routerLink: ['legislations/repealed'],
-    //                 },
-    //                 {
-    //                     label: 'Bills',
-    //                     routerLink: ['legislations/billed'],
-    //                 },
-    //             ],
-    //         ],
-    //     },
-    //     {
-    //         label: 'Delegated Legislations',
-    //         icon: 'pi pi-fw pi-file',
-    //         items: [
-    //             [
-    //                 {
-    //                     label: 'Delegated Legislations',
-    //                     items: [
-    //                         { label: 'Current' },
-    //                         { label: 'Modified' },
-    //                         { label: 'Revoked' },
-    //                     ],
-    //                 },
-    //             ],
-    //         ],
-    //     },
-    //     {
-    //         label: 'International Conventions',
-    //         icon: 'pi pi-fw pi-calendar',
-    //     },
-    //     {
-    //         label: 'Help',
-    //         icon: 'pi pi-fw pi-cog',
-    //         items: [
-    //             [
-    //                 {
-    //                     label: 'General',
-    //                     items: [
-    //                         { label: 'Setting 1.1' },
-    //                         { label: 'Setting 1.2' },
-    //                     ],
-    //                 },
-    //             ],
-    //             [
-    //                 {
-    //                     label: 'Site Map',
-    //                     items: [
-    //                         { label: 'Setting 4.1' },
-    //                         { label: 'Setting 4.2' },
-    //                     ],
-    //                 },
-    //             ],
-    //         ],
-    //     },
-    // ];
-    // }
+    onHomePage() {
+        return this.router.url === '/';
+    }
 }

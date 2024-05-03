@@ -25,6 +25,34 @@ export class DelegatedLegislationDataService {
         );
     }
 
+    //***************ADMIN ROUTES */
+    AdminGetDraftDelegatedLegisaltionsPaginated(
+        options: {
+            page?: number;
+            pageSize?: number;
+            startsWith?: string;
+        } = {}
+    ): Observable<PaginatedData<DelegatedLegislationDto>> {
+        const { page, pageSize, startsWith } = options;
+        let params = new HttpParams();
+        if (page) {
+            params = params.set('page', page);
+        }
+        if (pageSize) {
+            params = params.set('limit', pageSize.toString());
+        }
+        if (startsWith) {
+            params = params.set('startsWith', startsWith);
+        }
+
+        return this.http.get<PaginatedData<DelegatedLegislationDto>>(
+            `${this.apiUrl}/delegated-legislation/p/draft`,
+            {
+                params,
+            }
+        );
+    }
+
     // ************************* PUBLIC ROUTES
     PublicGetDelegatedLegislationDetails(
         delegatedLegislationId: number

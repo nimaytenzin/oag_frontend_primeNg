@@ -10,14 +10,25 @@
         <div class="flex justify-content-between align-items-end">
             <div class="flex gap-4 align-items-center">
                 <p-button
+                    *ngIf="!legislation?.isPublished"
                     label="Publish"
                     size="small"
                     icon="pi pi-save"
+                    (click)="publishLegislation('publish')"
+                ></p-button>
+                <p-button
+                    *ngIf="legislation?.isPublished"
+                    label="Unpublish"
+                    size="small"
+                    severity="danger"
+                    icon="pi pi-back"
+                    (click)="publishLegislation('unpublish')"
                 ></p-button>
 
                 <p-button
                     size="small"
                     severity="danger"
+                    (click)="confimDeleteLegislation()"
                     icon="pi pi-trash"
                 ></p-button>
 
@@ -59,9 +70,14 @@
     </div>
     <div class="flex flex-column col-3 h-screen">
         <div class="bg-white">
-            <p class="bg-blue-800 text-white px-2">
-                {{ legislation.isPublished ? "Published" : "Draft" }}
-            </p>
+            <div class="text-lg font-semibold flex gap-2">
+                <p [ngClass]="getStatusClassName(legislation?.status)">
+                    {{ legislation?.status | titlecase }}
+                </p>
+                <p [ngClass]="getPublishedClassName(legislation?.isPublished)">
+                    | {{ legislation?.isPublished ? "Published" : "Draft" }}
+                </p>
+            </div>
             <div class="flex justify-content-between">
                 <p
                     class="font-serif text-2xl font-bold"
@@ -72,9 +88,6 @@
                             ? legislation?.title_eng
                             : legislation?.title_dzo
                     }}
-
-                    (<strong>{{ legislation?.status | titlecase }}</strong
-                    >)
                 </p>
                 <p-button
                     icon="pi pi-pencil"
@@ -211,7 +224,8 @@
             <app-admin-view-draft-legislation-relationship-tab
                 *ngIf="activeItem.label === 'History'"
                 [legislation]="legislation"
-                (requestGetLegislativeHistory)="this.getLe()"
+                [history]="history"
+                (requestGetLegislativeHistory)="this.getLegislativeHistory2()"
             >
             </app-admin-view-draft-legislation-relationship-tab>
         </div>

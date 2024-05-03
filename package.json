@@ -30,6 +30,7 @@
         "@tinymce/tinymce-angular": "^7.0.0",
         "@types/gsap": "^3.0.0",
         "@zxing/ngx-scanner": "^17.0.0",
+        "angular-device-information": "^4.0.0",
         "angularx-qrcode": "^17.0.0",
         "chart.js": "^3.3.2",
         "gsap": "^3.12.5",

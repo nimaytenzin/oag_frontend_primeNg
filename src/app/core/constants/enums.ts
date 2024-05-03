@@ -68,6 +68,7 @@ export enum SectionChangeType {
     CREATION = 'CREATION',
     DELETION = 'DELETION',
     MODIFICATION = 'MODIFICATION',
+    INSERTION = 'INSERTION',
 }
 
 export enum AnnexureType {
@@ -84,6 +85,7 @@ export enum AmendmentChangeType {
     CREATION = 'CREATION',
     DELETION = 'DELETION',
     MODIFICATION = 'MODIFICATION',
+    INSERTION = 'INSERTION',
 }
 
 export enum ChangeValueAttirbutes {

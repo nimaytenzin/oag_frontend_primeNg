@@ -88,21 +88,28 @@ export class AdminAddDraftLegislationModalComponent {
             this.createDraftLegislationForm.controls['documentYear'].value
         );
         this.draftLegislation.title_dzo =
-            this.createDraftLegislationForm.controls['title_eng'].value;
-        this.draftLegislation.title_eng =
             this.createDraftLegislationForm.controls['title_dzo'].value;
+        this.draftLegislation.title_eng =
+            this.createDraftLegislationForm.controls['title_eng'].value;
         this.draftLegislation.status =
             this.createDraftLegislationForm.controls['status'].value;
         this.draftLegislation.type =
             this.createDraftLegislationForm.controls['type'].value;
-
+        this.draftLegislation.isPublished = false;
         this.legislationDataService
             .AdminCreateLegislation(this.draftLegislation)
             .subscribe({
                 next: (res) => {
+                    console.log(res);
                     if (res) {
                         this.ref.close({
                             status: 201,
+                            legislationId: res.id,
+                        });
+                        this.messageService.add({
+                            severity: 'succcess',
+                            summary: 'Added',
+                            detail: 'Draft Legislation has been added',
                         });
                     }
                 },

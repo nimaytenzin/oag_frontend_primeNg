@@ -34,42 +34,26 @@ export class AdminViewDraftLegislationRelationshipTabComponent
         required: true,
     })
     legislation: LegislationDto;
+    @Input({
+        required: true,
+    })
+    history: any;
+
     @Output()
     requestGetLegislativeHistory = new EventEmitter<string>();
 
-    history: any;
     ref: DynamicDialogRef | undefined;
-    data: TreeNode[] = [];
 
     constructor(
         private dialogService: DialogService,
         private legislationRelationshipDataService: LegislationRelationshipDataService
     ) {}
-    ngOnInit(): void {
-        this.legislationRelationshipDataService
-            .AdminGetRepealHistiry(this.legislation?.id)
-            .subscribe((res) => {
-                this.history = res;
-                console.log(this.history);
-                this.data = [this.convertToTreeNode(res)];
-            });
-    }
+    ngOnInit(): void {}
 
     toInt(n: string) {
         return Number(n);
     }
-    convertToTreeNode(data: any): TreeNode {
-        return {
-            label: `Legislation ID: ${data.legislationId}`,
-            data: data,
-            expanded: true,
-            children: data.repealedLegislations.map((item) =>
-                this.convertToTreeNode(item)
-            ),
-            leaf: data.repealedLegislations.length === 0,
-            key: data.legislationId.toString(),
-        };
-    }
+
     openAddLegislationRelationshipModal() {
         this.ref = this.dialogService.open(
             AdminAddLegislationRelationshipModalComponent,
@@ -82,7 +66,7 @@ export class AdminViewDraftLegislationRelationshipTabComponent
             }
         );
         this.ref.onClose.subscribe((res) => {
-            if (res && res.status === 200) {
+            if (res && res.status === 201) {
                 this.requestGetLegislativeHistory.emit('1');
             }
         });

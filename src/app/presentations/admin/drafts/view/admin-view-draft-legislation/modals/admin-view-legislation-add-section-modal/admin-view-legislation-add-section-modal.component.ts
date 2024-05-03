@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import {
     DialogService,
@@ -13,13 +13,19 @@ import { EditorModule } from '@tinymce/tinymce-angular';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { SpeedDialModule } from 'primeng/speeddial';
-import { EditingModes, SectionType } from 'src/app/core/constants/enums';
+import {
+    AmendmentChangeType,
+    EditingModes,
+    SectionType,
+} from 'src/app/core/constants/enums';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { UserEditModePreference } from 'src/app/core/sessionStates/user-editing-mode.selection.service';
 import { CreateSectionDto } from 'src/app/core/dto/legislation/section.dto';
 import { SectionDataService } from 'src/app/core/dataservice/legislations/sections.dataservice';
 import { TabViewModule } from 'primeng/tabview';
+import { DetermineAmendmentAndCreateChangeDto } from 'src/app/core/dto/ammendment/ammendment.dto';
+import { AdminDetermineAmendmentModalComponent } from '../../../shared-components/admin-determine-amendment-modal/admin-determine-amendment-modal.component';
 
 @Component({
     selector: 'app-admin-view-legislation-add-section-modal',
@@ -63,7 +69,8 @@ export class AdminViewLegislationAddSectionModalComponent {
         private dialogService: DialogService,
         private sanitizer: DomSanitizer,
         private editingModePreference: UserEditModePreference,
-        private sectionService: SectionDataService
+        private sectionService: SectionDataService,
+        private messageService: MessageService
     ) {
         this.instance = this.dialogService.getInstance(this.ref);
         this.data = this.instance.data;
@@ -111,6 +118,32 @@ export class AdminViewLegislationAddSectionModalComponent {
                     }
                 });
         } else {
+            if (this.clause_eng || this.clause_dzo) {
+                const data: DetermineAmendmentAndCreateChangeDto = {
+                    changeType: AmendmentChangeType.INSERTION,
+                    clause_eng: this.clause_eng,
+                    clause_dzo: this.clause_dzo,
+                    type: this.selectedSectionType,
+                    order: null,
+                    legislationId: this.data.legislationId,
+                };
+
+                this.ref = this.dialogService.open(
+                    AdminDetermineAmendmentModalComponent,
+                    {
+                        data: data,
+                        header: 'Select Amendment',
+                        width: '40%',
+                        baseZIndex: 1000,
+                    }
+                );
+            } else {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Nothing Added',
+                    detail: 'Please add the content',
+                });
+            }
         }
     }
 }

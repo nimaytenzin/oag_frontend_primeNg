@@ -1,0 +1,86 @@
+<div class="py-1 flex gap-4 my-1" [ngClass]="isCurrent ? 'surface-50' : ''">
+    <div class="text-xl" *ngIf="legislation?.documentYear">
+        <p
+            [ngClass]="
+                isCurrent
+                    ? 'hover:underline text-blue-800 font-bold  cursor-pointer'
+                    : 'hover:underline cursor-pointer'
+            "
+        >
+            - {{ legislation?.documentYear }}
+        </p>
+    </div>
+    <div>
+        <div
+            (click)="viewLegislation()"
+            [ngClass]="
+                isCurrent
+                    ? 'hover:underline text-blue-800 font-bold  cursor-pointer'
+                    : 'hover:underline  cursor-pointer'
+            "
+        >
+            <p class="text-xl">
+                {{ legislation?.title_eng | titlecase }}
+            </p>
+            <p class="text-xl">
+                {{ legislation?.title_dzo }}
+            </p>
+        </div>
+
+        <p
+            class="text-lg mt-2"
+            [ngClass]="getStatusClassName(legislation?.status)"
+        >
+            Status: {{ legislation?.status | titlecase }}
+        </p>
+        <p class="text-sm" *ngIf="mode">(repealed in {{ mode }})</p>
+
+        <div>
+            <div *ngIf="legislation?.enactmentDate" class="flex gap-2 mb-1">
+                <i class="pi pi-calendar"></i>
+                Enactment Date: {{ legislation?.enactmentDate | date }}
+            </div>
+            <div *ngIf="legislation?.commencementDate" class="flex gap-2 mb-1">
+                <i class="pi pi-calendar"></i>
+                Commencement Date: {{ legislation?.commencementDate | date }}
+            </div>
+            <div *ngIf="legislation?.repealDate" class="flex gap-2 mb-1">
+                <i class="pi pi-calendar"></i>
+                Repeal Date: {{ legislation?.repealDate | date }}
+            </div>
+        </div>
+
+        <div *ngIf="amendments?.length" class="text-left">
+            <hr />
+            <p class="text-lg my-1">Amendments:</p>
+            <p
+                *ngFor="let item of amendments"
+                class="hover:underline text-blue-800 cursor-pointer text-lg"
+                (click)="openViewAmendmentsModal(item)"
+            >
+                {{ item?.title_eng | titlecase }}
+            </p>
+        </div>
+        <hr />
+        <p class="text-lg my-1" *ngIf="repealedLegislations?.length">
+            Legislations Repealed by {{ legislation?.title_eng | titlecase }}
+        </p>
+        <div
+            *ngIf="repealedLegislations?.length"
+            class="border-left-1"
+            style="margin-left: 3rem"
+        >
+            <div class="flex flex-column gap-2">
+                <div *ngFor="let item of repealedLegislations; let i = index">
+                    <app-Public-Legislation-History-Card
+                        [legislationId]="item?.legislationId"
+                        [index]="i + 1"
+                        [mode]="item?.mode"
+                        [repealedLegislations]="item?.repealedLegislations"
+                    >
+                    </app-Public-Legislation-History-Card>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

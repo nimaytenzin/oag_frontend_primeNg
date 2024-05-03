@@ -12,6 +12,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import {
     AmendmentChangeType,
+    EditingModes,
     LanguageType,
     SectionType,
 } from 'src/app/core/constants/enums';
@@ -25,7 +26,11 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { SectionDataService } from 'src/app/core/dataservice/legislations/sections.dataservice';
 import { AdminViewLegislationEditSectionModalComponent } from '../../modals/admin-view-legislation-edit-section-modal/admin-view-legislation-edit-section-modal.component';
 import { AdminViewAmendmentsModalComponent } from '../../../shared-components/admin-view-amendments-modal/admin-view-amendments-modal.component';
-import { AmendmentDto } from 'src/app/core/dto/ammendment/ammendment.dto';
+import {
+    AmendmentDto,
+    DetermineAmendmentAndCreateChangeDto,
+} from 'src/app/core/dto/ammendment/ammendment.dto';
+import { AdminDetermineAmendmentModalComponent } from '../../../shared-components/admin-determine-amendment-modal/admin-determine-amendment-modal.component';
 
 @Component({
     selector: 'app-admin-view-draft-legislation-sections-tab',
@@ -59,6 +64,8 @@ export class AdminViewDraftLegislationSectionsTabComponent implements OnInit {
     languageType = LanguageType;
     instance: DynamicDialogComponent | undefined;
     ref: DynamicDialogRef | undefined;
+
+    editingMode: string;
     constructor(
         private sanitizer: DomSanitizer,
         private dialogService: DialogService,
@@ -323,25 +330,48 @@ export class AdminViewDraftLegislationSectionsTabComponent implements OnInit {
             rejectIcon: 'none',
 
             accept: () => {
-                this.sectionDataservice.AdminDeleteSection(item.id).subscribe({
-                    next: (res) => {
-                        if (res) {
-                            this.messageService.add({
-                                severity: 'info',
-                                summary: 'Confirmed',
-                                detail: 'Record deleted',
-                            });
-                            this.requestUpdateSection.emit('1');
-                        }
-                    },
-                    error: (err) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: 'Unexpected error',
-                            detail: 'Sorry la!',
+                if (this.editingMode === EditingModes.NORMAL) {
+                    this.sectionDataservice
+                        .AdminDeleteSection(item.id)
+                        .subscribe({
+                            next: (res) => {
+                                if (res) {
+                                    this.messageService.add({
+                                        severity: 'info',
+                                        summary: 'Confirmed',
+                                        detail: 'Record deleted',
+                                    });
+                                    this.requestUpdateSection.emit('1');
+                                }
+                            },
+                            error: (err) => {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: 'Unexpected error',
+                                    detail: 'Sorry la!',
+                                });
+                            },
                         });
-                    },
-                });
+                } else {
+                    const data: DetermineAmendmentAndCreateChangeDto = {
+                        changeType: AmendmentChangeType.DELETION,
+                        clause_eng: item.clause_eng,
+                        clause_dzo: item.clause_dzo,
+                        type: item.type,
+                        order: item.order,
+                        sectionId: item.id,
+                        legislationId: item.legislationId,
+                    };
+                    this.ref = this.dialogService.open(
+                        AdminDetermineAmendmentModalComponent,
+                        {
+                            data: data,
+                            header: 'Select Amendment',
+                            width: '40%',
+                            baseZIndex: 1000,
+                        }
+                    );
+                }
             },
             reject: () => {},
         });

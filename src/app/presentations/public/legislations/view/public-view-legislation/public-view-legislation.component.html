@@ -95,16 +95,18 @@
                 (click)="scroll('section-' + item.id)"
             >
                 <p *ngIf="isActive(item.id)" class="surface-400 text-white">
+                    -
                     {{
                         selectedLanguage === languageType.ENG
-                            ? item.clause_eng
+                            ? (item.clause_eng | titlecase)
                             : item.clause_dzo
                     }}
                 </p>
                 <p *ngIf="!isActive(item.id)">
+                    -
                     {{
                         selectedLanguage === languageType.ENG
-                            ? item.clause_eng
+                            ? (item.clause_eng | titlecase)
                             : item.clause_dzo
                     }}
                 </p>
@@ -184,7 +186,7 @@
                 [id]="getSectionId(item)"
             >
                 <div [ngClass]="getSectionStyles(item.type, selectedLanguage)">
-                    <div
+                    <!-- <div
                         *ngIf="item.type !== 'CLAUSE'"
                         [style.fontSize.px]="fontSizeHeading$ | async"
                         [ngClass]="
@@ -193,12 +195,12 @@
                     >
                         {{
                             selectedLanguage === languageType.ENG
-                                ? item?.clause_eng
+                                ? (item?.clause_eng
+                                  | highlighter : searchKeywords)
                                 : item?.clause_dzo
                         }}
-                    </div>
+                    </div> -->
                     <div
-                        *ngIf="item.type === 'CLAUSE'"
                         [style.fontSize.px]="fontSizeContent$ | async"
                         [ngClass]="
                             item.softDelete ? 'line-through text-red-700	' : ''
@@ -206,7 +208,10 @@
                         [innerHTML]="
                             sanitizeHtml(
                                 selectedLanguage === languageType.ENG
-                                    ? item?.clause_eng
+                                    ? isSearched
+                                        ? (item?.clause_eng
+                                          | highlighter : searchKeywords)
+                                        : item?.clause_eng
                                     : item?.clause_dzo
                             )
                         "

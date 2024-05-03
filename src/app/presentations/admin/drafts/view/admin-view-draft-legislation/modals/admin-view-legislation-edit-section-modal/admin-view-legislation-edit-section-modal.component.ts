@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { EditorModule } from '@tinymce/tinymce-angular';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { DropdownModule } from 'primeng/dropdown';
 import {
@@ -14,7 +14,11 @@ import {
 import { InputTextModule } from 'primeng/inputtext';
 import { SpeedDialModule } from 'primeng/speeddial';
 import { TabViewModule } from 'primeng/tabview';
-import { SectionType, EditingModes } from 'src/app/core/constants/enums';
+import {
+    SectionType,
+    EditingModes,
+    AmendmentChangeType,
+} from 'src/app/core/constants/enums';
 import { SectionDataService } from 'src/app/core/dataservice/legislations/sections.dataservice';
 import { LegislationDto } from 'src/app/core/dto/legislation/legislation.dto';
 import {
@@ -22,6 +26,8 @@ import {
     SectionDto,
 } from 'src/app/core/dto/legislation/section.dto';
 import { UserEditModePreference } from 'src/app/core/sessionStates/user-editing-mode.selection.service';
+import { AdminDetermineAmendmentModalComponent } from '../../../shared-components/admin-determine-amendment-modal/admin-determine-amendment-modal.component';
+import { DetermineAmendmentAndCreateChangeDto } from 'src/app/core/dto/ammendment/ammendment.dto';
 
 @Component({
     selector: 'app-admin-view-legislation-edit-section-modal',
@@ -65,7 +71,8 @@ export class AdminViewLegislationEditSectionModalComponent {
         private dialogService: DialogService,
         private sanitizer: DomSanitizer,
         private editingModePreference: UserEditModePreference,
-        private sectionService: SectionDataService
+        private sectionService: SectionDataService,
+        private messageService: MessageService
     ) {
         this.instance = this.dialogService.getInstance(this.ref);
         this.data = this.instance.data;
@@ -119,6 +126,33 @@ export class AdminViewLegislationEditSectionModalComponent {
                     }
                 });
         } else {
+            if (this.clause_eng || this.clause_dzo) {
+                const data: DetermineAmendmentAndCreateChangeDto = {
+                    changeType: AmendmentChangeType.MODIFICATION,
+                    clause_eng: this.clause_eng,
+                    clause_dzo: this.clause_dzo,
+                    type: this.selectedSectionType,
+                    order: this.data.order,
+                    sectionId: this.data.id,
+                    legislationId: this.data.legislationId,
+                };
+
+                this.ref = this.dialogService.open(
+                    AdminDetermineAmendmentModalComponent,
+                    {
+                        data: data,
+                        header: 'Select Amendment',
+                        width: '40%',
+                        baseZIndex: 1000,
+                    }
+                );
+            } else {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Nothing Added',
+                    detail: 'Please add the content',
+                });
+            }
         }
     }
 }

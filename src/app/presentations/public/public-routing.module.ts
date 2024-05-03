@@ -14,6 +14,8 @@ import { PublicListModifiedDelegatedLegislationsComponent } from './delegated-le
 import { PublicGuidesTechnicalDescriptionComponent } from './guides/public-guides-technical-description/public-guides-technical-description.component';
 import { PublicViewDelegatedLegislationComponent } from './delegated-legislations/view-delegated-legislations/public-view-delegated-legislation/public-view-delegated-legislation.component';
 import { PublicHomeSearchResultsComponent } from './home/public-home-search-results/public-home-search-results.component';
+import { Publichom2Component } from './home/publichom2/publichom2.component';
+import { Publiclayout2Component } from '../layouts/public/publiclayout2/publiclayout2.component';
 
 const routes: Routes = [
     {
@@ -22,10 +24,12 @@ const routes: Routes = [
         children: [
             {
                 path: '',
+                data: { name: 'exampleRoute' },
                 children: [
                     {
                         path: '',
                         component: PublicHomeComponent,
+                        data: { name: 'exampleRoute' },
                     },
                     {
                         path: 'search',
@@ -94,6 +98,26 @@ const routes: Routes = [
                     {
                         path: 'view/:delegatedLegislationId',
                         component: PublicViewDelegatedLegislationComponent,
+                    },
+                ],
+            },
+        ],
+    },
+    {
+        path: 'home2',
+        children: [
+            {
+                path: '',
+                component: Publiclayout2Component,
+                children: [
+                    {
+                        path: '',
+                        children: [
+                            {
+                                path: '',
+                                component: Publichom2Component,
+                            },
+                        ],
                     },
                 ],
             },
