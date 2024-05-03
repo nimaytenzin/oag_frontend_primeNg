@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { TooltipModule } from 'primeng/tooltip';
@@ -63,6 +63,7 @@ export class PublicViewLegislationComponent implements OnInit {
     legislativeHistory: LegislationDto[];
     sections: SectionDto[] = [];
     delegatedLegislations: DelegatedLegislationDto[];
+    @ViewChild('nimaElement') nimaElement!: ElementRef;
 
     documentCopies: DocumentCopyDto[];
     private fontSizeHeadingSubject = new BehaviorSubject<number>(26);
@@ -373,9 +374,9 @@ export class PublicViewLegislationComponent implements OnInit {
         let elementPosition = el.getBoundingClientRect().top;
         let offsetPosition =
             elementPosition +
-            window.pageYOffset -
-            document.getElementById('nima').clientHeight -
-            30;
+            window.scrollY -
+            this.nimaElement.nativeElement.offsetHeight -
+            100;
 
         window.scrollTo({
             top: offsetPosition,

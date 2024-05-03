@@ -47,7 +47,7 @@ export class SearchService {
         data: SearchInDelegatedLegislationDto
     ): Observable<SectionDto[]> {
         return this.http.post<SectionDto[]>(
-            `${this.apiUrl}/p/delegated-legislation/search`,
+            `${this.apiUrl}/section/search-in-delegated-legislation`,
             data
         );
     }

@@ -4,13 +4,13 @@ export function GetSectionStylesPublic(type: string, language: string) {
     if (language === LanguageType.ENG) {
         switch (type) {
             case SectionType.HEADING_1:
-                return 'heading font-serif  text-5xl font-semibold text-center   text-secondary-700';
+                return 'heading mt-4 font-serif  text-5xl font-semibold text-center   text-secondary-700';
             case SectionType.HEADING_2:
                 return 'heading font-serif mb-2 text-3xl font-semibold text-center text-secondary-700';
             case SectionType.HEADING_3:
                 return 'heading font-serif text-3xl font-semibold text-center   text-secondary-700';
             case SectionType.SUBSECTION_H1:
-                return 'heading font-serif text-3xl font-semibold text-left  mt-1 text-secondary-700';
+                return 'heading font-serif mt-3 text-3xl font-semibold text-left  mt-1 text-secondary-700';
             case SectionType.SUBSECTION_H2:
                 return 'heading font-serif text-2xl font-semibold text-left   text-secondary-700';
             case SectionType.CLAUSE:

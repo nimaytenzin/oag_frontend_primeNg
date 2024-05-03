@@ -117,4 +117,9 @@ export class PublicNavbarComponent implements OnInit {
     onHomePage() {
         return this.router.url === '/';
     }
+
+    goToUrls(url: string) {
+        this.router.navigate([url]);
+        this.sidebarVisible = false;
+    }
 }

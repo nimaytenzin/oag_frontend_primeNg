@@ -1,0 +1,93 @@
+<div class="py-1 flex gap-4 my-1 surface-50">
+    <div class="text-xl" *ngIf="delegatedLegislaton?.documentYear">
+        <p
+            [ngClass]="
+                isCurrent
+                    ? 'hover:underline text-blue-800 font-bold  cursor-pointer'
+                    : 'hover:underline cursor-pointer'
+            "
+        >
+            - {{ delegatedLegislaton?.documentYear }}
+        </p>
+    </div>
+    <div>
+        <div class="hover:underline text-blue-800 font-bold cursor-pointer">
+            <p class="text-xl">
+                {{ delegatedLegislaton?.title_eng | titlecase }}
+            </p>
+            <p class="text-xl">
+                {{ delegatedLegislaton?.title_dzo }}
+            </p>
+        </div>
+
+        <p
+            class="text-lg mt-2"
+            [ngClass]="getStatusClassName(delegatedLegislaton?.status)"
+        >
+            Status: {{ delegatedLegislaton?.status | titlecase }}
+        </p>
+
+        <p *ngIf="delegatedLegislaton.legislationId">
+            Parent: {{ delegatedLegislaton.legislation?.title_eng }}
+        </p>
+
+        <div>
+            <div
+                *ngIf="delegatedLegislaton?.enactmentDate"
+                class="flex gap-2 mb-1"
+            >
+                <i class="pi pi-calendar"></i>
+                Enactment Date: {{ delegatedLegislaton?.enactmentDate | date }}
+            </div>
+
+            <div
+                *ngIf="delegatedLegislaton?.repealDate"
+                class="flex gap-2 mb-1"
+            >
+                <i class="pi pi-calendar"></i>
+                Repeal Date: {{ delegatedLegislaton?.repealDate | date }}
+            </div>
+        </div>
+
+        <!-- <div *ngIf="mo?.length" class="text-left">
+            <hr />
+            <p class="text-lg my-1">Amendments:</p>
+            <p
+                *ngFor="let item of amendments"
+                class="hover:underline text-blue-800 cursor-pointer text-lg"
+                (click)="openViewAmendmentsModal(item)"
+            >
+                {{ item?.title_eng | titlecase }}
+            </p>
+        </div> -->
+        <!-- <hr />
+        <p class="text-lg my-1" *ngIf="repealeddelegatedLegislatons?.length">
+            delegatedLegislatons Repealed by
+            {{ delegatedLegislaton?.title_eng | titlecase }}
+        </p>
+        <div
+            *ngIf="repealeddelegatedLegislatons?.length"
+            class="border-left-1"
+            style="margin-left: 3rem"
+        >
+            <div class="flex flex-column gap-2">
+                <div
+                    *ngFor="
+                        let item of repealeddelegatedLegislatons;
+                        let i = index
+                    "
+                >
+                    <app-Public-delegatedLegislaton-History-Card
+                        [delegatedLegislatonId]="item?.delegatedLegislatonId"
+                        [index]="i + 1"
+                        [mode]="item?.mode"
+                        [repealeddelegatedLegislatons]="
+                            item?.repealeddelegatedLegislatons
+                        "
+                    >
+                    </app-Public-delegatedLegislaton-History-Card>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>

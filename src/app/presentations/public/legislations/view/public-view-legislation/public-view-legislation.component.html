@@ -114,7 +114,7 @@
         </div>
     </div>
     <div class="col-12 lg:col-9 px-8">
-        <div class="sticky bg-white sticky top-0" id="nima">
+        <div class="sticky bg-white sticky top-0" #nimaElement>
             <div
                 class="flex justify-content-between align-items-end border-bottom-1 py-2 border-yellow-300"
             >
@@ -186,7 +186,7 @@
                 [id]="getSectionId(item)"
             >
                 <div [ngClass]="getSectionStyles(item.type, selectedLanguage)">
-                    <!-- <div
+                    <div
                         *ngIf="item.type !== 'CLAUSE'"
                         [style.fontSize.px]="fontSizeHeading$ | async"
                         [ngClass]="
@@ -195,12 +195,12 @@
                     >
                         {{
                             selectedLanguage === languageType.ENG
-                                ? (item?.clause_eng
-                                  | highlighter : searchKeywords)
+                                ? item?.clause_eng
                                 : item?.clause_dzo
                         }}
-                    </div> -->
+                    </div>
                     <div
+                        *ngIf="item.type === 'CLAUSE'"
                         [style.fontSize.px]="fontSizeContent$ | async"
                         [ngClass]="
                             item.softDelete ? 'line-through text-red-700	' : ''
