@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, Title, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -36,6 +36,8 @@ import { PublicViewLegislationShowLegislativeHistoryComponent } from '../../../l
 import { PublicViewLegislationShowSearchResultModalComponent } from '../../../legislations/view/public-view-legislation/components/public-view-legislation-show-search-result-modal/public-view-legislation-show-search-result-modal.component';
 import { ToastModule } from 'primeng/toast';
 import { PublicViewDelegatedLegislationsShowParentLegislationModalComponent } from '../components/public-view-delegated-legislations-show-parent-legislation-modal/public-view-delegated-legislations-show-parent-legislation-modal.component';
+import { PublicViewRevokeHistoryModalComponent } from '../components/public-view-revoke-history-modal/public-view-revoke-history-modal.component';
+import { HighlighterPipe } from 'src/app/core/utility/text.highlighter.pipes';
 
 @Component({
     selector: 'app-public-view-delegated-legislation',
@@ -50,6 +52,7 @@ import { PublicViewDelegatedLegislationsShowParentLegislationModalComponent } fr
         InputTextModule,
         FormsModule,
         DropdownModule,
+        HighlighterPipe,
         ToastModule,
     ],
     providers: [DialogService, MessageService],
@@ -57,6 +60,8 @@ import { PublicViewDelegatedLegislationsShowParentLegislationModalComponent } fr
     styleUrl: './public-view-delegated-legislation.component.scss',
 })
 export class PublicViewDelegatedLegislationComponent {
+    @ViewChild('nimaElement') nimaElement!: ElementRef;
+
     delegatedLegislationId: number;
     delegatedLegislation: DelegatedLegislationDto;
     legislativeHistory: LegislationDto[];
@@ -85,6 +90,8 @@ export class PublicViewDelegatedLegislationComponent {
     languageType = LanguageType;
     selectedLanguage: string = LanguageType.ENG;
     searchKeywords: string;
+
+    isSearched: boolean = false;
 
     languageTypes: any[] = [
         {
@@ -186,7 +193,13 @@ export class PublicViewDelegatedLegislationComponent {
     }
 
     searchdelegatedLegislation() {
-        console.log('Searching for ', this.searchKeywords);
+        console.log(
+            'Searching for ',
+            this.searchKeywords,
+            'SEARCING IN DL',
+            this.delegatedLegislationId
+        );
+
         this.searchService
             .PublicSearchInDelegatedLegislation({
                 keyword: this.searchKeywords,
@@ -207,6 +220,7 @@ export class PublicViewDelegatedLegislationComponent {
                     })
                     .onClose.subscribe((item: SectionDto) => {
                         if (item) {
+                            this.isSearched = true;
                             this.activeSectionId = 'section-' + item.id;
                             this.scroll(this.getSectionId(item));
                         }
@@ -252,12 +266,15 @@ export class PublicViewDelegatedLegislationComponent {
 
     showLegislativeHistory() {
         this.ref = this.dialogService.open(
-            PublicViewLegislationShowLegislativeHistoryComponent,
+            PublicViewRevokeHistoryModalComponent,
             {
-                header: 'Legislative History',
+                header: 'Delegated Legislation History',
                 width: '50%',
                 contentStyle: { overflow: 'auto' },
                 baseZIndex: 10000,
+                data: {
+                    ...this.delegatedLegislation,
+                },
                 maximizable: true,
             }
         );
@@ -345,9 +362,9 @@ export class PublicViewDelegatedLegislationComponent {
         let elementPosition = el.getBoundingClientRect().top;
         let offsetPosition =
             elementPosition +
-            window.pageYOffset -
-            document.getElementById('nima').clientHeight -
-            30;
+            window.scrollY -
+            this.nimaElement.nativeElement.offsetHeight -
+            100;
 
         window.scrollTo({
             top: offsetPosition,

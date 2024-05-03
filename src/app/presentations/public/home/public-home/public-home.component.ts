@@ -39,6 +39,8 @@ import {
     DelegatedLegislationStatisticsSummaryDto,
     LegislationStatisticsSummaryDto,
 } from 'src/app/core/dto/statistics/legislation-stats.dto';
+import { AnimatedCounterComponent } from '../../components/animated-counter/animated-counter.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-public-home',
@@ -53,6 +55,8 @@ import {
         MessagesModule,
         ToastModule,
         CardModule,
+        CommonModule,
+        AnimatedCounterComponent,
         TableModule,
         DividerModule,
         StyleClassModule,
@@ -64,6 +68,7 @@ import {
 export class PublicHomeComponent implements OnInit, AfterViewInit {
     ref: DynamicDialogRef | undefined;
     @ViewChild('hContainer') hContainer: ElementRef;
+    @ViewChild('centerElement') centerElement!: ElementRef;
 
     searchKeywords: string[];
     searchInTitle: boolean = false;
@@ -83,8 +88,17 @@ export class PublicHomeComponent implements OnInit, AfterViewInit {
         this.titleService.setTitle('Depository of Laws');
         gsap.registerPlugin(ScrollTrigger);
         gsap.registerPlugin(Flip);
+        this.getStats();
     }
     ngAfterViewInit(): void {
+        gsap.from(this.centerElement.nativeElement, {
+            duration: 1.5,
+            opacity: 0,
+            scale: 1.5, // Scale up to 1.5 times its original size
+            y: '-100%', // Move it up by 100% of its height
+            ease: 'power1.out', // Use a power1 easing function for a smooth start and end
+            delay: 1, // Start the animation after a half-second delay
+        });
         // gsap.fromTo(
         //     '.cloud1',
         //     { left: '0%' },
@@ -154,7 +168,6 @@ export class PublicHomeComponent implements OnInit, AfterViewInit {
             .subscribe((res) => {
                 this.legislations = res;
             });
-        this.getStats();
     }
 
     getStats() {

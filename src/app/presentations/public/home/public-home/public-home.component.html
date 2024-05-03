@@ -39,74 +39,75 @@
             class="flex hero flex-column align-items-center justify-content-center"
             style="height: 80vh"
         >
-            <div class="text-left">
-                <p class="font-serif text-7xl text-center">
-                    Explore Bhutan's Legislation
-                </p>
-                <!-- <p class="text-lg">
+            <div #centerElement>
+                <div class="text-left">
+                    <p class="font-serif text-7xl text-center">
+                        Explore Bhutan's Legislation
+                    </p>
+                    <!-- <p class="text-lg">
             This platform, managed by the
             <a href="#"> Office of Attorney General</a> , is your gateway to
             authorized Bhutanese legislation and related information.
         </p> -->
-            </div>
-            <div
-                class="flex w-full flex-column p-fluid align-items-center justify-content-center gap-3"
-            >
-                <p class="mt-2 text-left">
-                    Search for keywords in the title or content.
-                </p>
-                <div class="flex gap-2">
-                    <div class="p-fluid">
-                        <div>
-                            <p-chips
-                                [(ngModel)]="searchKeywords"
-                                [addOnBlur]="true"
-                                [addOnTab]="true"
-                                placeholder="search for .."
-                            ></p-chips>
-                        </div>
-
-                        <div class="flex gap-2 my-2">
-                            <div class="flex align-items-center">
-                                <p-checkbox
-                                    label="Title"
-                                    [binary]="true"
-                                    [(ngModel)]="searchInTitle"
-                                    (onChange)="toggleCheckbox('Title')"
-                                ></p-checkbox>
-                            </div>
-                            <div class="flex align-items-center">
-                                <p-checkbox
-                                    label="Content"
-                                    [binary]="true"
-                                    [(ngModel)]="!searchInTitle"
-                                    (onChange)="toggleCheckbox('Content')"
-                                ></p-checkbox>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex p-fluid gap-2">
-                        <p-dropdown
-                            [options]="documentTypes"
-                            [(ngModel)]="searchDocumentType"
-                            [showClear]="true"
-                            placeholder="Search for keyword(s) in"
-                        >
-                        </p-dropdown>
-
-                        <p-button
-                            label="Search"
-                            (click)="searchForLegislations()"
-                            icon="pi pi-search"
-                            iconPos="right"
-                        ></p-button>
-                    </div>
                 </div>
+                <div
+                    class="flex w-full flex-column p-fluid align-items-center justify-content-center gap-3"
+                >
+                    <p class="mt-2 text-left">
+                        Search for keywords in the title or content.
+                    </p>
+                    <div class="flex gap-2">
+                        <div class="p-fluid">
+                            <div>
+                                <p-chips
+                                    [(ngModel)]="searchKeywords"
+                                    [addOnBlur]="true"
+                                    [addOnTab]="true"
+                                    placeholder="search for .."
+                                ></p-chips>
+                            </div>
 
-                <hr />
+                            <div class="flex gap-2 my-2">
+                                <div class="flex align-items-center">
+                                    <p-checkbox
+                                        label="Title"
+                                        [binary]="true"
+                                        [(ngModel)]="searchInTitle"
+                                        (onChange)="toggleCheckbox('Title')"
+                                    ></p-checkbox>
+                                </div>
+                                <div class="flex align-items-center">
+                                    <p-checkbox
+                                        label="Content"
+                                        [binary]="true"
+                                        [(ngModel)]="!searchInTitle"
+                                        (onChange)="toggleCheckbox('Content')"
+                                    ></p-checkbox>
+                                </div>
+                            </div>
+                        </div>
 
-                <!-- <div class="w-full">
+                        <div class="flex p-fluid gap-2">
+                            <p-dropdown
+                                [options]="documentTypes"
+                                [(ngModel)]="searchDocumentType"
+                                [showClear]="true"
+                                placeholder="Search for keyword(s) in"
+                            >
+                            </p-dropdown>
+
+                            <p-button
+                                label="Search"
+                                (click)="searchForLegislations()"
+                                icon="pi pi-search"
+                                iconPos="right"
+                            ></p-button>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <!-- <div class="w-full">
                     <p-card class="w-full">
                         <p class="text-2xl font-semibold font-serif mb-3">
                             Latest Legislations
@@ -137,32 +138,45 @@
                         </p-table>
                     </p-card>
                 </div> -->
+                </div>
             </div>
         </div>
 
         <p class="text-center text-lg mt-6">in archive</p>
-        <div class="flex justify-content-center gap-4 mb-6">
+        <div *ngIf="!delegatedLegisaltionStats">..... loading stats</div>
+        <div
+            class="flex justify-content-center gap-4 mb-6"
+            *ngIf="delegatedLegisaltionStats"
+        >
             <div class="text-center">
                 <p class="text-5xl font-bold data">
-                    {{ legislationStats?.total }}
+                    <app-animated-counter
+                        [endNumer]="legislationStats?.total"
+                    ></app-animated-counter>
                 </p>
                 <p class="text-xl font-serif">Legislations</p>
             </div>
             <div class="text-center">
                 <p class="text-5xl font-bold data">
-                    {{ delegatedLegisaltionStats?.total }}
+                    <app-animated-counter
+                        [endNumer]="delegatedLegisaltionStats?.total"
+                    ></app-animated-counter>
                 </p>
                 <p class="text-xl font-serif">Delegated Legisaltion</p>
             </div>
             <div class="text-center">
                 <p class="text-5xl font-bold data">
-                    {{ legislationStats?.bills }}
+                    <app-animated-counter
+                        [endNumer]="legislationStats?.bills"
+                    ></app-animated-counter>
                 </p>
                 <p class="text-xl font-serif">Bills</p>
             </div>
             <div class="text-center">
                 <p class="text-5xl font-bold data">
-                    {{ legislationStats?.repealed }}
+                    <app-animated-counter
+                        [endNumer]="legislationStats?.repealed"
+                    ></app-animated-counter>
                 </p>
                 <p class="text-xl font-serif">Repealed Legislations</p>
             </div>

@@ -128,7 +128,7 @@
         </div>
     </div>
     <div class="col-12 lg:col-9 px-8">
-        <div class="sticky bg-white sticky top-0" id="nima">
+        <div class="sticky bg-white sticky top-0" #nimaElement>
             <div
                 class="flex justify-content-between align-items-end border-bottom-1 py-2 border-yellow-300"
             >
@@ -223,7 +223,10 @@
                         [innerHTML]="
                             sanitizeHtml(
                                 selectedLanguage === languageType.ENG
-                                    ? item?.clause_eng
+                                    ? isSearched
+                                        ? (item?.clause_eng
+                                          | highlighter : searchKeywords)
+                                        : item?.clause_eng
                                     : item?.clause_dzo
                             )
                         "

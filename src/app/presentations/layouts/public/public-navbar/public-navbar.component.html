@@ -1,5 +1,5 @@
 <div
-    class="flex justify-content-between"
+    class="flex justify-content-between align-items-end"
     [ngClass]="onHomePage() ? 'absolute w-full  ' : ''"
 >
     <div class="flex justify-center px-2 lg:px-6" id="center-header">
@@ -27,46 +27,99 @@
         </div>
     </div>
     <div
-        class="hidden lg:flex flex-grow-1 align-items-end pb-3 justify-content-end lg:px-6"
+        class="hidden xl:flex flex-grow-1 align-items-end pb-3 justify-content-end lg:px-6"
     >
         <p-menubar [model]="items" class="flex-grow-1"> </p-menubar>
     </div>
 
-    <div class="block lg:hidden">
+    <div
+        class="block xl:hidden flex justify-content-center align-items-center pr-6"
+    >
         <p-button
             (click)="sidebarVisible = !sidebarVisible"
-            icon="pi pi-arrow-right"
+            icon="pi pi-bars"
         ></p-button>
     </div>
 </div>
 
 <p-sidebar [(visible)]="sidebarVisible" showCloseIcon="false">
-    <div class="flex justify-between items-center px-2">
-        <div class="flex gap-4">
+    <div class="flex flex-column align-items-center gap-4">
+        <div>
             <img
                 src="assets/logo/oag_logo.png"
-                class="h-4rem lg:h-6rem"
-                alt=""
+                class="h-5rem"
+                style="width: auto"
             />
-            <div class="flex flex-column justify-content-between">
-                <p class="font-serif text-2xl lg:text-4xl text-black">
-                    Depository of Laws
+        </div>
+        <div class="flex flex-column text-center justify-content-between">
+            <p class="font-serif text-2xl lg:text-4xl text-black">
+                Depository of Laws
+            </p>
+            <div>
+                <p class="text-xs lg:text-base">
+                    Free online access to Bhutan’s legislation.
                 </p>
-                <div>
-                    <p class="text-xs lg:text-base">
-                        Free online access to Bhutan’s legislation.
-                    </p>
-                    <p class="text-xs lg:text-base">
-                        Office of the Attorney General
-                    </p>
-                </div>
             </div>
         </div>
     </div>
 
-    <p>Legislations</p>
+    <hr />
 
-    <p>Delegated Legislations</p>
+    <p class="text-xl font-bold">Legislations</p>
+    <p
+        (click)="goToUrls('legislations/current')"
+        class="text-lg ml-3 cursor-pointer hover:text-blue-400"
+    >
+        - Current
+    </p>
+    <p
+        (click)="goToUrls('legislations/bills')"
+        class="text-lg ml-3 cursor-pointer hover:text-blue-400"
+    >
+        - Bills
+    </p>
+    <p
+        (click)="goToUrls('legislations/repealed')"
+        class="text-lg ml-3 cursor-pointer hover:text-blue-400"
+    >
+        - Repealed
+    </p>
 
-    <p>Interntional Conventions</p>
+    <hr />
+    <p class="text-xl font-bold">Delegated Legislations</p>
+    <p
+        (click)="goToUrls('delegated-legislations/current')"
+        class="text-lg ml-3 cursor-pointer hover:text-blue-400"
+    >
+        - Current
+    </p>
+    <p
+        (click)="goToUrls('delegated-legislations/modified')"
+        class="text-lg ml-3 cursor-pointer hover:text-blue-400"
+    >
+        - Modified
+    </p>
+    <p
+        (click)="goToUrls('delegated-legislations/revoked')"
+        class="text-lg ml-3 cursor-pointer hover:text-blue-400"
+    >
+        - Revoked
+    </p>
+
+    <hr />
+    <p class="text-xl font-bold">International Conventions</p>
+    <p
+        (click)="goToUrls('international-conventions')"
+        class="text-lg ml-3 cursor-pointer hover:text-blue-400"
+    >
+        - Current
+    </p>
+
+    <hr />
+    <p
+        (click)="goToUrls('auth/login')"
+        class="text-xl cursor-pointer hover:text-blue-400 font-bold"
+    >
+        Login
+    </p>
 </p-sidebar>
