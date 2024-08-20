@@ -195,9 +195,9 @@ export class AdminViewDraftLegislationComponent {
 
     getPublishedClassName(isPublished: boolean): string {
         if (isPublished) {
-            return 'text-green-700';
+            return 'text-green-100 bg-green-400  px-2 ';
         } else {
-            return 'text-red-500';
+            return 'text-red-50 bg-red-400  px-2';
         }
     }
 

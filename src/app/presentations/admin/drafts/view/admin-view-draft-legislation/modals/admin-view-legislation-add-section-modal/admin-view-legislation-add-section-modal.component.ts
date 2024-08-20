@@ -120,7 +120,7 @@ export class AdminViewLegislationAddSectionModalComponent {
         } else {
             if (this.clause_eng || this.clause_dzo) {
                 const data: DetermineAmendmentAndCreateChangeDto = {
-                    changeType: AmendmentChangeType.INSERTION,
+                    changeType: AmendmentChangeType.CREATION,
                     clause_eng: this.clause_eng,
                     clause_dzo: this.clause_dzo,
                     type: this.selectedSectionType,

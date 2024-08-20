@@ -26,3 +26,23 @@
 
 :host ::ng-deep .p-menuitem-text {
 }
+
+.navbar {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    &::before {
+        content: "";
+        background-image: url("../../../../../assets/images/header_bg.png");
+        background-repeat: repeat;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        opacity: 0.6;
+        z-index: -1;
+    }
+}

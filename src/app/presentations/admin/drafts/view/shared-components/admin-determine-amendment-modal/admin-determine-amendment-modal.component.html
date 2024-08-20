@@ -5,8 +5,6 @@
 ></p-messages>
 <p>Change Type: {{ requestChangeType }}</p>
 
-<div *ngFor="let key of objectKeys(data)">{{ key }}: {{ data[key] }}</div>
-
 <p-tabView [(activeIndex)]="activeIndex">
     <p-tabPanel header="Select Amendment">
         <p>Filter and select amendment</p>

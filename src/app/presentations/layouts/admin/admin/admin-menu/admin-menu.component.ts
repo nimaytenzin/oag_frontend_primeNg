@@ -47,11 +47,6 @@ export class AdminMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-file-edit',
                         routerLink: ['/admin/draft/conventions'],
                     },
-                    {
-                        label: 'Amendments',
-                        icon: 'pi pi-fw pi-file-edit',
-                        routerLink: ['/admin/draft/amendments'],
-                    },
                 ],
             },
             {

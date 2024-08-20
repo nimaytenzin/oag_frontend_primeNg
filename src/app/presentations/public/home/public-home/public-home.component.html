@@ -1,54 +1,42 @@
 <div class="grid w-full">
-    <div class="cloud1">
-        <img src="assets/images/cloud1.png" />
-    </div>
-    <div class="cloud2">
-        <img src="assets/images/cloud1.png" />
-    </div>
-    <div class="cloud4">
-        <img src="assets/images/cloud1.png" />
-    </div>
-    <div class="cloud3">
-        <img src="assets/images/cloud3.png" />
-    </div>
-
-    <!-- <div class="bird">
-        <img src="assets/images/bird.gif" />
-    </div>
-    <div class="bird2">
-        <img src="assets/images/bird.gif" />
-    </div>
-    <div class="bird3">
-        <img src="assets/images/bird.gif" />
-    </div> -->
-    <div class="cloud5">
-        <img src="assets/images/cloud3.png" />
-    </div>
-
-    <!-- <div class="cloud4">
-        4
-        <img src="assets/images/cloud1.png" />
-    </div>
-    <div class="cloud5">
-        5
-        <img src="assets/images/cloud3.png" />
-    </div> -->
-
     <div class="col-12">
         <div
             class="flex hero flex-column align-items-center justify-content-center"
-            style="height: 80vh"
         >
+            <div
+                class="text-center flex flex-column align-items-center justify-content-center my-4"
+            >
+                <div class="w-6">
+                    <h1 class="font-serif text-7xl text-blue-700">
+                        OAG's Depository of Law
+                    </h1>
+                    <p class="text-justify">
+                        The Office of Attorney General 's Law Depository website
+                        provides access to authorized Bhutanese legislation and
+                        related information. This website is managed by the
+                        Office of Attorney General and aims to provide users
+                        with an easy and efficient way to access relevant
+                        legislation. All legislation published on the website is
+                        available in PDF format, suitable for hard copy
+                        printing. The website's top FAQs list is regularly
+                        updated based on user queries. If users have any
+                        questions or require assistance, they can contact the
+                        Office of Attorney General for help. The website's
+                        ongoing development is planned for the future to provide
+                        even better access to Bhutanese legislation and more
+                        features for website users. Overall, the Office of
+                        Attorney General Bhutan's Law Depository website strives
+                        to be a reliable and user-friendly resource for
+                        accessing Bhutanese legislation and related information.
+                    </p>
+                </div>
+            </div>
+
             <div #centerElement>
                 <div class="text-left">
-                    <p class="font-serif text-7xl text-center">
-                        Explore Bhutan's Legislation
+                    <p class="font-serif text-4xl text-center">
+                        Search in the repository
                     </p>
-                    <!-- <p class="text-lg">
-            This platform, managed by the
-            <a href="#"> Office of Attorney General</a> , is your gateway to
-            authorized Bhutanese legislation and related information.
-        </p> -->
                 </div>
                 <div
                     class="flex w-full flex-column p-fluid align-items-center justify-content-center gap-3"
@@ -80,7 +68,7 @@
                                     <p-checkbox
                                         label="Content"
                                         [binary]="true"
-                                        [(ngModel)]="!searchInTitle"
+                                        [(ngModel)]="searchInContent"
                                         (onChange)="toggleCheckbox('Content')"
                                     ></p-checkbox>
                                 </div>
@@ -106,107 +94,51 @@
                     </div>
 
                     <hr />
-
-                    <!-- <div class="w-full">
-                    <p-card class="w-full">
-                        <p class="text-2xl font-semibold font-serif mb-3">
-                            Latest Legislations
-                        </p>
-                        <p-table [value]="legislations" class="p-datatable-sm">
-                            <ng-template pTemplate="header">
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Year</th>
-                                    <th>Added By</th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-item>
-                                <tr>
-                                    <td>
-                                        <p>
-                                            {{ item.title_eng }}
-                                        </p>
-                                        <p>
-                                            {{ item.title_dzo }}
-                                        </p>
-                                    </td>
-                                    <td>{{ item.documentYear }}</td>
-                                    <td>{{ item.status }}</td>
-                                    <td>{{ item.quantity }}</td>
-                                </tr>
-                            </ng-template>
-                        </p-table>
-                    </p-card>
-                </div> -->
                 </div>
             </div>
-        </div>
 
-        <p class="text-center text-lg mt-6">in archive</p>
-        <div *ngIf="!delegatedLegisaltionStats">..... loading stats</div>
-        <div
-            class="flex justify-content-center gap-4 mb-6"
-            *ngIf="delegatedLegisaltionStats"
-        >
-            <div class="text-center">
-                <p class="text-5xl font-bold data">
-                    <app-animated-counter
-                        [endNumer]="legislationStats?.total"
-                    ></app-animated-counter>
-                </p>
-                <p class="text-xl font-serif">Legislations</p>
-            </div>
-            <div class="text-center">
-                <p class="text-5xl font-bold data">
-                    <app-animated-counter
-                        [endNumer]="delegatedLegisaltionStats?.total"
-                    ></app-animated-counter>
-                </p>
-                <p class="text-xl font-serif">Delegated Legisaltion</p>
-            </div>
-            <div class="text-center">
-                <p class="text-5xl font-bold data">
-                    <app-animated-counter
-                        [endNumer]="legislationStats?.bills"
-                    ></app-animated-counter>
-                </p>
-                <p class="text-xl font-serif">Bills</p>
-            </div>
-            <div class="text-center">
-                <p class="text-5xl font-bold data">
-                    <app-animated-counter
-                        [endNumer]="legislationStats?.repealed"
-                    ></app-animated-counter>
-                </p>
-                <p class="text-xl font-serif">Repealed Legislations</p>
-            </div>
-        </div>
-
-        <div
-            class="text-center flex flex-column align-items-center justify-content-center mt-8"
-        >
-            <div class="w-6">
-                <h1 class="font-serif text-7xl text-blue-700">
-                    OAG's Depository of Law
-                </h1>
-                <p class="text-justify text-sm">
-                    The Office of Attorney General 's Law Depository website
-                    provides access to authorized Bhutanese legislation and
-                    related information. This website is managed by the Office
-                    of Attorney General and aims to provide users with an easy
-                    and efficient way to access relevant legislation. All
-                    legislation published on the website is available in PDF
-                    format, suitable for hard copy printing. The website's top
-                    FAQs list is regularly updated based on user queries. If
-                    users have any questions or require assistance, they can
-                    contact the Office of Attorney General for help. The
-                    website's ongoing development is planned for the future to
-                    provide even better access to Bhutanese legislation and more
-                    features for website users. Overall, the Office of Attorney
-                    General Bhutan's Law Depository website strives to be a
-                    reliable and user-friendly resource for accessing Bhutanese
-                    legislation and related information.
-                </p>
+            <div class="mt-4">
+                <p class="text-center text-lg mt-6 font-serif">..in archive</p>
+                <div *ngIf="!delegatedLegisaltionStats">
+                    ..... loading stats
+                </div>
+                <div
+                    class="flex justify-content-center gap-4 mb-6"
+                    *ngIf="delegatedLegisaltionStats"
+                >
+                    <div class="text-center">
+                        <p class="text-5xl font-bold data">
+                            <app-animated-counter
+                                [endNumer]="legislationStats?.total"
+                            ></app-animated-counter>
+                        </p>
+                        <p class="text-xl font-serif">Legislations</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-5xl font-bold data">
+                            <app-animated-counter
+                                [endNumer]="delegatedLegisaltionStats?.total"
+                            ></app-animated-counter>
+                        </p>
+                        <p class="text-xl font-serif">Delegated Legisaltion</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-5xl font-bold data">
+                            <app-animated-counter
+                                [endNumer]="legislationStats?.bills"
+                            ></app-animated-counter>
+                        </p>
+                        <p class="text-xl font-serif">Bills</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-5xl font-bold data">
+                            <app-animated-counter
+                                [endNumer]="legislationStats?.repealed"
+                            ></app-animated-counter>
+                        </p>
+                        <p class="text-xl font-serif">Repealed Legislations</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

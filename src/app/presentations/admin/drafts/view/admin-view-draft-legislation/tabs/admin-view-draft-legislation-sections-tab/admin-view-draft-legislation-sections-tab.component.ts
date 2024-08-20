@@ -31,11 +31,18 @@ import {
     DetermineAmendmentAndCreateChangeDto,
 } from 'src/app/core/dto/ammendment/ammendment.dto';
 import { AdminDetermineAmendmentModalComponent } from '../../../shared-components/admin-determine-amendment-modal/admin-determine-amendment-modal.component';
+import { HighlighterPipe } from 'src/app/core/utility/text.highlighter.pipes';
 
 @Component({
     selector: 'app-admin-view-draft-legislation-sections-tab',
     standalone: true,
-    imports: [ButtonModule, CommonModule, FormsModule, InputTextModule],
+    imports: [
+        ButtonModule,
+        CommonModule,
+        FormsModule,
+        InputTextModule,
+        HighlighterPipe,
+    ],
     providers: [DialogService],
     templateUrl: './admin-view-draft-legislation-sections-tab.component.html',
     styleUrl: './admin-view-draft-legislation-sections-tab.component.scss',
@@ -43,6 +50,7 @@ import { AdminDetermineAmendmentModalComponent } from '../../../shared-component
 export class AdminViewDraftLegislationSectionsTabComponent implements OnInit {
     @Input() sections: SectionDto[];
     @Input() selectedLanguage;
+    @Input({ required: true }) editingMode;
     @Input() legislationId;
     @Input() events: Observable<string>;
     private eventsSubscription: Subscription;
@@ -65,7 +73,6 @@ export class AdminViewDraftLegislationSectionsTabComponent implements OnInit {
     instance: DynamicDialogComponent | undefined;
     ref: DynamicDialogRef | undefined;
 
-    editingMode: string;
     constructor(
         private sanitizer: DomSanitizer,
         private dialogService: DialogService,
@@ -115,10 +122,9 @@ export class AdminViewDraftLegislationSectionsTabComponent implements OnInit {
         }
     }
     onContainerScroll(event: any) {
-        const container = event.target; // Use the event target to get the container
+        const container = event.target;
         const sectionElements = document.getElementsByClassName('heading');
 
-        // Assuming 'section' is the class name for your sections
         let topSectionId: string | null = null;
         let topSectionOffset = Infinity;
 
@@ -142,7 +148,6 @@ export class AdminViewDraftLegislationSectionsTabComponent implements OnInit {
 
         if (topSectionId) {
             this.activeSectionId = topSectionId.split('-')[1];
-            // You can now use topSectionId to perform any action you need
         }
     }
 
@@ -217,26 +222,47 @@ export class AdminViewDraftLegislationSectionsTabComponent implements OnInit {
     }
 
     scroll(id: string) {
-        // this.activeSectionId = id;
-        // let el = document.getElementById(id)!;
-        // let elementPosition =
-        //     el.getBoundingClientRect().top + window.pageYOffset;
-        // let headerHeight = document.getElementById('nima')?.clientHeight || 0;
-        // let offsetPosition = elementPosition - headerHeight;
+        let container = document.getElementById('sectionTab'); // Replace with your container class or ID
 
-        // window.scrollTo({
-        //     top: offsetPosition,
-        //     behavior: 'smooth',
-        // });
+        console.log('SCROLL TO', id);
         this.activeSectionId = id;
         let el = document.getElementById(id);
-        if (el) {
-            console.log('SCROLL TO ', 0, el.offsetTop);
-            this.viewportScroller.scrollToPosition([
-                0, // x-coordinate
-                el.offsetTop, // y-coordinate
-            ]);
+
+        if (el && container) {
+            container.scrollTo({
+                top: el.offsetTop - 300,
+                behavior: 'smooth',
+            });
         }
+    }
+
+    getFirstAndLastSectionId(): {
+        firstSectionId: string;
+        lastSectionId: string;
+    } {
+        if (!this.sections || this.sections.length === 0) {
+            return { firstSectionId: '', lastSectionId: '' };
+        }
+
+        const firstSection = this.sections[0];
+        const lastSection = this.sections[this.sections.length - 1];
+
+        const firstSectionId = this.getSectionId(firstSection);
+        const lastSectionId = this.getSectionId(lastSection);
+
+        return { firstSectionId, lastSectionId };
+    }
+
+    // Scroll to the top section
+    scrollToTop() {
+        const { firstSectionId } = this.getFirstAndLastSectionId();
+        this.scroll(firstSectionId);
+    }
+
+    // Scroll to the bottom section
+    scrollToEnd() {
+        const { lastSectionId } = this.getFirstAndLastSectionId();
+        this.scroll(lastSectionId);
     }
 
     // CRUD

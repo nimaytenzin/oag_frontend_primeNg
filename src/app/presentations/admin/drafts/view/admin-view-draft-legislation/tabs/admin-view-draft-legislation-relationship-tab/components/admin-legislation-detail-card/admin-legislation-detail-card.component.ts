@@ -43,6 +43,7 @@ export class AdminLegislationDetailCardComponent implements OnInit {
                 ? (this.isCurrent = true)
                 : (this.isCurrent = false);
         });
+        
         this.legislationDataService
             .AdminGetLegislaitonDetails(this.legislationId)
             .subscribe((res) => {

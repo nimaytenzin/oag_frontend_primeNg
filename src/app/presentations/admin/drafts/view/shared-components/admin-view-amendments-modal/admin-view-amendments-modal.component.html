@@ -4,10 +4,10 @@
     <div *ngIf="change.changeType === amendmentChangeTypes.CREATION">
         <p>
             Section
-            <span class="text-sky-700 underline cursor-pointer">
+            <span class="text-sky-700 cursor-pointer">
                 ({{ change.sectionId }})</span
             >
-            is added as:
+            is added.
         </p>
         <div *ngFor="let item of change.changeValues">
             <div
@@ -21,18 +21,12 @@
     <div *ngIf="change.changeType === amendmentChangeTypes.MODIFICATION">
         <p>
             Section
-            <span class="text-sky-700 underline cursor-pointer">
+            <span class="text-sky-700 cursor-pointer">
                 ({{ change.sectionId }})</span
             >
-            :
+            is amended.Previous value :
         </p>
         <div *ngFor="let item of change.changeValues">
-            <div
-                class="px-4 bg-slate-50 font-times"
-                *ngIf="item.attribute === changeValueAttributes.CLAUSE_ENG"
-                [innerHTML]="sanitizeHtml(item.oldValue)"
-            ></div>
-            <p>is amended as</p>
             <div
                 class="px-4 bg-slate-50 font-times"
                 *ngIf="item.attribute === changeValueAttributes.CLAUSE_ENG"
@@ -44,14 +38,16 @@
     <div *ngIf="change.changeType === amendmentChangeTypes.DELETION">
         <p>
             Section
-            <span class="text-sky-700 underline cursor-pointer">
+            <span class="text-sky-700 cursor-pointer">
                 ({{ change.sectionId }})</span
             >
-            is deleted as:
+            is deleted.Previous Value:
         </p>
+
         <div *ngFor="let item of change.changeValues">
             <div
-                class="px-4 bg-slate-50 font-times text-sm"
+                class="px-4 bg-slate-50 font-times"
+                style="font-style: italic"
                 *ngIf="item.attribute === changeValueAttributes.CLAUSE_ENG"
                 [innerHTML]="sanitizeHtml(item.oldValue)"
             ></div>

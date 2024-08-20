@@ -72,6 +72,8 @@ export class PublicHomeComponent implements OnInit, AfterViewInit {
 
     searchKeywords: string[];
     searchInTitle: boolean = false;
+    searchInContent: boolean = true;
+
     legislations: LegislationDto[] = [];
     documentTypes = Object.values(SEARCHDOCUMENTYPES);
     documentType = SEARCHDOCUMENTYPES;
@@ -90,78 +92,7 @@ export class PublicHomeComponent implements OnInit, AfterViewInit {
         gsap.registerPlugin(Flip);
         this.getStats();
     }
-    ngAfterViewInit(): void {
-        gsap.from(this.centerElement.nativeElement, {
-            duration: 1.5,
-            opacity: 0,
-            scale: 1.5, // Scale up to 1.5 times its original size
-            y: '-100%', // Move it up by 100% of its height
-            ease: 'power1.out', // Use a power1 easing function for a smooth start and end
-            delay: 1, // Start the animation after a half-second delay
-        });
-        // gsap.fromTo(
-        //     '.cloud1',
-        //     { left: '0%' },
-        //     {
-        //         left: '30%',
-        //         top: '50%',
-        //         duration: 5000,
-        //         repeat: 1,
-        //         opacity: 0,
-        //         ease: 'linear',
-        //         scrollTrigger: {
-        //             trigger: '.cloud1',
-        //             start: 'top bottom', // Start the animation when the top of the element hits the bottom of the viewport
-        //             end: 'bottom top', // End the animation when the bottom of the element hits the top of the viewport
-        //             scrub: true, // Smoothly scrub the animation based on scroll position
-        //         },
-        //     }
-        // );
-
-        gsap.to('.cloud1', {
-            left: '100%',
-            duration: 225,
-            repeat: -1,
-            ease: 'linear',
-        });
-        gsap.to('.cloud2', {
-            left: '100%',
-            duration: 225,
-            repeat: -1,
-            ease: 'linear',
-        });
-        gsap.to('.cloud3', {
-            right: '100%',
-            duration: 202,
-            repeat: -1,
-            ease: 'linear',
-        });
-        gsap.to('.cloud4', {
-            right: '100%',
-            duration: 202,
-            repeat: -1,
-            ease: 'linear',
-        });
-        gsap.to('.cloud5', {
-            left: '100%',
-            duration: 250,
-            repeat: -1,
-            ease: 'linear',
-        });
-        const items = document.querySelectorAll('.data');
-
-        // gsap.from(items, {
-        //     textContent: 0,
-        //     duration: 4,
-        //     ease: 'power1.in',
-        //     snap: { textContent: 1 },
-        //     onUpdate: function () {
-        //         this.targets()[0].innerHTML = this.numberWithCommas(
-        //             Math.ceil(this.targets()[0].textContent)
-        //         );
-        //     },
-        // });
-    }
+    ngAfterViewInit(): void {}
     ngOnInit(): void {
         this.legislationDataService
             .GetLatestLegislations(9)
@@ -221,8 +152,10 @@ export class PublicHomeComponent implements OnInit, AfterViewInit {
     toggleCheckbox(checkbox: string) {
         if (checkbox === 'Title') {
             this.searchInTitle = true;
+            this.searchInContent = false;
         } else if (checkbox === 'Content') {
             this.searchInTitle = false;
+            this.searchInContent = true;
         }
     }
 }

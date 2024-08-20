@@ -24,7 +24,7 @@ export class AnimatedCounterComponent implements AfterViewInit {
 
     ngAfterViewInit() {
         console.log(this.endNumer);
-        this.animateCounter(0, this.endNumer, 5000);
+        this.animateCounter(0, this.endNumer, 6000);
     }
 
     animateCounter(start: number, end: number, duration: number) {

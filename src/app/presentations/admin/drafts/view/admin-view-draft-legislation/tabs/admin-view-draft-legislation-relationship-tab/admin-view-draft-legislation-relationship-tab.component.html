@@ -1,16 +1,13 @@
 <div class="h-screen overflow-y-scroll">
-    <div class="flex gap-4 mt-4 justify-content-between">
-        <div>
-            <button
-                pButton
-                pRipple
-                (click)="openAddLegislationRelationshipModal()"
-                label="Add Relationship"
-                size="small"
-            ></button>
-        </div>
-
-        <div class="text-xl font-serif">Legislation History</div>
+    <div class="flex gap-4 my-4 justify-content-start">
+        <p-button
+            label="Legislative Relationships"
+            size="small"
+            severity="secondary"
+            icon="pi pi-plus"
+            (click)="openAddLegislationRelationshipModal()"
+        >
+        </p-button>
     </div>
     <p-divider></p-divider>
 

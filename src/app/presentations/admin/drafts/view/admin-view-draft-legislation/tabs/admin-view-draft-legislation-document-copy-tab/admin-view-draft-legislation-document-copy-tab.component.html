@@ -1,16 +1,16 @@
-<div class="flex gap-4 mt-4 justify-content-between">
-    <button
-        pButton
-        pRipple
-        (click)="openAddDocumentCopyModal()"
-        label="Add Document Copy"
+<div class="flex gap-4 my-4 justify-content-start">
+    <p-button
+        label="Document Copy"
         size="small"
-    ></button>
-    <div class="text-xl font-serif">Document Copies</div>
+        severity="secondary"
+        icon="pi pi-plus"
+        (click)="openAddDocumentCopyModal()"
+    >
+    </p-button>
 </div>
 
 <div>
-    <div *ngIf="legislation">
+    <div *ngIf="documentCopies.length">
         <p-table
             [value]="documentCopies"
             class="p-datatable-sm text-lg"
@@ -29,22 +29,32 @@
                     <td>{{ item.language }}</td>
 
                     <td>
-                        <p-button
-                            (click)="openViewDocumentCopyModal(item.fileUri)"
-                            icon="pi pi-eye"
-                            [rounded]="true"
-                            [text]="true"
-                        ></p-button>
-                        <p-button
-                            (click)="confirmDeleteDocumentCopy($event, item)"
-                            icon="pi pi-trash"
-                            [rounded]="true"
-                            [text]="true"
-                            severity="danger "
-                        ></p-button>
+                        <div class="flex gap-2">
+                            <p-button
+                                (click)="
+                                    openViewDocumentCopyModal(item.fileUri)
+                                "
+                                icon="pi pi-eye"
+                                label="view"
+                                size="small"
+                                severity="secondary"
+                            ></p-button>
+                            <p-button
+                                (click)="
+                                    confirmDeleteDocumentCopy($event, item)
+                                "
+                                icon="pi pi-trash"
+                                label="Delete"
+                                size="small"
+                                severity="secondary"
+                            ></p-button>
+                        </div>
                     </td>
                 </tr>
             </ng-template>
         </p-table>
+    </div>
+    <div *ngIf="!documentCopies.length">
+        <p class="my-4">No Document Copies Added</p>
     </div>
 </div>

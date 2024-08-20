@@ -45,7 +45,7 @@ export class AdminViewDraftLegislationDocumentCopyTabComponent {
     openAddDocumentCopyModal() {
         this.ref = this.dialogService.open(AdminAddDocumentCopyComponent, {
             header: 'Add Document Copy',
-            width: '60%',
+
             data: {
                 legislationId: this.legislation.id,
             },

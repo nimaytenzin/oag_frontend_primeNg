@@ -50,7 +50,7 @@ export class AdminAddDocumentCopyComponent {
         this.messageService.add({
             severity: 'info',
             summary: 'Success',
-            detail: 'File Uploaded with Basic Mode',
+            detail: 'File Selected',
         });
         console.log(event);
     }

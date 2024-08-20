@@ -13,6 +13,7 @@ import {
 import { AmendmentsDataService } from 'src/app/core/dataservice/amendments/amendment.dataservice';
 import { AmendmentDto } from 'src/app/core/dto/ammendment/ammendment.dto';
 import { ChangeDto } from 'src/app/core/dto/legislation/section.dto';
+import { GetSectionStylesPublic } from 'src/app/core/utility/documentStyles';
 
 @Component({
     selector: 'app-admin-view-amendments-modal',
