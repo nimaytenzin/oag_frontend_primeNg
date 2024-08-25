@@ -20,11 +20,14 @@ import { DelegatedLegislationDto } from 'src/app/core/dto/delegated-legislation/
 import { LegislationDto } from 'src/app/core/dto/legislation/legislation.dto';
 import { PaginatedData } from 'src/app/core/dto/utility/paginated-data.dto';
 import {
+    GetAdminDraftDelegatedLegislationAlphaSelection,
     GetPublicCurrentLegislationAlphabet,
+    SetAdminDraftDelegatedLegisaltionAlphaSelection,
     SetPublicCurrentLegislationAlphabet,
 } from 'src/app/core/sessionStates/public.paginator.states';
 import { PublicListDelegatedLegislationsModalComponent } from 'src/app/presentations/public/legislations/components/public-list-delegated-legislations-modal/public-list-delegated-legislations-modal.component';
 import { AdminAddDraftLegislationModalComponent } from '../components/admin-add-draft-legislation-modal/admin-add-draft-legislation-modal.component';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-admin-list-draft-delegated-legislations',
@@ -52,13 +55,13 @@ export class AdminListDraftDelegatedLegislationsComponent implements OnInit {
     rowsPerPageOptions = ROWSPERPAGEOPTION;
     firstPageNumber = 0;
     rows = ROWSPERPAGEOPTION[0];
-    currentPage = 1;
+    currentPage = 0;
 
     alphabets = ALPHABETARRAY;
     selectedAlphabet: string;
 
-    setSelectedAlphabet = SetPublicCurrentLegislationAlphabet;
-    getSelectedAlphabet = GetPublicCurrentLegislationAlphabet;
+    setSelectedAlphabet = SetAdminDraftDelegatedLegisaltionAlphaSelection;
+    getSelectedAlphabet = GetAdminDraftDelegatedLegislationAlphaSelection;
 
     paginatedDelegatedLegisaltion: PaginatedData<DelegatedLegislationDto> = {
         firstPage: 0,
@@ -71,16 +74,18 @@ export class AdminListDraftDelegatedLegislationsComponent implements OnInit {
         data: [],
     };
 
-    pageTitle = 'Draft Legislations';
+    pageTitle = 'Draft Delegated Legislations';
     searchTitle: string;
 
     constructor(
         private delegatedLegislationDataService: DelegatedLegislationDataService,
         private dialogService: DialogService,
         private messageService: MessageService,
-        private confirmationService: ConfirmationService
+        private confirmationService: ConfirmationService,
+        private router: Router
     ) {}
     ngOnInit(): void {
+        this.selectedAlphabet = this.getSelectedAlphabet() || this.alphabets[0];
         this.handlePagination();
     }
 
@@ -185,5 +190,7 @@ export class AdminListDraftDelegatedLegislationsComponent implements OnInit {
     //     );
     // }
 
-    viewDraftLegislation(legislation: LegislationDto) {}
+    viewDraftDelegatedLegisaltion(item: DelegatedLegislationDto) {
+        this.router.navigate(['admin/draft/delegated-legislation/' + item.id]);
+    }
 }

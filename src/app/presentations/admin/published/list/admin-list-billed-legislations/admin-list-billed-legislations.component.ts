@@ -20,11 +20,13 @@ import { PaginatedData } from 'src/app/core/dto/utility/paginated-data.dto';
 import {
     SetPublicCurrentLegislationAlphabet,
     GetPublicCurrentLegislationAlphabet,
+    SetAdminPublishedBillLegialtionAlphaSelection,
+    GetAdminPublishedBillLegislationAlphaSelection,
 } from 'src/app/core/sessionStates/public.paginator.states';
 import { PublicListDelegatedLegislationsModalComponent } from 'src/app/presentations/public/legislations/components/public-list-delegated-legislations-modal/public-list-delegated-legislations-modal.component';
 
 @Component({
-    selector: 'app-admin-list-repealed-legislations',
+    selector: 'app-admin-list-billed-legislations',
     standalone: true,
     imports: [
         PaginatorModule,
@@ -36,22 +38,22 @@ import { PublicListDelegatedLegislationsModalComponent } from 'src/app/presentat
         TooltipModule,
     ],
     providers: [DialogService],
-    templateUrl: './admin-list-repealed-legislations.component.html',
-    styleUrl: './admin-list-repealed-legislations.component.scss',
+    templateUrl: './admin-list-billed-legislations.component.html',
+    styleUrl: './admin-list-billed-legislations.component.scss',
 })
-export class AdminListRepealedLegislationsComponent {
+export class AdminListBilledLegislationsComponent {
     @ViewChild('paginator') paginator: Paginator;
     @ViewChild('clt1') clt1: Table;
 
     ref: DynamicDialogRef | undefined;
 
-    setSelectedAlphabet = SetPublicCurrentLegislationAlphabet;
-    getSelectedAlphabet = GetPublicCurrentLegislationAlphabet;
+    setSelectedAlphabet = SetAdminPublishedBillLegialtionAlphaSelection;
+    getSelectedAlphabet = GetAdminPublishedBillLegislationAlphaSelection;
 
     alphabets = ALPHABETARRAY;
     selectedAlphabet: string;
 
-    pageTitle = 'Published Repealed Legislations';
+    pageTitle = 'Published Bills';
     searchTitle: string;
 
     rowsPerPageOptions = ROWSPERPAGEOPTION;
@@ -140,8 +142,8 @@ export class AdminListRepealedLegislationsComponent {
     private updateSearchTitle(): void {
         this.searchTitle =
             this.selectedAlphabet === this.alphabets[0]
-                ? 'Published Repealed Legislations'
-                : `Published Repealed Legislations starting with ${this.selectedAlphabet}`;
+                ? 'Published Bills'
+                : `Published Bills starting with ${this.selectedAlphabet}`;
     }
 
     // applyGlobalFilter() {

@@ -253,4 +253,33 @@ export class LegislationDataService {
     AdminUpdateLegislation(id: number, data: UpdateLegislationDto) {
         return this.http.patch(`${this.apiUrl}/legislation/${id}`, data);
     }
+
+    // ****************************** ADMIN  COnventions/Legisation type DRAFTING ROUTES ****************** //
+
+    AdminGetDraftConventionsPaginated(
+        options: {
+            page?: number;
+            pageSize?: number;
+            startsWith?: string;
+        } = {}
+    ): Observable<PaginatedData<LegislationDto>> {
+        const { page, pageSize, startsWith } = options;
+        let params = new HttpParams();
+        if (page) {
+            params = params.set('page', page);
+        }
+        if (pageSize) {
+            params = params.set('limit', pageSize.toString());
+        }
+        if (startsWith) {
+            params = params.set('startsWith', startsWith);
+        }
+
+        return this.http.get<PaginatedData<LegislationDto>>(
+            `${this.apiUrl}/legislation/paginate/conventions/draft`,
+            {
+                params,
+            }
+        );
+    }
 }

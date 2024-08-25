@@ -1,0 +1,203 @@
+<div>
+    <form
+        class="grid formgrid p-fluid p-2"
+        [formGroup]="updateDelegatedLegislationForm"
+        (ngSubmit)="updateDelegatedLegislation()"
+    >
+        <div class="field mb-4 col-12 md:col-6">
+            <label for="type" class="font-medium text-900"
+                >Legislation Type*</label
+            >
+            <!-- <p-dropdown
+                appendTo="body"
+                id="type"
+                name="type"
+                formControlName="type"
+                [options]="legislationTypes"
+                placeholder="Select Legislation Type"
+                [ngClass]="{
+                    'ng-invalid ng-dirty':
+                        updateDraftLegislationForm.controls['type'].touched &&
+                        updateDraftLegislationForm.controls['type'].invalid
+                }"
+            ></p-dropdown> -->
+            <!-- <div
+                class="text-red-500"
+                *ngIf="
+                    updateDraftLegislationForm.controls['type'].invalid &&
+                    (updateDraftLegislationForm.controls['type'].touched ||
+                        updateDraftLegislationForm.controls['type'].dirty)
+                "
+            >
+                <p
+                    *ngIf="updateDraftLegislationForm.controls['type'].errors?.['required']"
+                >
+                    Please select the Legislation Type
+                </p>
+            </div> -->
+        </div>
+        <div class="field mb-4 col-12 md:col-6">
+            <label for="status" class="font-medium text-900"
+                >Legislation Status*</label
+            >
+            <!-- <p-dropdown
+                appendTo="body"
+                id="status"
+                name="status"
+                formControlName="status"
+                [options]="legislationStatuses"
+                placeholder="Status"
+                [ngClass]="{
+                    'ng-invalid ng-dirty':
+                        updateDraftLegislationForm.controls['status'].touched &&
+                        updateDraftLegislationForm.controls['status'].invalid
+                }"
+            ></p-dropdown> -->
+            <!-- <div
+                class="text-red-500"
+                *ngIf="
+                    updateDraftLegislationForm.controls['status'].invalid &&
+                    (updateDraftLegislationForm.controls['status'].touched ||
+                        updateDraftLegislationForm.controls['status'].dirty)
+                "
+            >
+                <p
+                    *ngIf="updateDraftLegislationForm.controls['status'].errors?.['required']"
+                >
+                    Please select Legislation Status
+                </p>
+            </div> -->
+        </div>
+        <div class="field mb-4 col-12">
+            <!-- <label for="title_eng" class="font-medium text-900"
+                >Title in English* </label
+            ><input
+                id="title_eng"
+                name="title_eng"
+                required
+                formControlName="title_eng"
+                type="text"
+                pinputtext
+                class="p-inputtext p-component p-element"
+                [ngClass]="{
+                    'ng-invalid ng-dirty':
+                        updateDraftLegislationForm.controls['title_eng']
+                            .touched &&
+                        updateDraftLegislationForm.controls['title_eng'].invalid
+                }"
+            /> -->
+            <!-- <div
+                class="text-red-500"
+                *ngIf="
+                    updateDraftLegislationForm.controls['title_eng'].invalid &&
+                    (updateDraftLegislationForm.controls['title_eng'].touched ||
+                        updateDraftLegislationForm.controls['title_eng'].dirty)
+                "
+            >
+                <p
+                    *ngIf="updateDraftLegislationForm.controls['title_eng'].errors?.['required']"
+                >
+                    Title in English is required.
+                </p>
+            </div> -->
+        </div>
+        <div class="field mb-4 col-12">
+            <label for="title_dzo" class="font-medium text-900"
+                >Title in Dzongkha </label
+            ><input
+                formControlName="title_dzo"
+                id="title_dzo"
+                name="title_dzo"
+                type="text"
+                pinputtext=""
+                class="p-inputtext p-component p-element"
+            />
+        </div>
+
+        <div class="field mb-4 col-12 md:col-6">
+            <label for="documentYear" class="font-medium text-900"
+                >Document Year*</label
+            >
+            <!-- <input
+                formControlName="documentYear"
+                id="documentYear"
+                name="documentYear"
+                type="text"
+                pinputtext=""
+                class="p-inputtext p-component p-element"
+                [ngClass]="{
+                    'ng-invalid ng-dirty':
+                        updateDraftLegislationForm.controls['documentYear']
+                            .touched &&
+                        updateDraftLegislationForm.controls['documentYear']
+                            .invalid
+                }"
+            /> -->
+
+            <!-- <div
+                class="text-red-500"
+                *ngIf="
+                    updateDraftLegislationForm.controls['documentYear']
+                        .invalid &&
+                    (updateDraftLegislationForm.controls['documentYear']
+                        .touched ||
+                        updateDraftLegislationForm.controls['documentYear']
+                            .dirty)
+                "
+            >
+                <p
+                    *ngIf="updateDraftLegislationForm.controls['documentYear'].errors?.['required']"
+                >
+                    Document Year is required.
+                </p>
+            </div> -->
+        </div>
+
+        <p-divider type="solid" class="col-12"> Legislation Dates </p-divider>
+
+        <div class="field mb-4 col-12 md:col-6">
+            <label for="status" class="font-medium text-900">Tabled Date</label>
+            <p-calendar
+                dateFormat="yy-mm-dd"
+                appendTo="body"
+                formControlName="tabledDate"
+                [iconDisplay]="'input'"
+                [showIcon]="true"
+            ></p-calendar>
+        </div>
+        <div class="field mb-4 col-12 md:col-6">
+            <label for="status" class="font-medium text-900"
+                >Enactment Date</label
+            >
+            <p-calendar
+                dateFormat="yy-mm-dd"
+                appendTo="body"
+                formControlName="enactmentDate"
+                [iconDisplay]="'input'"
+                [showIcon]="true"
+            ></p-calendar>
+        </div>
+
+        <div class="field mb-4 col-12 md:col-6">
+            <label for="status" class="font-medium text-900">Repeal Date</label>
+            <p-calendar
+                dateFormat="yy-mm-dd"
+                appendTo="body"
+                formControlName="repealDate"
+                [iconDisplay]="'input'"
+                [showIcon]="true"
+            ></p-calendar>
+        </div>
+
+        <div class="field col-12 flex justify-content-end">
+            <p-button
+                severity="secondary"
+                icon="pi pi-times"
+                label="Cancel"
+                (click)="close()"
+                [text]="true"
+            ></p-button>
+            <p-button type="submit" label="Save" icon="pi pi-check"></p-button>
+        </div>
+    </form>
+</div>

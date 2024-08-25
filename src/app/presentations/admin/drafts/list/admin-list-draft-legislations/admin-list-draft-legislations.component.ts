@@ -18,6 +18,8 @@ import { PaginatedData } from 'src/app/core/dto/utility/paginated-data.dto';
 import {
     SetPublicCurrentLegislationAlphabet,
     GetPublicCurrentLegislationAlphabet,
+    SetAdminDraftLegisaltionAlphaSelection,
+    GetAdminDraftLegislationAlphaSelection,
 } from 'src/app/core/sessionStates/public.paginator.states';
 import { PublicListDelegatedLegislationsModalComponent } from 'src/app/presentations/public/legislations/components/public-list-delegated-legislations-modal/public-list-delegated-legislations-modal.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -51,8 +53,8 @@ export class AdminListDraftLegislationsComponent {
 
     ref: DynamicDialogRef | undefined;
 
-    setSelectedAlphabet = SetPublicCurrentLegislationAlphabet;
-    getSelectedAlphabet = GetPublicCurrentLegislationAlphabet;
+    setSelectedAlphabet = SetAdminDraftLegisaltionAlphaSelection;
+    getSelectedAlphabet = GetAdminDraftLegislationAlphaSelection;
 
     alphabets = ALPHABETARRAY;
     selectedAlphabet: string;

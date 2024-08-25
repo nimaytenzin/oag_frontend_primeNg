@@ -20,11 +20,13 @@ import { PaginatedData } from 'src/app/core/dto/utility/paginated-data.dto';
 import {
     SetPublicCurrentLegislationAlphabet,
     GetPublicCurrentLegislationAlphabet,
+    SetAdminPublishedRepealedLegialtionAlphaSelection,
+    GetAdminPublishedRepealedLegislationAlphaSelection,
 } from 'src/app/core/sessionStates/public.paginator.states';
 import { PublicListDelegatedLegislationsModalComponent } from 'src/app/presentations/public/legislations/components/public-list-delegated-legislations-modal/public-list-delegated-legislations-modal.component';
 
 @Component({
-    selector: 'app-admin-list-current-legislations',
+    selector: 'app-admin-list-repealed-legislations',
     standalone: true,
     imports: [
         PaginatorModule,
@@ -36,22 +38,22 @@ import { PublicListDelegatedLegislationsModalComponent } from 'src/app/presentat
         TooltipModule,
     ],
     providers: [DialogService],
-    templateUrl: './admin-list-current-legislations.component.html',
-    styleUrl: './admin-list-current-legislations.component.scss',
+    templateUrl: './admin-list-repealed-legislations.component.html',
+    styleUrl: './admin-list-repealed-legislations.component.scss',
 })
-export class AdminListCurrentLegislationsComponent {
+export class AdminListRepealedLegislationsComponent {
     @ViewChild('paginator') paginator: Paginator;
     @ViewChild('clt1') clt1: Table;
 
     ref: DynamicDialogRef | undefined;
 
-    setSelectedAlphabet = SetPublicCurrentLegislationAlphabet;
-    getSelectedAlphabet = GetPublicCurrentLegislationAlphabet;
+    setSelectedAlphabet = SetAdminPublishedRepealedLegialtionAlphaSelection;
+    getSelectedAlphabet = GetAdminPublishedRepealedLegislationAlphaSelection;
 
     alphabets = ALPHABETARRAY;
     selectedAlphabet: string;
 
-    pageTitle = 'Published Current Legislations';
+    pageTitle = 'Published Repealed Legislations';
     searchTitle: string;
 
     rowsPerPageOptions = ROWSPERPAGEOPTION;
@@ -140,8 +142,8 @@ export class AdminListCurrentLegislationsComponent {
     private updateSearchTitle(): void {
         this.searchTitle =
             this.selectedAlphabet === this.alphabets[0]
-                ? 'Published Current Legislations'
-                : `Published Current Legislations starting with ${this.selectedAlphabet}`;
+                ? 'Published Repealed Legislations'
+                : `Published Repealed Legislations starting with ${this.selectedAlphabet}`;
     }
 
     // applyGlobalFilter() {
@@ -153,6 +155,6 @@ export class AdminListCurrentLegislationsComponent {
     // }
 
     viewLegislation(legislation: LegislationDto) {
-        this.router.navigate(['admin/draft/legislation/' + legislation.id]);
+        this.router.navigate(['legislations/view/' + legislation.id]);
     }
 }

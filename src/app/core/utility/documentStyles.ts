@@ -140,3 +140,33 @@ export function GetTocStylesAdmin(type: string, language: string) {
         return '';
     }
 }
+
+export function GetTocStylesDLAdmin(type: string, language: string) {
+    if (language === LanguageType.ENG) {
+        if (type === SectionType.HEADING_1) {
+            return 'font-serif text-xl pl-0 mt-2 font-bold';
+        } else if (type === SectionType.HEADING_2) {
+            return 'text-xl pl-1 my-1 font-medium';
+        } else if (type === SectionType.HEADING_3) {
+            return 'pl-2 text-xl';
+        } else if (type === SectionType.SUBSECTION_H1) {
+            return 'pl-3 ';
+        } else if (type === SectionType.SUBSECTION_H2) {
+            return 'pl-4';
+        }
+        return '';
+    } else {
+        if (type === SectionType.HEADING_1) {
+            return 'font-uchen text-xl pl-0 my-2 font-medium';
+        } else if (type === SectionType.HEADING_2) {
+            return 'font-uchen text-xl pl-4 my-1 font-medium';
+        } else if (type === SectionType.HEADING_3) {
+            return 'font-uchen text-xl pl-8 ';
+        } else if (type === SectionType.SUBSECTION_H1) {
+            return 'font-uchen text-xl pl-8 text-sm';
+        } else if (type === SectionType.SUBSECTION_H2) {
+            return 'font-uchen text-xl pl-12';
+        }
+        return '';
+    }
+}

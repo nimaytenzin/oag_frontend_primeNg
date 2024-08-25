@@ -1,0 +1,60 @@
+<div class="flex gap-4 my-4 justify-content-start">
+    <p-button
+        label="Document Copy"
+        size="small"
+        severity="secondary"
+        icon="pi pi-plus"
+        (click)="openAddDocumentCopyModal()"
+    >
+    </p-button>
+</div>
+
+<div>
+    <div *ngIf="documentCopies.length">
+        <p-table
+            [value]="documentCopies"
+            class="p-datatable-sm text-lg"
+            [tableStyle]="{ 'min-width': '50rem' }"
+        >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Title</th>
+                    <th>Language</th>
+                    <th>Actions</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+                <tr>
+                    <td>{{ legislation.title_eng | titlecase }}</td>
+                    <td>{{ item.language }}</td>
+
+                    <td>
+                        <div class="flex gap-2">
+                            <p-button
+                                (click)="
+                                    openViewDocumentCopyModal(item.fileUri)
+                                "
+                                icon="pi pi-eye"
+                                label="view"
+                                size="small"
+                                severity="secondary"
+                            ></p-button>
+                            <p-button
+                                (click)="
+                                    confirmDeleteDocumentCopy($event, item)
+                                "
+                                icon="pi pi-trash"
+                                label="Delete"
+                                size="small"
+                                severity="secondary"
+                            ></p-button>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <div *ngIf="!documentCopies.length">
+        <p class="my-4">No Document Copies Added</p>
+    </div>
+</div>

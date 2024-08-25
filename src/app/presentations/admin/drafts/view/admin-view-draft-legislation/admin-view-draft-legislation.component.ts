@@ -293,7 +293,6 @@ export class AdminViewDraftLegislationComponent {
             .AdminGetRepealHistiry(this.legislationId)
             .subscribe((res) => {
                 console.log('OLD LEGISLATIVE JISTORY', this.history);
-
                 this.history = res;
                 console.log('NEW LEGISLATIVE HISTORY', res);
             });

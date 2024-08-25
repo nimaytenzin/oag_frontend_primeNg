@@ -23,6 +23,9 @@ import { PaginatedData } from 'src/app/core/dto/utility/paginated-data.dto';
 import {
     SetPublicCurrentLegislationAlphabet,
     GetPublicCurrentLegislationAlphabet,
+    SetAdminDraftConventionAlphaSelection,
+    GetAdminDraftDelegatedLegislationAlphaSelection,
+    GetAdminDraftConventionAlphaSelection,
 } from 'src/app/core/sessionStates/public.paginator.states';
 import { PublicListDelegatedLegislationsModalComponent } from 'src/app/presentations/public/legislations/components/public-list-delegated-legislations-modal/public-list-delegated-legislations-modal.component';
 import { AdminAddDraftLegislationModalComponent } from '../components/admin-add-draft-legislation-modal/admin-add-draft-legislation-modal.component';
@@ -51,8 +54,8 @@ export class AdminListDraftConventionsComponent {
 
     ref: DynamicDialogRef | undefined;
 
-    setSelectedAlphabet = SetPublicCurrentLegislationAlphabet;
-    getSelectedAlphabet = GetPublicCurrentLegislationAlphabet;
+    setSelectedAlphabet = SetAdminDraftConventionAlphaSelection;
+    getSelectedAlphabet = GetAdminDraftConventionAlphaSelection;
 
     alphabets = ALPHABETARRAY;
     selectedAlphabet: string;
@@ -140,7 +143,7 @@ export class AdminListDraftConventionsComponent {
         }
 
         this.legislationDataService
-            .AdminGetDraftLegisaltionsPaginated(queryParams)
+            .AdminGetDraftConventionsPaginated(queryParams)
             .subscribe({
                 next: (res) => {
                     this.paginatedLegislations = res;

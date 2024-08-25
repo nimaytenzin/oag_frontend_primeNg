@@ -53,6 +53,13 @@ export class DelegatedLegislationDataService {
         );
     }
 
+    AdminGetDelegatedLegislationDetails(
+        delegatedLegislationId: number
+    ): Observable<DelegatedLegislationDto> {
+        return this.http.get<DelegatedLegislationDto>(
+            `${this.apiUrl}/delegated-legislation/${delegatedLegislationId}`
+        );
+    }
     // ************************* PUBLIC ROUTES
     PublicGetDelegatedLegislationDetails(
         delegatedLegislationId: number

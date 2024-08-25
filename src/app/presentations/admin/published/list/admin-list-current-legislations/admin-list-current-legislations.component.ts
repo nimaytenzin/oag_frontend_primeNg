@@ -20,11 +20,13 @@ import { PaginatedData } from 'src/app/core/dto/utility/paginated-data.dto';
 import {
     SetPublicCurrentLegislationAlphabet,
     GetPublicCurrentLegislationAlphabet,
+    SetAdminPublishedCurrentLegialtionAlphaSelection,
+    GetAdminPublishedCurrentLegislationAlphaSelection,
 } from 'src/app/core/sessionStates/public.paginator.states';
 import { PublicListDelegatedLegislationsModalComponent } from 'src/app/presentations/public/legislations/components/public-list-delegated-legislations-modal/public-list-delegated-legislations-modal.component';
 
 @Component({
-    selector: 'app-admin-list-billed-legislations',
+    selector: 'app-admin-list-current-legislations',
     standalone: true,
     imports: [
         PaginatorModule,
@@ -36,22 +38,22 @@ import { PublicListDelegatedLegislationsModalComponent } from 'src/app/presentat
         TooltipModule,
     ],
     providers: [DialogService],
-    templateUrl: './admin-list-billed-legislations.component.html',
-    styleUrl: './admin-list-billed-legislations.component.scss',
+    templateUrl: './admin-list-current-legislations.component.html',
+    styleUrl: './admin-list-current-legislations.component.scss',
 })
-export class AdminListBilledLegislationsComponent {
+export class AdminListCurrentLegislationsComponent {
     @ViewChild('paginator') paginator: Paginator;
     @ViewChild('clt1') clt1: Table;
 
     ref: DynamicDialogRef | undefined;
 
-    setSelectedAlphabet = SetPublicCurrentLegislationAlphabet;
-    getSelectedAlphabet = GetPublicCurrentLegislationAlphabet;
+    setSelectedAlphabet = SetAdminPublishedCurrentLegialtionAlphaSelection;
+    getSelectedAlphabet = GetAdminPublishedCurrentLegislationAlphaSelection;
 
     alphabets = ALPHABETARRAY;
     selectedAlphabet: string;
 
-    pageTitle = 'Published Bills';
+    pageTitle = 'Published Current Legislations';
     searchTitle: string;
 
     rowsPerPageOptions = ROWSPERPAGEOPTION;
@@ -140,8 +142,8 @@ export class AdminListBilledLegislationsComponent {
     private updateSearchTitle(): void {
         this.searchTitle =
             this.selectedAlphabet === this.alphabets[0]
-                ? 'Published Bills'
-                : `Published Bills starting with ${this.selectedAlphabet}`;
+                ? 'Published Current Legislations'
+                : `Published Current Legislations starting with ${this.selectedAlphabet}`;
     }
 
     // applyGlobalFilter() {
@@ -153,6 +155,6 @@ export class AdminListBilledLegislationsComponent {
     // }
 
     viewLegislation(legislation: LegislationDto) {
-        this.router.navigate(['legislations/view/' + legislation.id]);
+        this.router.navigate(['admin/draft/legislation/' + legislation.id]);
     }
 }

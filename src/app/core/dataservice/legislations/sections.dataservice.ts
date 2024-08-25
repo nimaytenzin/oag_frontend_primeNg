@@ -61,6 +61,21 @@ export class SectionDataService {
             `${this.apiUrl}/section/legislation/${legislationId}`
         );
     }
+    AdminGetSectionsByDelegatedLegislation(
+        delegatedLegislationId: number
+    ): Observable<SectionDto[]> {
+        return this.http.get<SectionDto[]>(
+            `${this.apiUrl}/section/delegated-legislation/${delegatedLegislationId}`
+        );
+    }
+
+    AdminGetTOCByDelegatedLegislation(
+        delegatedLegislationId: number
+    ): Observable<SectionDto[]> {
+        return this.http.get<SectionDto[]>(
+            `${this.apiUrl}/section/toc/by-delegated-legislation/${delegatedLegislationId}`
+        );
+    }
 
     AdminDeleteSection(sectionId: number) {
         return this.http.delete(`${this.apiUrl}/section/${sectionId}`);
