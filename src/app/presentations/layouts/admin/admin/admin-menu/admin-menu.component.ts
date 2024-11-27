@@ -49,8 +49,9 @@ export class AdminMenuComponent implements OnInit {
                     },
                 ],
             },
+
             {
-                label: 'Legislations',
+                label: 'Published Legislations',
                 items: [
                     {
                         label: 'Current',
@@ -71,28 +72,28 @@ export class AdminMenuComponent implements OnInit {
                 ],
             },
             {
-                label: 'Delegated Legislations',
+                label: 'Published Delegated Legislations',
                 items: [
                     {
                         label: 'Current',
                         icon: 'pi pi-fw pi-file',
+                        routerLink: ['/admin/delegated-legislations/current'],
                     },
-                    {
-                        label: 'Modifications',
-                        icon: 'pi pi-fw pi-file',
-                    },
+
                     {
                         label: 'Revoked',
                         icon: 'pi pi-fw pi-file',
+                        routerLink: ['/admin/delegated-legislations/revoked'],
                     },
                 ],
             },
             {
-                label: 'International Conventions',
+                label: 'Published International Conventions',
                 items: [
                     {
                         label: 'Current',
                         icon: 'pi pi-fw pi-file',
+                        routerLink: ['/admin/international-conventions'],
                     },
                 ],
             },

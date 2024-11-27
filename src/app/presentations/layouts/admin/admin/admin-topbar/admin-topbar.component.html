@@ -29,7 +29,7 @@
         }"
     >
         <p-avatar
-            image="assets/images/avatar.jpeg"
+            [label]="getFirstCharacter()"
             styleClass="mr-2 cursor-pointer"
             shape="circle"
             (click)="profile.toggle($event)"
@@ -38,7 +38,7 @@
         <p-overlayPanel #profile>
             <div class="flex">
                 <p-avatar
-                    image="assets/images/avatar.jpeg"
+                    [label]="getFirstCharacter()"
                     styleClass="mr-2"
                     shape="circle"
                     (click)="profile.toggle($event)"

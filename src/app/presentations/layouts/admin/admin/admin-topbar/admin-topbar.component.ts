@@ -36,4 +36,7 @@ export class AdminTopbarComponent {
     logout() {
         this.router.navigate(['/auth/login']);
     }
+    getFirstCharacter() {
+        return this.user.fullName.charAt(0);
+    }
 }

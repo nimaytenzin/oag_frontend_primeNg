@@ -1,4 +1,5 @@
 import {
+    DelegatedLegislationStatus,
     DelegatedLesiglationTypes,
     LegislationStatus,
 } from '../../constants/enums';
@@ -29,4 +30,19 @@ export interface DelegatedLegislationDto {
     isActive: boolean;
     isPublished: boolean;
     amendments?: AmendmentDto[];
+}
+
+export interface UpdateDelegatedLegislationDto {
+    title_eng?: string;
+    title_dzo?: string;
+    description_eng?: string;
+    description_dzo?: string;
+    status?: DelegatedLegislationStatus;
+    type?: DelegatedLesiglationTypes;
+    documentYear?: number;
+
+    tabledDate?: string;
+    enactmentDate?: string;
+    amendmentDate?: string;
+    repealDate?: string;
 }

@@ -25,6 +25,12 @@ export enum DelegatedLesiglationTypes {
     OTHERS = 'OTHERS',
 }
 
+export enum DelegatedLegislationStatus {
+    ENACTED = 'ENACTED',
+    REVOKED = 'REVOKED',
+    MODIFIED = 'MODIFIED',
+}
+
 export enum LegislationRelationshipActionEnum {
     REPEALS = 'Repeals',
     IsRepealedBy = 'Is Repealed by',

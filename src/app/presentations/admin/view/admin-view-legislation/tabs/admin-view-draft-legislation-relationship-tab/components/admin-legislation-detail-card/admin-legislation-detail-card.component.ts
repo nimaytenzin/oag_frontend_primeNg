@@ -1,23 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DynamicDialogRef, DialogService } from 'primeng/dynamicdialog';
-import { LegislationStatus } from 'src/app/core/constants/enums';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { LegislationDataService } from 'src/app/core/dataservice/legislations/legislations.dataservice';
 import { LegislationRelationshipDataService } from 'src/app/core/dataservice/legislative-history/legislation-relationship.dataservice';
 import { AmendmentDto } from 'src/app/core/dto/ammendment/ammendment.dto';
 import { LegislationDto } from 'src/app/core/dto/legislation/legislation.dto';
-import { AdminViewAmendmentsModalComponent } from 'src/app/presentations/admin/view/shared-components/admin-view-amendments-modal/admin-view-amendments-modal.component';
+import { AdminViewAmendmentsModalComponent } from '../../../../../shared-components/admin-view-amendments-modal/admin-view-amendments-modal.component';
+import { LegislationStatus } from 'src/app/core/constants/enums';
 
 @Component({
-    selector: 'app-Public-Legislation-History-Card',
+    selector: 'app-admin-legislation-detail-card',
     standalone: true,
     imports: [CommonModule],
     providers: [DialogService],
-    templateUrl: './Public-Legislation-History-Card.component.html',
-    styleUrls: ['./Public-Legislation-History-Card.component.scss'],
+    templateUrl: './admin-legislation-detail-card.component.html',
+    styleUrls: ['./admin-legislation-detail-card.component.scss'],
 })
-export class PublicLegislationHistoryCardComponent implements OnInit {
+export class AdminLegislationDetailCardComponent implements OnInit {
     @Input() legislationId: number;
     @Input() mode: string;
     @Input() index: number;
@@ -59,7 +59,10 @@ export class PublicLegislationHistoryCardComponent implements OnInit {
     }
 
     viewLegislation() {
-        this.router.navigate(['/legislations/view/', this.legislation.id]);
+        this.router.navigate([
+            '/admin/draft/legislation/',
+            this.legislation.id,
+        ]);
     }
 
     getStatusClassName(status: string): string {

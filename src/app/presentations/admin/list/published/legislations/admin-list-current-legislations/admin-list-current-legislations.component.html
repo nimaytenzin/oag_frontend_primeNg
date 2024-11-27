@@ -1,0 +1,152 @@
+<div class="p-6 p-card" style="min-height: 80vh">
+    <h2 class="font-serif">{{ pageTitle }} A-Z</h2>
+
+    <div
+        class="flex w-full flex-wrap justify-content-start xl:justify-content-between border-200 border-top-1 border-bottom-1"
+    >
+        <div
+            *ngFor="let item of alphabets"
+            class="w-3rem p-3 h-3rem cursor-pointer hover:surface-200 text-lg flex justify-content-center align-items-center"
+            (click)="loadDataByAlphabet(item)"
+            [ngClass]="{ 'surface-300': item === selectedAlphabet }"
+        >
+            <p>
+                {{ item }}
+            </p>
+        </div>
+    </div>
+
+    <hr />
+    <div class="grid">
+        <div class="col-12 lg:col-3">
+            <div class="">
+                <div class="flex justify-content-between">
+                    <h4 class="font-serif">Fliters</h4>
+                </div>
+                <hr />
+
+                <div class="p-fluid">
+                    <p>Search in Title</p>
+
+                    <div class="field">
+                        <span class="p-input-icon-left" styleClass="">
+                            <i class="pi pi-search"></i>
+                            <input
+                                type="text"
+                                pInputText
+                                style="width: 100%"
+                                placeholder="Key words"
+                                (input)="
+                                    clt1.filterGlobal(
+                                        $event.target.value,
+                                        'contains'
+                                    )
+                                "
+                            />
+                        </span>
+                    </div>
+                    <p class="mt-4">Search in Document Year</p>
+                    <span class="p-input-icon-left" styleClass="">
+                        <i class="pi pi-calendar"></i>
+
+                        <input
+                            type="text"
+                            pInputText
+                            style="width: 100%"
+                            placeholder="Document Year"
+                            (input)="
+                                clt1.filterGlobal(
+                                    $event.target.value,
+                                    'contains'
+                                )
+                            "
+                        />
+                    </span>
+                </div>
+                <button
+                    pButton
+                    size="small"
+                    label="Clear"
+                    class="p-button-outlined mt-4"
+                    icon="pi pi-filter-slash"
+                    (click)="clt1.clear()"
+                ></button>
+            </div>
+        </div>
+        <div class="col-12 lg:col-9">
+            <div class="flex align-items-center mb-2 justify-content-between">
+                <div>
+                    <h3 class="font-serif">Showing {{ searchTitle }}</h3>
+                    <p>
+                        Showing {{ paginatedLegislations.data.length }} of
+                        {{ paginatedLegislations.count }} Entries
+                    </p>
+                </div>
+                <div class="">
+                    <p-paginator
+                        (onPageChange)="onPageChange($event)"
+                        [first]="firstPageNumber"
+                        [rows]="rows"
+                        [totalRecords]="paginatedLegislations.count"
+                        [rowsPerPageOptions]="rowsPerPageOptions"
+                        [showFirstLastIcon]="true"
+                        #paginator
+                    ></p-paginator>
+                </div>
+            </div>
+
+            <p-table
+                #clt1
+                *ngIf="
+                    paginatedLegislations && paginatedLegislations.data.length
+                "
+                [value]="paginatedLegislations.data"
+                [globalFilterFields]="['title_eng', 'documentYear']"
+            >
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="title_eng">
+                            Title <p-sortIcon field="title_eng"> </p-sortIcon>
+                        </th>
+
+                        <th pSortableColumn="documentYear">
+                            Year <p-sortIcon field="documentYear"> </p-sortIcon>
+                        </th>
+                        <th>Actions</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <td
+                            class="hover:text-primary cursor-pointer"
+                            (click)="viewLegislation(item)"
+                        >
+                            <p>
+                                {{ item.title_eng }}
+                            </p>
+
+                            <p>
+                                {{ item.title_dzo }}
+                            </p>
+                        </td>
+                        <td>
+                            {{ item.documentYear ? item.documentYear : "-" }}
+                        </td>
+                        <td>
+                            <div>Edit</div>
+                            <div>Delete</div>
+                            <div>Added by Nima</div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+            <div
+                *ngIf="!paginatedLegislations.data.length"
+                class="py-4 text-xl"
+            >
+                No {{ searchTitle }}
+            </div>
+        </div>
+    </div>
+</div>

@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { LegislationRelationshipDataService } from 'src/app/core/dataservice/legislative-history/legislation-relationship.dataservice';
-import { AdminLegislationDetailCardComponent } from 'src/app/presentations/admin/drafts/view/admin-view-draft-legislation/tabs/admin-view-draft-legislation-relationship-tab/components/admin-legislation-detail-card/admin-legislation-detail-card.component';
+import { AdminLegislationDetailCardComponent } from 'src/app/presentations/admin/view/admin-view-legislation/tabs/admin-view-draft-legislation-relationship-tab/components/admin-legislation-detail-card/admin-legislation-detail-card.component';
 import { PublicLegislationHistoryCardComponent } from './components/Public-Legislation-History-Card/Public-Legislation-History-Card.component';
 interface EventItem {
     title_eng?: string;

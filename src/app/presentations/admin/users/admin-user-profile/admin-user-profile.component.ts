@@ -5,6 +5,8 @@ import { ButtonModule } from 'primeng/button';
 import { ImageModule } from 'primeng/image';
 import { InputTextModule } from 'primeng/inputtext';
 import { USERROLES } from 'src/app/core/constants/enums';
+import { AuthService } from 'src/app/core/dataservice/auth/auth.service';
+import { JwtDto } from 'src/app/core/dto/users-auth/jwtToken.dto';
 import { UserDto } from 'src/app/core/dto/users-auth/user.dto';
 
 @Component({
@@ -21,9 +23,18 @@ import { UserDto } from 'src/app/core/dto/users-auth/user.dto';
     styleUrl: './admin-user-profile.component.scss',
 })
 export class AdminUserProfileComponent {
-    userData: UserDto = {
-        fullName: 'Nima Yoezer Tenzin',
-        email: 'nimaytenzin@gmail.com',
-        role: USERROLES.ADMIN,
-    };
+    userData: JwtDto;
+
+    constructor(private authservice: AuthService) {
+        this.userData = this.authservice.getDecodedTokenObject();
+    }
+
+    updateProfile() {
+        const userData = {
+            fullName: this.userData.fullName,
+            email: this.userData.email,
+        };
+    }
+
+    openChangePasswordModal() {}
 }

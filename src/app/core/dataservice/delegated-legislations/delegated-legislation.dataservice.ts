@@ -6,7 +6,10 @@ import { environment } from 'src/environments/environment';
 import { LegislationDto } from '../../dto/legislation/legislation.dto';
 import { PaginatedData } from '../../dto/utility/paginated-data.dto';
 import { SectionDto } from '../../dto/legislation/section.dto';
-import { DelegatedLegislationDto } from '../../dto/delegated-legislation/delegated-legislation.dto';
+import {
+    DelegatedLegislationDto,
+    UpdateDelegatedLegislationDto,
+} from '../../dto/delegated-legislation/delegated-legislation.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -60,6 +63,71 @@ export class DelegatedLegislationDataService {
             `${this.apiUrl}/delegated-legislation/${delegatedLegislationId}`
         );
     }
+
+    AdminGetPublishedCurrentDelegatedLegislationsPaginated(
+        options: {
+            page?: number;
+            pageSize?: number;
+            startsWith?: string;
+        } = {}
+    ): Observable<PaginatedData<DelegatedLegislationDto>> {
+        const { page, pageSize, startsWith } = options;
+        let params = new HttpParams();
+        if (page) {
+            params = params.set('page', page);
+        }
+        if (pageSize) {
+            params = params.set('limit', pageSize.toString());
+        }
+        if (startsWith) {
+            params = params.set('startsWith', startsWith);
+        }
+
+        return this.http.get<PaginatedData<DelegatedLegislationDto>>(
+            `${this.apiUrl}/delegated-legislation/published/current/p`,
+            {
+                params,
+            }
+        );
+    }
+
+    AdminGetPublishedRevokedDelegatedLegislationsPaginated(
+        options: {
+            page?: number;
+            pageSize?: number;
+            startsWith?: string;
+        } = {}
+    ): Observable<PaginatedData<DelegatedLegislationDto>> {
+        const { page, pageSize, startsWith } = options;
+        let params = new HttpParams();
+        if (page) {
+            params = params.set('page', page);
+        }
+        if (pageSize) {
+            params = params.set('limit', pageSize.toString());
+        }
+        if (startsWith) {
+            params = params.set('startsWith', startsWith);
+        }
+
+        return this.http.get<PaginatedData<DelegatedLegislationDto>>(
+            `${this.apiUrl}/delegated-legislation/published/revoked/p`,
+            {
+                params,
+            }
+        );
+    }
+
+    AdminUpdateDelegatedLegislation(
+        id: number,
+        data: UpdateDelegatedLegislationDto
+    ) {
+        return this.http.patch(
+            `${this.apiUrl}/delegated-legislation/${id}`,
+            data
+        );
+    }
+
     // ************************* PUBLIC ROUTES
     PublicGetDelegatedLegislationDetails(
         delegatedLegislationId: number

@@ -108,3 +108,16 @@ export function GetAdminPublishedRepealedLegislationAlphaSelection() {
         ADMIN_PUBLISHED_REPEALED_LEGISLATION_ALPHABET_KEY
     );
 }
+
+//PUBLISHED CURRENT DELEGATED LEGISLATION LIST
+const ADMIN_PUBLISHED_CURRENT_DELEGATED_LEGISLATION_ALPHABET_KEY =
+    'Admin_Published_Current_Delegted_Legislation_Alphabet_key';
+
+export function SetAdminPublishedCurrentDelegatedLegialtionAlphaSelection(
+    alphabet: string
+) {
+    sessionStorage.setItem(
+        ADMIN_PUBLISHED_CURRENT_DELEGATED_LEGISLATION_ALPHABET_KEY,
+        alphabet
+    );
+}
