@@ -38,8 +38,8 @@ import { ToastModule } from 'primeng/toast';
 })
 export class PublicLoginComponent {
     rememberMe: boolean = false;
-    email: string = 'kwangyel@gmail.com';
-    password: string = 'overlord123';
+    email: string;
+    password: string;
     messages: Message[] | undefined;
 
     constructor(
