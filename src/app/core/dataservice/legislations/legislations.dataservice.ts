@@ -132,6 +132,33 @@ export class LegislationDataService {
     }
 
     //  ****************************  PUBLIC ROUTES ***************************//
+    PublicGetAmendedLegislationsPaginated(
+        options: {
+            page?: number;
+            pageSize?: number;
+            startsWith?: string;
+        } = {}
+    ): Observable<PaginatedData<LegislationDto>> {
+        const { page, pageSize, startsWith } = options;
+        let params = new HttpParams();
+        if (page) {
+            params = params.set('page', page);
+        }
+        if (pageSize) {
+            params = params.set('limit', pageSize.toString());
+        }
+        if (startsWith) {
+            params = params.set('startsWith', startsWith);
+        }
+
+        return this.http.get<PaginatedData<LegislationDto>>(
+            `${this.apiUrl}/p/legislations/amended`,
+            {
+                params,
+            }
+        );
+    }
+
     PublicGetCurrentLegislationsPaginated(
         options: {
             page?: number;

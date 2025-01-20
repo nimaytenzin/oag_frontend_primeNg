@@ -44,7 +44,7 @@ const routes: Routes = [
                         component: PublicListCurrentLegislationsComponent,
                     },
                     {
-                        path: 'ammended',
+                        path: 'amended',
                         component: PublicListAmmendedLegislationsComponent,
                     },
                     {

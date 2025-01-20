@@ -52,7 +52,8 @@ export class PublicNavbarComponent implements OnInit {
                         separator: true,
                     },
                     {
-                        label: 'Ammended',
+                        label: 'Amended',
+                        routerLink: ['legislations/amended'],
                     },
                     {
                         label: 'Repealed',
