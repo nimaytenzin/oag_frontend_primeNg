@@ -13,7 +13,7 @@
                 <p-button label="Preview" size="small" severity="secondary" icon="pi pi-eye" (click)="preview()">
                 </p-button>
 
-                <p-button size="small" severity="secondary" icon="pi pi-trash"></p-button>
+                <p-button size="small" severity="secondary" icon="pi pi-trash" (click)="deleteDL()"></p-button>
 
                 <p>Lang</p>
                 <p-dropdown [options]="languageTypes" [(ngModel)]="selectedLanguage" placeholder="Select language">

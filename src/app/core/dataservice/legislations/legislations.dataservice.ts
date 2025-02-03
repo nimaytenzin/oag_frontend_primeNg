@@ -15,7 +15,7 @@ import { DelegatedLegislationDto } from '../../dto/delegated-legislation/delegat
     providedIn: 'root',
 })
 export class LegislationDataService {
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
     private apiUrl = environment.apiUrl;
 
@@ -306,11 +306,27 @@ export class LegislationDataService {
     }
 
     AdminCreateDelegatedLegislation(
-        data:DelegatedLegislationDto 
+        data: DelegatedLegislationDto
     ): Observable<LegislationDto> {
         return this.http.post<LegislationDto>(
             `${this.apiUrl}/delegated-legislation`,
             data
+        );
+    }
+
+    AdminDeleteLegislation(
+        id: number
+    ) {
+        return this.http.delete(
+            `${this.apiUrl}/legislation/${id}`
+        );
+    }
+
+    AdminDeleteDelegatedLegislation(
+        id: number
+    ) {
+        return this.http.delete(
+            `${this.apiUrl}/delegated-legislation/${id}`
         );
     }
 

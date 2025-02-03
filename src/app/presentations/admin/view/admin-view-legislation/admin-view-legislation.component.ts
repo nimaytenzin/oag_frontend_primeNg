@@ -229,6 +229,10 @@ export class AdminViewLegislationComponent {
         }
     }
 
+    preview(){
+        window.open(`https://www.legislation.gov.bt/#/legislations/view/${this.legislationId}`, '_blank');
+    }
+
     getLegislationDetails() {
         this.legislationDataService
             .GetLegislationDetails(this.legislationId)
@@ -445,10 +449,18 @@ export class AdminViewLegislationComponent {
             rejectIcon: 'none',
             rejectButtonStyleClass: 'p-button-text',
             accept: () => {
-                this.messageService.add({
-                    severity: 'info',
-                    summary: 'Confirmed',
-                    detail: 'You have Deleted the legislation',
+                this.legislationDataService.AdminDeleteLegislation(
+                    this.legislationId
+                ).subscribe((res) => {
+                    console.log(res)
+                    if (res) {
+                        this.messageService.add({
+                            severity: 'info',
+                            summary: 'Confirmed',
+                            detail: 'You have Deleted the legislation',
+                        });
+                        window.history.back();
+                    }
                 });
             },
             reject: () => {},

@@ -125,6 +125,34 @@ export class AdminViewDelegatedLegislationComponent {
         this.activeItem = item;
     }
 
+    deleteDL() {
+        this.confirmationService.confirm({
+            target: event.target as EventTarget,
+            message: 'Are you sure that you want to Delete?',
+            header: 'Confirmation',
+            icon: 'pi pi-exclamation-triangle',
+            acceptIcon: 'none',
+            rejectIcon: 'none',
+            rejectButtonStyleClass: 'p-button-text',
+            accept: () => {
+                this.legislationDataService.AdminDeleteDelegatedLegislation(
+                    this.delegatedLegislationId
+                ).subscribe((res) => {
+                    console.log(res)
+                    if (res) {
+                        this.messageService.add({
+                            severity: 'info',
+                            summary: 'Confirmed',
+                            detail: 'You have Deleted the Delegated legislation',
+                        });
+                        window.history.back();
+                    }
+                });
+            },
+            reject: () => {},
+        });
+    }
+
     publishLegislation(mode: string) {
         this.confirmationService.confirm({
             target: event.target as EventTarget,
