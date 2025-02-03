@@ -311,7 +311,7 @@ export class AdminViewDraftLegislationSectionsTabComponent implements OnInit {
             }
         );
         this.ref.onClose.subscribe((res) => {
-            if (res && res.status === 201) {
+            if (res ) {
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Added',

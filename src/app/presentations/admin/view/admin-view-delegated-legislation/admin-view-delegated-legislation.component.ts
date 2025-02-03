@@ -26,6 +26,7 @@ import { TabMenuModule } from 'primeng/tabmenu';
 import { AdminDelegatedLegislationDocumentCopiesTabComponent } from './tabs/admin-delegated-legislation-document-copies-tab/admin-delegated-legislation-document-copies-tab.component';
 import { AdminEditDelegatedLegislationModalComponent } from './components/admin-edit-delegated-legislation-modal/admin-edit-delegated-legislation-modal.component';
 import { AdminDelegatedLegislationAddParentModalComponent } from './components/admin-delegated-legislation-add-parent-modal/admin-delegated-legislation-add-parent-modal.component';
+import { DocumentCopyDataService } from 'src/app/core/dataservice/storage/document-copy.service';
 
 @Component({
     selector: 'app-admin-view-delegated-legislation',
@@ -91,7 +92,8 @@ export class AdminViewDelegatedLegislationComponent {
         private delegatedLegislationDataService: DelegatedLegislationDataService,
         private sectionDataService: SectionDataService,
         private route: ActivatedRoute,
-        private dialogService: DialogService
+        private dialogService: DialogService,
+        private documentCopyDataService: DocumentCopyDataService
     ) {
         this.route.params.subscribe((params) => {
             this.delegatedLegislationId = params['delegatedLegislationId'];
@@ -122,6 +124,18 @@ export class AdminViewDelegatedLegislationComponent {
         } else {
             return 'text-red-50 bg-red-400  px-2';
         }
+    }
+    updateSectionAndTOC(){
+        this.getSections();
+        this.getTableOfContents();
+    }
+    
+    getDocumentCopies() {
+        this.documentCopyDataService
+            .AdminGetDocumentCopiesByDelegateLegislation(this.delegatedLegislationId)
+            .subscribe((res) => {
+                this.documentCopies = res;
+            });
     }
 
     switchEditingMode(editingMode: EditingModes) {

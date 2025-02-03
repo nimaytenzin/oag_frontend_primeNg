@@ -30,6 +30,12 @@ export class DocumentCopyDataService {
         );
     }
 
+    AdminGetDocumentCopiesByDelegateLegislation(delegatedLegislationId: number) {
+        return this.http.get<DocumentCopyDto[]>(
+            `${this.apiUrl}/${this.controllerName}/delegated-legislation/${delegatedLegislationId}`
+        );
+    }
+
     AdminDeleteDocumentCopy(id: number) {
         return this.http.delete(`${this.apiUrl}/${this.controllerName}/${id}`);
     }
