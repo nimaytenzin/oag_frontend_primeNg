@@ -281,7 +281,6 @@ export class AdminDelegatedLegislationSectionsTabComponent implements OnInit {
                 header: 'Add Section',
                 maximizable: true,
                 width: '60%',
-
                 data: { delegatedLegislationId: this.delegatedLegislationId, isDelegatedLegislation: true },
             }
         );

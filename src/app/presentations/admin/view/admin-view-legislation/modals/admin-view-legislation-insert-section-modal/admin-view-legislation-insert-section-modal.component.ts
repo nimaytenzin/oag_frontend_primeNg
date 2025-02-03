@@ -56,7 +56,7 @@ export class AdminViewLegislationInsertSectionModalComponent {
     data: Data;
     editingMode: string;
     clause_eng: string;
-    clause_dzo: string;
+    clause_dzo: string = "NA";
 
     selectedSectionType: SectionType = SectionType.HEADING_1;
     sectionTypes = [
