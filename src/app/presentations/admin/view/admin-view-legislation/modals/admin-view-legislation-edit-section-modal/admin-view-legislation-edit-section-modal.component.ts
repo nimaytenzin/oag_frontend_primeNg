@@ -59,6 +59,7 @@ export class AdminViewLegislationEditSectionModalComponent {
 
     selectedSectionType: SectionType = SectionType.HEADING_1;
     editingMode: string;
+    isDelegatedLegislation: boolean = false;
 
     sectionTypes = [
         { label: 'Chapter Heading', value: 'HEADING_1' },
@@ -77,6 +78,8 @@ export class AdminViewLegislationEditSectionModalComponent {
         this.instance = this.dialogService.getInstance(this.ref);
         this.data = this.instance.data;
         this.editingMode = this.editingModePreference.getEditingMode();
+        this.isDelegatedLegislation = this.data.delegatedLegislationId == null ? false : true;
+        console.log(this.instance.data.isDelegatedLegislation);
 
         this.clause_eng = this.data.clause_eng;
         this.clause_dzo = this.data.clause_dzo;
@@ -107,13 +110,25 @@ export class AdminViewLegislationEditSectionModalComponent {
         if (this.editingMode === EditingModes.NORMAL) {
             let data: CreateSectionDto = {} as CreateSectionDto;
 
-            data = {
-                clause_eng: this.clause_eng,
-                clause_dzo: this.clause_dzo,
-                type: this.selectedSectionType,
-                legislationId: this.data.legislationId,
-                delegatedLegislationId: null,
-            };
+
+
+            if (this.isDelegatedLegislation) {
+                data = {
+                    clause_eng: this.clause_eng,
+                    clause_dzo: this.clause_dzo,
+                    type: this.selectedSectionType,
+                    legislationId: null,
+                    delegatedLegislationId: this.data.delegatedLegislationId,
+                };
+            } else {
+                data = {
+                    clause_eng: this.clause_eng,
+                    clause_dzo: this.clause_dzo,
+                    type: this.selectedSectionType,
+                    legislationId: this.data.legislationId,
+                    delegatedLegislationId: null,
+                };
+            }
 
             this.sectionService
                 .AdminUpdateSection(this.data.id, data)
