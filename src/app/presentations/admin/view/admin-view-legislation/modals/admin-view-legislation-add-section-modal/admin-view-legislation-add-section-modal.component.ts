@@ -55,7 +55,7 @@ export class AdminViewLegislationAddSectionModalComponent {
     isDelegatedLegislation: boolean = false;
 
     clause_eng: string;
-    clause_dzo: string;
+    clause_dzo: string = "NA";
 
     selectedSectionType: SectionType = SectionType.HEADING_1;
     editingMode: string;

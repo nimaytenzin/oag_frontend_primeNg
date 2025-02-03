@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { MenuItem, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
 import { DropdownModule } from 'primeng/dropdown';
@@ -27,6 +27,7 @@ import { AdminDelegatedLegislationDocumentCopiesTabComponent } from './tabs/admi
 import { AdminEditDelegatedLegislationModalComponent } from './components/admin-edit-delegated-legislation-modal/admin-edit-delegated-legislation-modal.component';
 import { AdminDelegatedLegislationAddParentModalComponent } from './components/admin-delegated-legislation-add-parent-modal/admin-delegated-legislation-add-parent-modal.component';
 import { DocumentCopyDataService } from 'src/app/core/dataservice/storage/document-copy.service';
+import { LegislationDataService } from 'src/app/core/dataservice/legislations/legislations.dataservice';
 
 @Component({
     selector: 'app-admin-view-delegated-legislation',
@@ -93,6 +94,8 @@ export class AdminViewDelegatedLegislationComponent {
         private sectionDataService: SectionDataService,
         private route: ActivatedRoute,
         private dialogService: DialogService,
+        private confirmationService : ConfirmationService,
+        private legislationDataService: LegislationDataService,
         private documentCopyDataService: DocumentCopyDataService
     ) {
         this.route.params.subscribe((params) => {
@@ -114,9 +117,51 @@ export class AdminViewDelegatedLegislationComponent {
         this.activeItem = this.items[0];
     }
 
+    preview(){
+        window.open(`https://www.legislation.gov.bt/#/delegated-legislations/view/${this.delegatedLegislationId}`, '_blank');
+    }
+
     switchTab(item: MenuItem) {
         this.activeItem = item;
     }
+
+    publishLegislation(mode: string) {
+        this.confirmationService.confirm({
+            target: event.target as EventTarget,
+            message: 'Are you sure that you want to publish?',
+            header: 'Confirmation',
+            icon: 'pi pi-exclamation-triangle',
+            acceptIcon: 'none',
+            rejectIcon: 'none',
+            rejectButtonStyleClass: 'p-button-text',
+            accept: () => {
+            //     this.legislationDataService
+            //         .AdminUpdateLegislation(this.legislationId, {
+            //             isPublished: mode === 'publish' ? true : false,
+            //         })
+            //         .subscribe((res) => {
+            //             if (res) {
+            //                 if (mode === 'publish') {
+            //                     this.messageService.add({
+            //                         severity: 'info',
+            //                         summary: 'Confirmed',
+            //                         detail: 'You have published',
+            //                     });
+            //                 } else {
+            //                     this.messageService.add({
+            //                         severity: 'info',
+            //                         summary: 'Confirmed',
+            //                         detail: 'You have un published ',
+            //                     });
+            //                 }
+            //             }
+            //             this.getLegislationDetails();
+            //         });
+            },
+            reject: () => {},
+        });
+    }
+
 
     getPublishedClassName(isPublished: boolean): string {
         if (isPublished) {
