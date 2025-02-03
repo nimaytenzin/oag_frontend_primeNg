@@ -243,7 +243,36 @@ export class AdminDelegatedLegislationSectionsTabComponent implements OnInit {
     openInsertSectionInBetween(
         topSection: SectionDto,
         bottomSection: SectionDto
-    ) { }
+    ) {
+        this.ref = this.dialogService.open(
+            AdminViewLegislationInsertSectionModalComponent,
+            {
+                header: 'Insert Section',
+                maximizable: true,
+                width: '60%',
+
+                appendTo: 'body',
+                data: {
+                    topSection: topSection,
+                    legislationId: null,
+                    delegatedLegislationId: this.delegatedLegislationId, 
+                    bottomSection: bottomSection,
+                },
+                modal: true,
+            }
+        );
+        this.ref.onClose.subscribe((res) => {
+            if (res && res.status === 201) {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Added',
+                    detail: 'New Section Inserted successfully',
+                });
+                this.requestUpdateSection.emit('1');
+            }
+        });
+
+    }
 
     addSectionModal() {
         this.ref = this.dialogService.open(

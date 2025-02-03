@@ -32,6 +32,7 @@ interface Data {
     topSection: SectionDto;
     bottomSection: SectionDto;
     legislationId: number;
+    delegatedLegislationId: number;
 }
 
 @Component({
@@ -87,15 +88,30 @@ export class AdminViewLegislationInsertSectionModalComponent {
         if (this.editingMode === EditingModes.NORMAL) {
             let data: InsertSectionDto = {} as InsertSectionDto;
 
-            data = {
-                clause_eng: this.clause_eng,
-                clause_dzo: this.clause_dzo,
-                type: this.selectedSectionType,
-                legislationId: this.data.legislationId,
-                delegatedLegislationId: null,
-                topOrder: this.data.topSection.order,
-                bottomOrder: this.data.bottomSection.order,
-            };
+            if (this.data.delegatedLegislationId == null) {
+                data = {
+                    clause_eng: this.clause_eng,
+                    clause_dzo: this.clause_dzo,
+                    type: this.selectedSectionType,
+                    legislationId: this.data.legislationId,
+                    delegatedLegislationId: null,
+                    topOrder: this.data.topSection.order,
+                    bottomOrder: this.data.bottomSection.order,
+                };
+            }else{
+                data = {
+                    clause_eng: this.clause_eng,
+                    clause_dzo: this.clause_dzo,
+                    type: this.selectedSectionType,
+                    legislationId: null,
+                    delegatedLegislationId: this.data.delegatedLegislationId,
+                    topOrder: this.data.topSection.order,
+                    bottomOrder: this.data.bottomSection.order,
+                };
+
+            }
+
+
 
             this.sectionDataService.AdminInsertNewDraftSection(data).subscribe({
                 next: (res: any) => {
