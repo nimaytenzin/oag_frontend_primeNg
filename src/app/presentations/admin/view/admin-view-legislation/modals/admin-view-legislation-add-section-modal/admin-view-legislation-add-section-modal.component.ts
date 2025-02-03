@@ -5,6 +5,7 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import {
     DialogService,
     DynamicDialogComponent,
+    DynamicDialogConfig,
     DynamicDialogRef,
 } from 'primeng/dynamicdialog';
 import { LegislationDto } from 'src/app/core/dto/legislation/legislation.dto';
@@ -51,6 +52,7 @@ export class AdminViewLegislationAddSectionModalComponent {
     items: MenuItem[] | undefined;
 
     activeItem: MenuItem | undefined;
+    isDelegatedLegislation: boolean = false;
 
     clause_eng: string;
     clause_dzo: string;
@@ -74,6 +76,7 @@ export class AdminViewLegislationAddSectionModalComponent {
     ) {
         this.instance = this.dialogService.getInstance(this.ref);
         this.data = this.instance.data;
+        this.isDelegatedLegislation = this.data.isDelegatedLegislation;
         this.editingMode = this.editingModePreference.getEditingMode();
 
         this.items = [
@@ -99,13 +102,25 @@ export class AdminViewLegislationAddSectionModalComponent {
         if (this.editingMode === EditingModes.NORMAL) {
             let data: CreateSectionDto = {} as CreateSectionDto;
 
-            data = {
-                clause_eng: this.clause_eng,
-                clause_dzo: this.clause_dzo,
-                type: this.selectedSectionType,
-                legislationId: this.data.legislationId,
-                delegatedLegislationId: null,
-            };
+            if (this.isDelegatedLegislation) {
+                data = {
+                    clause_eng: this.clause_eng,
+                    clause_dzo: this.clause_dzo,
+                    type: this.selectedSectionType,
+                    legislationId: null,
+                    delegatedLegislationId: this.data.delegatedLegislationId,
+                };
+            } else {
+                data = {
+                    clause_eng: this.clause_eng,
+                    clause_dzo: this.clause_dzo,
+                    type: this.selectedSectionType,
+                    legislationId: this.data.legislationId,
+                    delegatedLegislationId: null,
+                };
+
+            }
+
 
             this.sectionService
                 .AdminCreateNewSection(data)

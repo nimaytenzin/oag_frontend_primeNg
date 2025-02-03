@@ -81,7 +81,7 @@ export class AdminDelegatedLegislationSectionsTabComponent implements OnInit {
         private confirmationService: ConfirmationService,
         private sectionDataservice: SectionDataService,
         private viewportScroller: ViewportScroller
-    ) {}
+    ) { }
     ngOnInit(): void {
         this.eventsSubscription = this.events.subscribe((res) => {
             this.scroll(res);
@@ -193,7 +193,7 @@ export class AdminDelegatedLegislationSectionsTabComponent implements OnInit {
     }
 
     //search
-    searchLegislation() {}
+    searchLegislation() { }
 
     scroll(id: string) {
         let container = document.getElementById('sectionTab'); // Replace with your container class or ID
@@ -243,9 +243,31 @@ export class AdminDelegatedLegislationSectionsTabComponent implements OnInit {
     openInsertSectionInBetween(
         topSection: SectionDto,
         bottomSection: SectionDto
-    ) {}
+    ) { }
 
-    addSectionModal() {}
+    addSectionModal() {
+        this.ref = this.dialogService.open(
+            AdminViewLegislationAddSectionModalComponent,
+            {
+                header: 'Add Section',
+                maximizable: true,
+                width: '60%',
+
+                data: { delegatedLegislationId: this.delegatedLegislationId, isDelegatedLegislation: true },
+            }
+        );
+        this.ref.onClose.subscribe((res) => {
+            if (res && res.status === 201) {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Added',
+                    detail: 'New Section Added successfully',
+                });
+                this.requestUpdateSection.emit('1');
+            }
+        });
+
+    }
 
     openEditSectionModal(item: SectionDto) {
         this.ref = this.dialogService.open(
@@ -324,7 +346,7 @@ export class AdminDelegatedLegislationSectionsTabComponent implements OnInit {
                     );
                 }
             },
-            reject: () => {},
+            reject: () => { },
         });
     }
 }
