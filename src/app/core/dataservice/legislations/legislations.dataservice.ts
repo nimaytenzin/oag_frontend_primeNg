@@ -9,6 +9,7 @@ import {
     UpdateLegislationDto,
 } from '../../dto/legislation/legislation.dto';
 import { PaginatedData } from '../../dto/utility/paginated-data.dto';
+import { DelegatedLegislationDto } from '../../dto/delegated-legislation/delegated-legislation.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -124,7 +125,7 @@ export class LegislationDataService {
         }
 
         return this.http.get<PaginatedData<LegislationDto>>(
-            `${this.apiUrl}/legislation/published/conventions/p`,
+            `${this.apiUrl}/legislation/paginate/conventions`,
             {
                 params,
             }
@@ -300,6 +301,15 @@ export class LegislationDataService {
     ): Observable<LegislationDto> {
         return this.http.post<LegislationDto>(
             `${this.apiUrl}/legislation`,
+            data
+        );
+    }
+
+    AdminCreateDelegatedLegislation(
+        data:DelegatedLegislationDto 
+    ): Observable<LegislationDto> {
+        return this.http.post<LegislationDto>(
+            `${this.apiUrl}/delegated-legislation`,
             data
         );
     }

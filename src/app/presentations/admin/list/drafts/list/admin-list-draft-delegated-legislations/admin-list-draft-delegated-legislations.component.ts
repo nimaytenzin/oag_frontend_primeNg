@@ -28,6 +28,7 @@ import {
 import { PublicListDelegatedLegislationsModalComponent } from 'src/app/presentations/public/legislations/components/public-list-delegated-legislations-modal/public-list-delegated-legislations-modal.component';
 import { AdminAddDraftLegislationModalComponent } from '../components/admin-add-draft-legislation-modal/admin-add-draft-legislation-modal.component';
 import { Router } from '@angular/router';
+import { AdminAddDelegatedLegislationModalComponent } from 'src/app/presentations/admin/view/shared-components/admin-add-delegated-legislation-modal/admin-add-delegated-legislation-modal.component';
 
 @Component({
     selector: 'app-admin-list-draft-delegated-legislations',
@@ -167,9 +168,9 @@ export class AdminListDraftDelegatedLegislationsComponent implements OnInit {
 
     openAddDraftLegislataionModal() {
         this.ref = this.dialogService.open(
-            AdminAddDraftLegislationModalComponent,
+            AdminAddDelegatedLegislationModalComponent,
             {
-                header: 'Add Draft Legislation',
+                header: 'Add Draft Delegated Legislation ',
                 width: '40%',
 
                 baseZIndex: 10000,

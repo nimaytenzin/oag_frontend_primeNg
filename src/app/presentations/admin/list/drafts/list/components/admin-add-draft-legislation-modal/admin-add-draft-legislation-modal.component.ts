@@ -22,6 +22,7 @@ import { AuthService } from 'src/app/core/dataservice/auth/auth.service';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 
 @Component({
     selector: 'app-admin-add-draft-legislation-modal',
@@ -52,14 +53,20 @@ export class AdminAddDraftLegislationModalComponent {
         private messageService: MessageService,
         private legislationDataService: LegislationDataService,
         private authService: AuthService,
-        private ref: DynamicDialogRef
+        private ref: DynamicDialogRef,
+        private config: DynamicDialogConfig
     ) {
+        let isConvention: boolean = false;
+        isConvention = this.config.data;
         this.createDraftLegislationForm = new FormGroup({
             title_eng: new FormControl('', [Validators.required]),
             title_dzo: new FormControl(''),
-            status: new FormControl('', [Validators.required]),
+
+            status: new FormControl(
+                isConvention ? { value: LegislationStatus.ENACTED, disabled: true } : '', [Validators.required]),
             type: new FormControl(
-                { value: LegislationType.ACT, disabled: true },
+                isConvention ? { value: LegislationType.CONVENTION, disabled: true } :
+                    { value: LegislationType.ACT, disabled: true },
                 [Validators.required]
             ),
             documentYear: new FormControl(null, [Validators.required]),

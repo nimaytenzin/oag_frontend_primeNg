@@ -132,7 +132,8 @@ export class AdminListRepealedLegislationsComponent {
         }
 
         this.legislationDataService
-            .PublicGetCurrentLegislationsPaginated(queryParams)
+            .PublicGetRepealedLegislationsPaginated(queryParams)
+            // .PublicGetCurrentLegislationsPaginated(queryParams)
             .subscribe((res) => {
                 this.paginatedLegislations = res;
                 this.updateSearchTitle();

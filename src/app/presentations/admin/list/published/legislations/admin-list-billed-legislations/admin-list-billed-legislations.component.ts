@@ -87,7 +87,7 @@ export class AdminListBilledLegislationsComponent {
         this.titleService.setTitle(this.pageTitle);
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void { }
 
     ngAfterViewInit(): void {
         setTimeout(() => {
@@ -132,7 +132,7 @@ export class AdminListBilledLegislationsComponent {
         }
 
         this.legislationDataService
-            .PublicGetCurrentLegislationsPaginated(queryParams)
+            .PublicGetBillsPaginated(queryParams)
             .subscribe((res) => {
                 this.paginatedLegislations = res;
                 this.updateSearchTitle();

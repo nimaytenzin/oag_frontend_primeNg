@@ -1,3 +1,168 @@
-<p>
-  admin-add-delegated-legislation-modal works!
-</p>
+<div>
+  <form
+      class="grid formgrid p-fluid"
+      [formGroup]="createDraftDelegatedLegislationForm"
+      (ngSubmit)="createNewDraftDelegatedLegislation()"
+  >
+      <div class="field mb-4 col-12">
+          <label for="title_eng" class="font-medium text-900"
+              >Title in English* </label
+          ><input
+              id="title_eng"
+              name="title_eng"
+              required
+              formControlName="title_eng"
+              type="text"
+              pinputtext
+              class="p-inputtext p-component p-element"
+              [ngClass]="{
+                  'ng-invalid ng-dirty':
+                      createDraftDelegatedLegislationForm.controls['title_eng']
+                          .touched &&
+                      createDraftDelegatedLegislationForm.controls['title_eng'].invalid
+              }"
+          />
+          <div
+              class="text-red-500"
+              *ngIf="
+                  createDraftDelegatedLegislationForm.controls['title_eng'].invalid &&
+                  (createDraftDelegatedLegislationForm.controls['title_eng'].touched ||
+                      createDraftDelegatedLegislationForm.controls['title_eng'].dirty)
+              "
+          >
+              <p
+                  *ngIf="createDraftLegislationForm.controls['title_eng'].errors?.['required']"
+              >
+                  Title in English is required.
+              </p>
+          </div>
+      </div>
+      <div class="field mb-4 col-12">
+          <label for="title_dzo" class="font-medium text-900"
+              >Title in Dzongkha </label
+          ><input
+              formControlName="title_dzo"
+              id="title_dzo"
+              name="title_dzo"
+              type="text"
+              pinputtext=""
+              class="p-inputtext p-component p-element"
+          />
+      </div>
+
+      <div class="field mb-4 col-12">
+          <label for="documentYear" class="font-medium text-900"
+              >Document Year</label
+          >
+          <input
+              formControlName="documentYear"
+              id="documentYear"
+              name="documentYear"
+              type="text"
+              pinputtext=""
+              class="p-inputtext p-component p-element"
+              [ngClass]="{
+                  'ng-invalid ng-dirty':
+                      createDraftDelegatedLegislationForm.controls['documentYear']
+                          .touched &&
+                      createDraftDelegatedLegislationForm.controls['documentYear']
+                          .invalid
+              }"
+          />
+
+          <div
+              class="text-red-500"
+              *ngIf="
+                  createDraftDelegatedLegislationForm.controls['documentYear']
+                      .invalid &&
+                  (createDraftDelegatedLegislationForm.controls['documentYear']
+                      .touched ||
+                      createDraftDelegatedLegislationForm.controls['documentYear']
+                          .dirty)
+              "
+          >
+              <p
+                  *ngIf="createDraftLegislationForm.controls['documentYear'].errors?.['required']"
+              >
+                  Document Year is required.
+              </p>
+          </div>
+      </div>
+
+      <div class="field mb-4 col-12 md:col-6">
+          <label for="type" class="font-medium text-900"
+              >Legislation Type*</label
+          >
+          <p-dropdown
+              appendTo="body"
+              id="type"
+              name="type"
+              formControlName="type"
+              [options]="legislationTypes"
+              placeholder="Select Legislation Type"
+              [ngClass]="{
+                  'ng-invalid ng-dirty':
+                      createDraftDelegatedLegislationForm.controls['type'].touched &&
+                      createDraftDelegatedLegislationForm.controls['type'].invalid
+              }"
+          ></p-dropdown>
+          <div
+              class="text-red-500"
+              *ngIf="
+                  createDraftDelegatedLegislationForm.controls['type'].invalid &&
+                  (createDraftDelegatedLegislationForm.controls['type'].touched ||
+                      createDraftDelegatedLegislationForm.controls['type'].dirty)
+              "
+          >
+              <p
+                  *ngIf="createDraftLegislationForm.controls['type'].errors?.['required']"
+              >
+                  Please select the Legislation Type
+              </p>
+          </div>
+      </div>
+      <div class="field mb-4 col-12 md:col-6">
+          <label for="status" class="font-medium text-900"
+              >Legislation Status*</label
+          >
+          <p-dropdown
+              appendTo="body"
+              id="status"
+              name="status"
+              formControlName="status"
+              [options]="legislationStatuses"
+              placeholder="Status"
+              [ngClass]="{
+                  'ng-invalid ng-dirty':
+                      createDraftDelegatedLegislationForm.controls['status'].touched &&
+                      createDraftDelegatedLegislationForm.controls['status'].invalid
+              }"
+          ></p-dropdown>
+          <div
+              class="text-red-500"
+              *ngIf="
+                  createDraftDelegatedLegislationForm.controls['status'].invalid &&
+                  (createDraftDelegatedLegislationForm.controls['status'].touched ||
+                      createDraftDelegatedLegislationForm.controls['status'].dirty)
+              "
+          >
+              <p
+                  *ngIf="createDraftLegislationForm.controls['status'].errors?.['required']"
+              >
+                  Please select Legislation Status
+              </p>
+          </div>
+      </div>
+
+      <div class="field col-12 flex justify-content-end">
+          <p-button
+              severity="secondary"
+              icon="pi pi-times"
+              label="Cancel"
+              (click)="close()"
+              [text]="true"
+          ></p-button>
+          <p-button type="submit" label="Save" icon="pi pi-check"></p-button>
+      </div>
+  </form>
+</div>

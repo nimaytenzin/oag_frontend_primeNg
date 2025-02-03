@@ -1,25 +1,16 @@
 <div class="p-6 bg-white" style="min-height: 80vh">
     <div class="flex justify-content-between">
         <h2 class="font-serif">{{ pageTitle }} A-Z</h2>
-        <p-button
-            label="Draft Delegated Legislation"
-            size="small"
-            severity="secondary"
-            icon="pi pi-plus"
-            (click)="openAddDraftLegislataionModal()"
-        ></p-button>
+        <p-button label="Draft Delegated Legislation" size="small" severity="secondary" icon="pi pi-plus"
+            (click)="openAddDraftLegislataionModal()"></p-button>
     </div>
 
     <p>Sort by alphabet</p>
     <div
-        class="flex w-full flex-wrap justify-content-start xl:justify-content-between border-200 border-top-1 border-bottom-1"
-    >
-        <div
-            *ngFor="let item of alphabets"
+        class="flex w-full flex-wrap justify-content-start xl:justify-content-between border-200 border-top-1 border-bottom-1">
+        <div *ngFor="let item of alphabets"
             class="w-3rem p-3 h-3rem cursor-pointer hover:surface-200 text-lg flex justify-content-center align-items-center"
-            (click)="loadDataByAlphabet(item)"
-            [ngClass]="{ 'surface-300': item === selectedAlphabet }"
-        >
+            (click)="loadDataByAlphabet(item)" [ngClass]="{ 'surface-300': item === selectedAlphabet }">
             <p>
                 {{ item }}
             </p>
@@ -41,46 +32,28 @@
                     <div class="field">
                         <span class="p-input-icon-left" styleClass="">
                             <i class="pi pi-search"></i>
-                            <input
-                                type="text"
-                                pInputText
-                                style="width: 100%"
-                                placeholder="Key words"
-                                (input)="
+                            <input type="text" pInputText style="width: 100%" placeholder="Key words" (input)="
                                     clt1.filterGlobal(
                                         $event.target.value,
                                         'contains'
                                     )
-                                "
-                            />
+                                " />
                         </span>
                     </div>
                     <p class="mt-4">Search in Document Year</p>
                     <span class="p-input-icon-left" styleClass="">
                         <i class="pi pi-calendar"></i>
 
-                        <input
-                            type="text"
-                            pInputText
-                            style="width: 100%"
-                            placeholder="Document Year"
-                            (input)="
+                        <input type="text" pInputText style="width: 100%" placeholder="Document Year" (input)="
                                 clt1.filterGlobal(
                                     $event.target.value,
                                     'contains'
                                 )
-                            "
-                        />
+                            " />
                     </span>
                 </div>
-                <button
-                    pButton
-                    size="small"
-                    label="Clear"
-                    class="p-button-outlined mt-4"
-                    icon="pi pi-filter-slash"
-                    (click)="clt1.clear()"
-                ></button>
+                <button pButton size="small" label="Clear" class="p-button-outlined mt-4" icon="pi pi-filter-slash"
+                    (click)="clt1.clear()"></button>
             </div>
         </div>
         <div class="col-12 lg:col-9">
@@ -94,27 +67,17 @@
                     </p>
                 </div>
                 <div class="">
-                    <p-paginator
-                        (onPageChange)="onPageChange($event)"
-                        [first]="firstPageNumber"
-                        [rows]="rows"
-                        [totalRecords]="paginatedDelegatedLegisaltion.count"
-                        [rowsPerPageOptions]="rowsPerPageOptions"
-                        [showFirstLastIcon]="true"
-                        #paginator
-                    ></p-paginator>
+                    <p-paginator (onPageChange)="onPageChange($event)" [first]="firstPageNumber" [rows]="rows"
+                        [totalRecords]="paginatedDelegatedLegisaltion.count" [rowsPerPageOptions]="rowsPerPageOptions"
+                        [showFirstLastIcon]="true" #paginator></p-paginator>
                 </div>
             </div>
 
-            <p-table
-                #clt1
-                *ngIf="
+            <p-table #clt1 *ngIf="
                     paginatedDelegatedLegisaltion &&
                     paginatedDelegatedLegisaltion.data.length
-                "
-                [value]="paginatedDelegatedLegisaltion.data"
-                [globalFilterFields]="['title_eng', 'documentYear']"
-            >
+                " [value]="paginatedDelegatedLegisaltion.data"
+                [globalFilterFields]="['title_eng', 'documentYear','type','status']">
                 <ng-template pTemplate="header">
                     <tr>
                         <th pSortableColumn="title_eng">
@@ -122,17 +85,20 @@
                         </th>
 
                         <th pSortableColumn="documentYear">
-                            Year <p-sortIcon field="documentYear"> </p-sortIcon>
+                            Year <p-sortIcon field="type"> </p-sortIcon>
+                        </th>
+                        <th pSortableColumn="type">
+                            Type<p-sortIcon field="documentYear"> </p-sortIcon>
+                        </th>
+                        <th pSortableColumn="status">
+                            Status <p-sortIcon field="status"> </p-sortIcon>
                         </th>
                         <th>Added</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-item>
                     <tr>
-                        <td
-                            class="hover:text-primary cursor-pointer"
-                            (click)="viewDraftDelegatedLegisaltion(item)"
-                        >
+                        <td class="hover:text-primary cursor-pointer" (click)="viewDraftDelegatedLegisaltion(item)">
                             <p>
                                 {{ item.title_eng }}
                             </p>
@@ -144,6 +110,12 @@
                             {{ item.documentYear ? item.documentYear : "-" }}
                         </td>
                         <td>
+                            {{ item.type }}
+                        </td>
+                        <td>
+                            {{ item.status}}
+                        </td>
+                        <td>
                             <p>Added by {{ item.creator.fullName }}</p>
                             <p>Email {{ item.creator.email }}</p>
                         </td>
@@ -151,10 +123,7 @@
                 </ng-template>
             </p-table>
 
-            <div
-                *ngIf="!paginatedDelegatedLegisaltion.data.length"
-                class="py-4 text-xl"
-            >
+            <div *ngIf="!paginatedDelegatedLegisaltion.data.length" class="py-4 text-xl">
                 No {{ searchTitle }}
             </div>
         </div>

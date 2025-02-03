@@ -186,6 +186,9 @@ export class AdminListDraftConventionsComponent {
         this.ref = this.dialogService.open(
             AdminAddDraftLegislationModalComponent,
             {
+                data: {
+                    isConvention: true,
+                },
                 header: 'Add Draft Convention',
                 width: '40%',
 

@@ -30,6 +30,7 @@ export interface DelegatedLegislationDto {
     isActive: boolean;
     isPublished: boolean;
     amendments?: AmendmentDto[];
+    creatorId:number;
 }
 
 export interface UpdateDelegatedLegislationDto {
