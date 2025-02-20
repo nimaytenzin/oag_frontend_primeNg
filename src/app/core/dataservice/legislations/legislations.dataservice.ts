@@ -9,7 +9,7 @@ import {
     UpdateLegislationDto,
 } from '../../dto/legislation/legislation.dto';
 import { PaginatedData } from '../../dto/utility/paginated-data.dto';
-import { DelegatedLegislationDto } from '../../dto/delegated-legislation/delegated-legislation.dto';
+import { DelegatedLegislationDto, UpdateDelegatedLegislationDto } from '../../dto/delegated-legislation/delegated-legislation.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -334,6 +334,9 @@ export class LegislationDataService {
         return this.http.patch(`${this.apiUrl}/legislation/${id}`, data);
     }
 
+    AdminUpdateDelegatedLegislation(id: number, data: UpdateDelegatedLegislationDto) {
+        return this.http.patch(`${this.apiUrl}/delegated-legislation/${id}`, data);
+    }
     // ****************************** ADMIN  COnventions/Legisation type DRAFTING ROUTES ****************** //
 
     AdminGetDraftConventionsPaginated(

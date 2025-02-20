@@ -163,28 +163,28 @@ export class AdminViewDelegatedLegislationComponent {
             rejectIcon: 'none',
             rejectButtonStyleClass: 'p-button-text',
             accept: () => {
-            //     this.legislationDataService
-            //         .AdminUpdateLegislation(this.legislationId, {
-            //             isPublished: mode === 'publish' ? true : false,
-            //         })
-            //         .subscribe((res) => {
-            //             if (res) {
-            //                 if (mode === 'publish') {
-            //                     this.messageService.add({
-            //                         severity: 'info',
-            //                         summary: 'Confirmed',
-            //                         detail: 'You have published',
-            //                     });
-            //                 } else {
-            //                     this.messageService.add({
-            //                         severity: 'info',
-            //                         summary: 'Confirmed',
-            //                         detail: 'You have un published ',
-            //                     });
-            //                 }
-            //             }
-            //             this.getLegislationDetails();
-            //         });
+                this.legislationDataService
+                    .AdminUpdateDelegatedLegislation(this.delegatedLegislationId, {
+                        isPublished: mode === 'publish' ? true : false,
+                    })
+                    .subscribe((res) => {
+                        if (res) {
+                            if (mode === 'publish') {
+                                this.messageService.add({
+                                    severity: 'info',
+                                    summary: 'Confirmed',
+                                    detail: 'You have published',
+                                });
+                            } else {
+                                this.messageService.add({
+                                    severity: 'info',
+                                    summary: 'Confirmed',
+                                    detail: 'You have un published ',
+                                });
+                            }
+                        }
+                        this.getDelegatedLegislation();
+                    });
             },
             reject: () => {},
         });

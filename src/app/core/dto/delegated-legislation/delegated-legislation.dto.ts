@@ -41,6 +41,7 @@ export interface UpdateDelegatedLegislationDto {
     status?: DelegatedLegislationStatus;
     type?: DelegatedLesiglationTypes;
     documentYear?: number;
+    isPublished: boolean;
 
     tabledDate?: string;
     enactmentDate?: string;
