@@ -55,6 +55,12 @@ export class LegislationDataService {
         );
     }
 
+    GetLatestLegislationsPublic(number: number): Observable<LegislationDto[]> {
+        return this.http.get<LegislationDto[]>(
+            `${this.apiUrl}/p/legislation/latest/current/${number}`
+        );
+    }
+
     GetLatestLegislations(number: number): Observable<LegislationDto[]> {
         return this.http.get<LegislationDto[]>(
             `${this.apiUrl}/legislation/latest/legislation?number=${number}`

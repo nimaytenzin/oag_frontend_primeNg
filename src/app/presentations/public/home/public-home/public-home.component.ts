@@ -80,6 +80,9 @@ export class PublicHomeComponent implements OnInit, AfterViewInit {
     searchDocumentType: string = this.documentType.LEGISLATIONS;
     legislationStats: LegislationStatisticsSummaryDto;
     delegatedLegisaltionStats: DelegatedLegislationStatisticsSummaryDto;
+    latestLegislations: LegislationDto[] = [];
+
+
     constructor(
         public router: Router,
         private messageService: MessageService,
@@ -92,15 +95,22 @@ export class PublicHomeComponent implements OnInit, AfterViewInit {
         gsap.registerPlugin(Flip);
         this.getStats();
     }
-    ngAfterViewInit(): void {}
+    ngAfterViewInit(): void { }
     ngOnInit(): void {
-        this.legislationDataService
-            .GetLatestLegislations(9)
-            .subscribe((res) => {
-                this.legislations = res;
-            });
+        // this.legislationDataService
+        //     .GetLatestLegislations(9)
+        //     .subscribe((res) => {
+        //         this.legislations = res;
+        //     });
+
+        this.legislationDataService.GetLatestLegislationsPublic(5).subscribe((res) => {
+            this.latestLegislations = res;
+        });
     }
 
+    onLegislationClick(legislation: LegislationDto) {
+        this.router.navigate([`legislations/view/${legislation.id}`]);
+    }
     getStats() {
         this.statisticsDataService
             .GetLegislationStatisticsSummary()

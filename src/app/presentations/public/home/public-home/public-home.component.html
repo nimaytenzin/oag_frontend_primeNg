@@ -2,26 +2,14 @@
     <div class="col-12">
         <div class="flex justify-content-center">
             <div class="col-8 flex justify-content-betwen gap-4 mt-6">
-                <img
-                    src="../../../../../assets/hm.png"
-                    style="height: 400px"
-                    alt=""
-                />
+                <img src="../../../../../assets/hm.png" style="height: 400px" alt="" />
                 <div>
-                    <div
-                        class="text-xl font-serif flex flex-column gap-6 h-full"
-                    >
+                    <div class="text-xl font-serif flex flex-column gap-6 h-full">
                         <div>
-                            <svg
-                                style="transform: rotate(180deg)"
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                            >
+                            <svg style="transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24" viewBox="0 0 24 24">
                                 <path
-                                    d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.571-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983z"
-                                />
+                                    d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.571-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983z" />
                             </svg>
                             <div class="mx-4">
                                 <p>
@@ -52,16 +40,10 @@
                                 </p>
                             </div>
                             <div class="text-right">
-                                <svg
-                                    style="transform: rotate(360deg)"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                >
+                                <svg style="transform: rotate(360deg)" xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" viewBox="0 0 24 24">
                                     <path
-                                        d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.571-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983z"
-                                    />
+                                        d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.571-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983z" />
                                 </svg>
                             </div>
                         </div>
@@ -74,12 +56,8 @@
             </div>
         </div>
         <hr />
-        <div
-            class="flex hero flex-column align-items-center justify-content-center"
-        >
-            <div
-                class="text-center flex flex-column align-items-center justify-content-center mt-4 mb-2"
-            >
+        <div class="flex hero flex-column align-items-center justify-content-center">
+            <div class="text-center flex flex-column align-items-center justify-content-center mt-4 mb-2">
                 <div class="w-full">
                     <!-- <h1 class="font-serif text-6xl text-blue-700">
                         OAG's Depository of Law
@@ -106,68 +84,76 @@
                 </div>
             </div>
 
-            <div #centerElement>
-                <div class="text-left">
-                    <p class="font-serif text-4xl text-center">
-                        Search in the repository
-                    </p>
-                </div>
-                <div
-                    class="flex w-full flex-column p-fluid align-items-center justify-content-center gap-3"
-                >
-                    <p class="mt-2 text-left">
-                        Search for keywords in the title or content.
-                    </p>
-                    <div class="flex gap-2">
-                        <div class="p-fluid">
-                            <div>
-                                <p-chips
-                                    [(ngModel)]="searchKeywords"
-                                    [addOnBlur]="true"
-                                    [addOnTab]="true"
-                                    placeholder="search for .."
-                                ></p-chips>
+            <div #centerElement class="flex gap-8">
+                <div>
+                    <div class="flex w-full flex-column p-fluid align-items-center justify-content-center gap-3">
+                        <p class="font-serif text-4xl text-center">
+                            Search in the repository
+                        </p>
+                        <p class="mt-2 text-left">
+                            Search for keywords in the title or content.
+                        </p>
+                        <div class="flex gap-2">
+                            <div class="p-fluid">
+                                <div>
+                                    <p-chips [(ngModel)]="searchKeywords" [addOnBlur]="true" [addOnTab]="true"
+                                        placeholder="search for .."></p-chips>
+                                </div>
+
+                                <div class="flex gap-2 my-2">
+                                    <div class="flex align-items-center">
+                                        <p-checkbox label="Title" [binary]="true" [(ngModel)]="searchInTitle"
+                                            (onChange)="toggleCheckbox('Title')"></p-checkbox>
+                                    </div>
+                                    <div class="flex align-items-center">
+                                        <p-checkbox label="Content" [binary]="true" [(ngModel)]="searchInContent"
+                                            (onChange)="toggleCheckbox('Content')"></p-checkbox>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="flex gap-2 my-2">
-                                <div class="flex align-items-center">
-                                    <p-checkbox
-                                        label="Title"
-                                        [binary]="true"
-                                        [(ngModel)]="searchInTitle"
-                                        (onChange)="toggleCheckbox('Title')"
-                                    ></p-checkbox>
-                                </div>
-                                <div class="flex align-items-center">
-                                    <p-checkbox
-                                        label="Content"
-                                        [binary]="true"
-                                        [(ngModel)]="searchInContent"
-                                        (onChange)="toggleCheckbox('Content')"
-                                    ></p-checkbox>
-                                </div>
+                            <div class="flex p-fluid gap-2">
+                                <p-dropdown [options]="documentTypes" [(ngModel)]="searchDocumentType"
+                                    [showClear]="true" placeholder="Search for keyword(s) in">
+                                </p-dropdown>
+
+                                <p-button label="Search" (click)="searchForLegislations()" icon="pi pi-search"
+                                    iconPos="right"></p-button>
                             </div>
                         </div>
 
-                        <div class="flex p-fluid gap-2">
-                            <p-dropdown
-                                [options]="documentTypes"
-                                [(ngModel)]="searchDocumentType"
-                                [showClear]="true"
-                                placeholder="Search for keyword(s) in"
-                            >
-                            </p-dropdown>
+                        <hr />
+                    </div>
 
-                            <p-button
-                                label="Search"
-                                (click)="searchForLegislations()"
-                                icon="pi pi-search"
-                                iconPos="right"
-                            ></p-button>
+                </div>
+
+                <div class="flex-grow-1">
+                    <div class="text-left">
+
+                        <div class="text-left">
+                            <p-table [value]="latestLegislations" class="mt-4" [responsiveLayout]="'scroll'">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>
+                                            <p class="font-serif text-gray-500 text-4xl font-light">
+                                                Latest Legislations
+                                            </p>
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-legislation>
+                                    <tr (click)="onLegislationClick(legislation)" style="cursor: pointer;">                                        <td>
+                                            <div>
+                                                <p class="text text-gray-600">{{ legislation.title_eng }}</p>
+                                                <p class="text-sm text-gray-600">{{ legislation.title_dzo }}</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
                         </div>
                     </div>
 
-                    <hr />
                 </div>
             </div>
 
@@ -176,39 +162,32 @@
                 <div *ngIf="!delegatedLegisaltionStats">
                     ..... loading stats
                 </div>
-                <div
-                    class="flex justify-content-center gap-4 mb-6"
-                    *ngIf="delegatedLegisaltionStats"
-                >
+                <div class="flex justify-content-center gap-4 mb-6 mt-3" *ngIf="delegatedLegisaltionStats">
                     <div class="text-center">
                         <p class="text-5xl font-bold data">
-                            <app-animated-counter
-                                [endNumer]="legislationStats?.total"
-                            ></app-animated-counter>
+                            <!-- <app-animated-counter [endNumer]="legislationStats?.total"></app-animated-counter> -->
+                            {{legislationStats?.total || 0}}
                         </p>
                         <p class="text-xl font-serif">Legislations</p>
                     </div>
                     <div class="text-center">
                         <p class="text-5xl font-bold data">
-                            <app-animated-counter
-                                [endNumer]="delegatedLegisaltionStats?.total"
-                            ></app-animated-counter>
+                            <!-- <app-animated-counter [endNumer]="delegatedLegisaltionStats?.total"></app-animated-counter> -->
+                            {{delegatedLegisaltionStats?.total || 0}}
                         </p>
                         <p class="text-xl font-serif">Delegated Legisaltion</p>
                     </div>
                     <div class="text-center">
                         <p class="text-5xl font-bold data">
-                            <app-animated-counter
-                                [endNumer]="legislationStats?.bills"
-                            ></app-animated-counter>
+                            <!-- <app-animated-counter [endNumer]="legislationStats?.bills"></app-animated-counter> -->
+                            {{legislationStats?.bills || 0}}
                         </p>
                         <p class="text-xl font-serif">Bills</p>
                     </div>
                     <div class="text-center">
                         <p class="text-5xl font-bold data">
-                            <app-animated-counter
-                                [endNumer]="legislationStats?.repealed"
-                            ></app-animated-counter>
+                            <!-- <app-animated-counter [endNumer]="legislationStats?.repealed"></app-animated-counter> -->
+                            {{legislationStats?.repealed || 0}}
                         </p>
                         <p class="text-xl font-serif">Repealed Legislations</p>
                     </div>
