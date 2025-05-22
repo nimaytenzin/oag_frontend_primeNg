@@ -45,7 +45,20 @@ export class AdminDelegatedLegislationDocumentCopiesTabComponent {
         console.log('DOCUMENT COPIES');
     }
 
-    openAddDocumentCopyModal() {}
+    openAddDocumentCopyModal() {
+        this.ref = this.dialogService.open(AdminAddDocumentCopyComponent, {
+            header: 'Add Document Copy',
+
+            data: {
+                delegatedLegislationId: this.delegatedLegislation.id,
+            },
+        });
+        this.ref.onClose.subscribe((res) => {
+            if (res && res.status === 200) {
+                this.requestUpdateDocumentCopies.emit('1');
+            }
+        });
+    }
 
     confirmDeleteDocumentCopy(event: Event, item: DocumentCopyDto) {
         this.confirmationService.confirm({
