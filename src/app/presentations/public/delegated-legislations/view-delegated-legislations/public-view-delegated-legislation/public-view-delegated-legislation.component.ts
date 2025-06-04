@@ -295,11 +295,11 @@ export class PublicViewDelegatedLegislationComponent {
     }
 
     getDocumentCopies() {
-        // this.documentCopyDataService
-        //     .GetDocumentCopiesByLegislation(this.legislationId)
-        //     .subscribe((res) => {
-        //         this.documentCopies = res;
-        //     });
+        this.documentCopyDataService
+            .AdminGetDocumentCopiesByDelegateLegislation(this.delegatedLegislationId)
+            .subscribe((res) => {
+                this.documentCopies = res;
+            });
     }
 
     getSectionId(section: SectionDto) {
