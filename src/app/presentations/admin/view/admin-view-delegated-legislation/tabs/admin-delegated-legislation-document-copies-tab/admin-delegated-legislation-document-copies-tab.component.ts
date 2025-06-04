@@ -14,6 +14,7 @@ import { AdminViewDocumentCopyModalComponent } from '../../../shared-components/
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { DelegatedLegislationDto } from 'src/app/core/dto/delegated-legislation/delegated-legislation.dto';
+import { TableModule } from 'primeng/table';
 
 @Component({
     selector: 'app-admin-delegated-legislation-document-copies-tab',
@@ -23,7 +24,7 @@ import { DelegatedLegislationDto } from 'src/app/core/dto/delegated-legislation/
         './admin-delegated-legislation-document-copies-tab.component.css',
     ],
     standalone: true,
-    imports: [CommonModule, ButtonModule],
+    imports: [CommonModule, ButtonModule,TableModule],
     providers: [DialogService],
 })
 export class AdminDelegatedLegislationDocumentCopiesTabComponent {

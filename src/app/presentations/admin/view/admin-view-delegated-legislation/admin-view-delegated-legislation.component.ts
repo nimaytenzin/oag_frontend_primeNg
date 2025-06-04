@@ -97,12 +97,13 @@ export class AdminViewDelegatedLegislationComponent {
         private confirmationService: ConfirmationService,
         private legislationDataService: LegislationDataService,
         private documentCopyDataService: DocumentCopyDataService
-    ) {
+    ) { }
+    ngOnInit(): void {
         this.route.params.subscribe((params) => {
             this.delegatedLegislationId = params['delegatedLegislationId'];
+            this.getDocumentCopies();
             this.getDelegatedLegislation();
             this.getSections();
-            this.getDocumentCopies();
             this.getTableOfContents();
         });
         this.items = [
@@ -117,6 +118,7 @@ export class AdminViewDelegatedLegislationComponent {
         ];
         this.activeItem = this.items[0];
     }
+
 
     preview() {
         window.open(`https://www.legislation.gov.bt/#/delegated-legislations/view/${this.delegatedLegislationId}`, '_blank');

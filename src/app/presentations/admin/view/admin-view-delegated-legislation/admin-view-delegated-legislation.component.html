@@ -146,9 +146,12 @@
                 [editingMode]="selectedEditingMode" [events]="eventsSubject.asObservable()"
                 (requestUpdateSection)="this.updateSectionAndTOC()"></app-admin-delegated-legislation-sections-tab>
 
-            <app-admin-delegated-legislation-document-copies-tab *ngIf="activeItem.label === 'Document Copies'"
-                [documentCopies]="documentCopies" [delegatedLegislation]="delegatedLegislation"
-                (requestUpdateDocumentCopies)="this.getDocumentCopies()"></app-admin-delegated-legislation-document-copies-tab>
+            <app-admin-delegated-legislation-document-copies-tab 
+                *ngIf="activeItem.label === 'Document Copies'"
+                [documentCopies]="documentCopies" 
+                [delegatedLegislation]="delegatedLegislation"
+                (requestUpdateDocumentCopies)="this.getDocumentCopies()"
+            ></app-admin-delegated-legislation-document-copies-tab>
         </div>
     </div>
 </div>
