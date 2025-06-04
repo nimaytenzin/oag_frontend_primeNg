@@ -27,7 +27,7 @@ import { TableModule } from 'primeng/table';
     imports: [CommonModule, ButtonModule,TableModule],
     providers: [DialogService],
 })
-export class AdminDelegatedLegislationDocumentCopiesTabComponent {
+export class AdminDelegatedLegislationDocumentCopiesTabComponent implements OnInit {
     @Input() documentCopies!: DocumentCopyDto[];
     @Input() delegatedLegislation: DelegatedLegislationDto;
     @Output() requestUpdateDocumentCopies = new EventEmitter<string>();
@@ -40,7 +40,9 @@ export class AdminDelegatedLegislationDocumentCopiesTabComponent {
         private documentCopyDataService: DocumentCopyDataService,
         private confirmationService: ConfirmationService,
         private messageService: MessageService
-    ) {
+    ) {}
+
+    ngOnInit() {
         console.log(this.delegatedLegislation);
         console.log('DOCUMENT COPIES');
         console.log(this.documentCopies);
