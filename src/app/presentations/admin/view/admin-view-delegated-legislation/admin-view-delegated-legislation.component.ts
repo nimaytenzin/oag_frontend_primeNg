@@ -94,7 +94,7 @@ export class AdminViewDelegatedLegislationComponent {
         private sectionDataService: SectionDataService,
         private route: ActivatedRoute,
         private dialogService: DialogService,
-        private confirmationService : ConfirmationService,
+        private confirmationService: ConfirmationService,
         private legislationDataService: LegislationDataService,
         private documentCopyDataService: DocumentCopyDataService
     ) {
@@ -102,6 +102,7 @@ export class AdminViewDelegatedLegislationComponent {
             this.delegatedLegislationId = params['delegatedLegislationId'];
             this.getDelegatedLegislation();
             this.getSections();
+            this.getDocumentCopies();
             this.getTableOfContents();
         });
         this.items = [
@@ -117,7 +118,7 @@ export class AdminViewDelegatedLegislationComponent {
         this.activeItem = this.items[0];
     }
 
-    preview(){
+    preview() {
         window.open(`https://www.legislation.gov.bt/#/delegated-legislations/view/${this.delegatedLegislationId}`, '_blank');
     }
 
@@ -149,7 +150,7 @@ export class AdminViewDelegatedLegislationComponent {
                     }
                 });
             },
-            reject: () => {},
+            reject: () => { },
         });
     }
 
@@ -186,7 +187,7 @@ export class AdminViewDelegatedLegislationComponent {
                         this.getDelegatedLegislation();
                     });
             },
-            reject: () => {},
+            reject: () => { },
         });
     }
 
@@ -198,18 +199,48 @@ export class AdminViewDelegatedLegislationComponent {
             return 'text-red-50 bg-red-400  px-2';
         }
     }
-    updateSectionAndTOC(){
+    updateSectionAndTOC() {
         this.getSections();
         this.getTableOfContents();
     }
-    
+
     getDocumentCopies() {
+        console.log("getting document copies for delegated legislation", this.delegatedLegislationId);
         this.documentCopyDataService
             .AdminGetDocumentCopiesByDelegateLegislation(this.delegatedLegislationId)
             .subscribe((res) => {
                 this.documentCopies = res;
             });
     }
+
+    getDocumentLink(path: string) {
+        return this.documentCopyDataService.getDocumentUri(path);
+    }
+
+    getToolTipLabel(lang: string): string | void {
+        if (lang === LanguageType.BI) {
+            return 'Download copy in Bilingual';
+        }
+        if (lang === LanguageType.ENG) {
+            return 'Download copy in English';
+        }
+        if (lang === LanguageType.DZO) {
+            return 'Download copy in Dzongkha';
+        }
+    }
+
+    parseDocumentLanguage(lang: string): string | void {
+        if (lang === LanguageType.BI) {
+            return 'bilingual';
+        }
+        if (lang === LanguageType.ENG) {
+            return 'english';
+        }
+        if (lang === LanguageType.DZO) {
+            return 'རྫོང་ཁ';
+        }
+    }
+
 
     switchEditingMode(editingMode: EditingModes) {
         if (editingMode === EditingModes.NORMAL) {

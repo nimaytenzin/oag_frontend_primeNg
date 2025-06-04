@@ -40,9 +40,9 @@ export class AdminDelegatedLegislationDocumentCopiesTabComponent {
         private confirmationService: ConfirmationService,
         private messageService: MessageService
     ) {
-        console.log(this.documentCopies);
         console.log(this.delegatedLegislation);
         console.log('DOCUMENT COPIES');
+        console.log(this.documentCopies);
     }
 
     openAddDocumentCopyModal() {
