@@ -1,12 +1,12 @@
-<div class="p-6 bg-white" style="min-height: 80vh">
-    <h2 class="font-serif">{{ pageTitle }} A-Z</h2>
+<div class="p-3 md:p-6 bg-white" style="min-height: 80vh">
+    <h2 class="font-serif text-lg md:text-2xl">{{ pageTitle }} A-Z</h2>
 
     <div
         class="flex w-full flex-wrap justify-content-start xl:justify-content-between border-200 border-top-1 border-bottom-1"
     >
         <div
             *ngFor="let item of alphabets"
-            class="w-3rem p-3 h-3rem cursor-pointer hover:surface-200 text-lg flex justify-content-center align-items-center"
+            class="w-2rem md:w-3rem p-2 md:p-3 h-2rem md:h-3rem cursor-pointer hover:surface-200 text-sm md:text-lg flex justify-content-center align-items-center"
             (click)="loadDataByAlphabet(item)"
             [ngClass]="{ 'surface-300': item === selectedAlphabet }"
         >
@@ -21,12 +21,12 @@
         <div class="col-12 lg:col-3">
             <div class="">
                 <div class="flex justify-content-between">
-                    <h4 class="font-serif">Fliters</h4>
+                    <h4 class="font-serif text-base md:text-lg">Fliters</h4>
                 </div>
                 <hr />
 
                 <div class="p-fluid">
-                    <p>Search in Title</p>
+                    <p class="text-sm md:text-base">Search in Title</p>
 
                     <div class="field">
                         <span class="p-input-icon-left" styleClass="">
@@ -45,7 +45,7 @@
                             />
                         </span>
                     </div>
-                    <p class="mt-4">Search in Document Year</p>
+                    <p class="mt-4 text-sm md:text-base">Search in Document Year</p>
                     <span class="p-input-icon-left" styleClass="">
                         <i class="pi pi-calendar"></i>
 
@@ -74,15 +74,15 @@
             </div>
         </div>
         <div class="col-12 lg:col-9">
-            <div class="flex align-items-center mb-2 justify-content-between">
-                <div>
-                    <h3 class="font-serif">Showing {{ searchTitle }}</h3>
-                    <p>
+            <div class="flex flex-column md:flex-row align-items-start md:align-items-center mb-2 justify-content-between gap-2 md:gap-0">
+                <div class="w-full md:w-auto">
+                    <h3 class="font-serif text-lg md:text-xl">Showing {{ searchTitle }}</h3>
+                    <p class="text-sm md:text-base">
                         Showing {{ paginatedLegislations.data.length }} of
                         {{ paginatedLegislations.count }} Entries
                     </p>
                 </div>
-                <div class="">
+                <div class="w-full md:w-auto">
                     <p-paginator
                         (onPageChange)="onPageChange($event)"
                         [first]="firstPageNumber"
@@ -102,17 +102,20 @@
                 "
                 [value]="paginatedLegislations.data"
                 [globalFilterFields]="['title_eng', 'documentYear']"
+                [responsiveLayout]="'scroll'"
             >
                 <ng-template pTemplate="header">
                     <tr>
                         <th pSortableColumn="title_eng">
-                            Title <p-sortIcon field="title_eng"> </p-sortIcon>
+                            <span class="text-sm md:text-base">Title</span> <p-sortIcon field="title_eng"> </p-sortIcon>
                         </th>
 
-                        <th pSortableColumn="documentYear">
-                            Year <p-sortIcon field="documentYear"> </p-sortIcon>
+                        <th pSortableColumn="documentYear" class="hidden md:table-cell">
+                            <span class="text-sm md:text-base">Year</span> <p-sortIcon field="documentYear"> </p-sortIcon>
                         </th>
-                        <th>Actions</th>
+                        <th>
+                            <span class="text-sm md:text-base">Actions</span>
+                        </th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-item>
@@ -121,19 +124,22 @@
                             class="hover:text-primary cursor-pointer"
                             (click)="viewLegislation(item)"
                         >
-                            <p>
+                            <p class="text-sm md:text-base">
                                 {{ item.title_eng }}
                             </p>
 
-                            <p>
+                            <p class="text-xs md:text-sm text-gray-600">
                                 {{ item.title_dzo }}
                             </p>
+                            <p class="block md:hidden text-xs text-gray-500 mt-1">
+                                Year: {{ item.documentYear ? item.documentYear : "-" }}
+                            </p>
                         </td>
-                        <td>
+                        <td class="hidden md:table-cell">
                             {{ item.documentYear ? item.documentYear : "-" }}
                         </td>
                         <td>
-                            <div class="flex gap-4 align-items-center">
+                            <div class="flex gap-2 md:gap-4 align-items-center flex-wrap">
                                 <div
                                     pTooltip="Download PDF Dzongkha Version"
                                     class="flex flex-column align-items-center cursor-pointer hover:underline"
@@ -180,7 +186,7 @@
                                             />
                                         </g>
                                     </svg>
-                                    <p class="text-sm">dzo</p>
+                                    <p class="text-xs md:text-sm">dzo</p>
                                 </div>
                                 <div
                                     pTooltip="Download PDF English Version"
@@ -228,12 +234,12 @@
                                             />
                                         </g>
                                     </svg>
-                                    <p class="text-sm">eng</p>
+                                    <p class="text-xs md:text-sm">eng</p>
                                 </div>
 
                                 <p
                                     pTooltip="View Delegated Legislations"
-                                    class="cursor-pointer hover:underline"
+                                    class="cursor-pointer hover:underline text-xs md:text-sm"
                                     (click)="viewDelegatedLegislations(item)"
                                 >
                                     DL
@@ -246,7 +252,7 @@
 
             <div
                 *ngIf="!paginatedLegislations.data.length"
-                class="py-4 text-xl"
+                class="py-4 text-lg md:text-xl"
             >
                 No {{ searchTitle }}
             </div>
