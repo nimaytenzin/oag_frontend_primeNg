@@ -1,9 +1,9 @@
 <div class="grid w-full">
     <div class="col-12">
         <div class="flex justify-content-center">
-            <div class="col-8 flex justify-content-betwen gap-4 mt-6">
-                <img src="../../../../../assets/hm.png" style="height: 400px" alt="" />
-                <div>
+            <div class="col-12 lg:col-8 flex flex-column lg:flex-row justify-content-between gap-4 mt-6">
+                <img src="../../../../../assets/hm.png" class="w-full lg:w-auto" style="max-height: 400px; object-fit: contain;" alt="" />
+                <div class="flex-1">
                     <div class="text-xl font-serif flex flex-column gap-6 h-full">
                         <div>
                             <svg style="transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg" width="24"
@@ -82,8 +82,8 @@
                 </div>
             </div>
 
-            <div #centerElement class="flex gap-8">
-                <div>
+            <div #centerElement class="flex flex-column lg:flex-row gap-4 lg:gap-8">
+                <div class="w-full lg:w-auto">
                     <div class="flex w-full flex-column p-fluid align-items-center justify-content-center gap-3">
                         <p class="font-serif text-4xl text-center">
                             Search in the repository
@@ -91,8 +91,8 @@
                         <p class="mt-2 text-left">
                             Search for keywords in the title or content.
                         </p>
-                        <div class="flex gap-2">
-                            <div class="p-fluid">
+                        <div class="flex flex-column md:flex-row gap-2">
+                            <div class="p-fluid flex-1">
                                 <div>
                                     <p-chips [(ngModel)]="searchKeywords" [addOnBlur]="true" [addOnTab]="true"
                                         placeholder="search for .."></p-chips>
@@ -110,7 +110,7 @@
                                 </div>
                             </div>
 
-                            <div class="flex p-fluid gap-2">
+                            <div class="flex p-fluid flex-column md:flex-row gap-2">
                                 <p-dropdown [options]="documentTypes" [(ngModel)]="searchDocumentType"
                                     [showClear]="true" placeholder="Search for keyword(s) in">
                                 </p-dropdown>
@@ -160,41 +160,41 @@
                 <div *ngIf="!delegatedLegisaltionStats">
                     ..... loading stats
                 </div>
-                <div class="flex justify-content-center gap-4 mb-6 mt-3" *ngIf="delegatedLegisaltionStats">
+                <div class="flex justify-content-center flex-wrap gap-2 md:gap-4 mb-6 mt-3" *ngIf="delegatedLegisaltionStats">
                     <div class="text-center">
-                        <p class="text-5xl font-bold data">
+                        <p class="text-3xl md:text-5xl font-bold data">
                             <!-- <app-animated-counter [endNumer]="legislationStats?.total"></app-animated-counter> -->
                             {{legislationStats?.current|| 0}}
                         </p>
-                        <p class="text-xl font-serif">Legislation</p>
+                        <p class="text-lg md:text-xl font-serif">Legislation</p>
                     </div>
                     <div class="text-center">
-                        <p class="text-5xl font-bold data">
+                        <p class="text-3xl md:text-5xl font-bold data">
                             <!-- <app-animated-counter [endNumer]="delegatedLegisaltionStats?.total"></app-animated-counter> -->
                             {{delegatedLegisaltionStats?.current || 0}}
                         </p>
-                        <p class="text-xl font-serif">Delegated Legislation</p>
+                        <p class="text-lg md:text-xl font-serif">Delegated Legislation</p>
                     </div>
                     <div class="text-center">
-                        <p class="text-5xl font-bold data">
+                        <p class="text-3xl md:text-5xl font-bold data">
                             <!-- <app-animated-counter [endNumer]="legislationStats?.bills"></app-animated-counter> -->
                             {{legislationStats?.bills || 0}}
                         </p>
-                        <p class="text-xl font-serif">Bills</p>
+                        <p class="text-lg md:text-xl font-serif">Bills</p>
                     </div>
                     <div class="text-center">
-                        <p class="text-5xl font-bold data">
+                        <p class="text-3xl md:text-5xl font-bold data">
                             <!-- <app-animated-counter [endNumer]="legislationStats?.repealed"></app-animated-counter> -->
                             {{legislationStats?.repealed || 0}}
                         </p>
-                        <p class="text-xl font-serif">Repealed Legislation</p>
+                        <p class="text-lg md:text-xl font-serif">Repealed Legislation</p>
                     </div>
                     <div class="text-center">
-                        <p class="text-5xl font-bold data">
+                        <p class="text-3xl md:text-5xl font-bold data">
                             <!-- <app-animated-counter [endNumer]="legislationStats?.repealed"></app-animated-counter> -->
                             {{legislationStats?.conventions|| 0}}
                         </p>
-                        <p class="text-xl font-serif">International Conventions</p>
+                        <p class="text-lg md:text-xl font-serif">International Conventions</p>
                     </div>
                 </div>
             </div>
