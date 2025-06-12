@@ -17,6 +17,22 @@ export interface PaginatedLegislationDto {
     totalPage: number;
 }
 
+export interface CreateFeedbackDTO {
+    title: string;
+    text: string;
+    name?: string;
+    email?: string;
+    contact?: string;
+}
+export interface FeedbackDTO {
+    id:number;
+    title: string;
+    text: string;
+    name?: string;
+    email?: string;
+    contact?: string;
+}
+
 export interface LegislationDto {
     id: number;
     title_eng: string;

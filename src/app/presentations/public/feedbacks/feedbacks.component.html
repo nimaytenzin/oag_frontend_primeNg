@@ -1,1 +1,257 @@
-<p>feedbacks works!</p>
+<!-- filepath: /Users/kinleywangyel/Desktop/Projects/OAG/production/oag_frontend_primeNg/src/app/presentations/public/feedbacks/feedbacks.component.html -->
+<div class="p-3 md:p-6 bg-white" style="min-height: 80vh">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header Section -->
+        <div class="text-center mb-4 md:mb-6">
+            <h1 class="font-serif text-xl md:text-3xl text-900 mb-2">We Value Your Feedback</h1>
+        </div>
+
+        <!-- Feedback Form -->
+        <div class="surface-50 border-round p-3 md:p-5 shadow-2">
+            <form #feedbackForm="ngForm" class="grid" (ngSubmit)="onSubmit(feedbackForm)">
+                <div class="col-12">
+                    <h3 class="font-serif text-lg md:text-xl text-900 mb-3 md:mb-4">Submit Your Feedback</h3>
+                </div>
+
+                <!-- Title Field -->
+                <div class="col-12 p-fluid">
+                    <label for="feedbackTitle" class="block text-sm md:text-base font-medium text-900 mb-2">
+                        Title <span class="text-red-500">*</span>
+                    </label>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-tag"></i>
+                        <input 
+                            id="feedbackTitle"
+                            type="text" 
+                            pInputText 
+                            placeholder="Brief title describing your feedback"
+                            class="w-full"
+                            #title="ngModel"
+                            name="title"
+                            ngModel
+                            required
+                        />
+                    </span>
+                    <small class="text-red-500" *ngIf="title.invalid && title.touched">
+                        Title is required
+                    </small>
+                </div>
+
+                <!-- Description Field -->
+                <div class="col-12 p-fluid mt-3 md:mt-4">
+                    <label for="feedbackDescription" class="block text-sm md:text-base font-medium text-900 mb-2">
+                        Description <span class="text-red-500">*</span>
+                    </label>
+                    <textarea 
+                        id="feedbackDescription"
+                        pInputTextarea 
+                        rows="6" 
+                        cols="30" 
+                        placeholder="Please provide detailed information about your feedback, suggestions, or issues..."
+                        class="w-full"
+                        #description="ngModel"
+                        name="text"
+                        ngModel
+                        required
+                        minlength="10"
+                        style="resize: vertical; min-height: 120px;"
+                    ></textarea>
+                    <small class="text-red-500" *ngIf="description.invalid && description.touched">
+                        <span *ngIf="description.errors?.['required']">Description is required</span>
+                        <span *ngIf="description.errors?.['minlength']">Description must be at least 10 characters</span>
+                    </small>
+                </div>
+
+                <!-- Contact Information (Optional) -->
+                <div class="col-12 md:col-6 p-fluid mt-3 md:mt-4">
+                    <label for="contactName" class="block text-sm md:text-base font-medium text-900 mb-2">
+                        Your Name (Optional)
+                    </label>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-user"></i>
+                        <input 
+                            id="contactName"
+                            type="text" 
+                            pInputText 
+                            placeholder="Your full name"
+                            class="w-full"
+                            #contactName="ngModel"
+                            name="name"
+                            ngModel
+                        />
+                    </span>
+                </div>
+
+                <div class="col-12 md:col-6 p-fluid mt-3 md:mt-4">
+                    <label for="contactEmail" class="block text-sm md:text-base font-medium text-900 mb-2">
+                        Email Address (Optional)
+                    </label>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-envelope"></i>
+                        <input 
+                            id="contactEmail"
+                            type="email" 
+                            pInputText 
+                            placeholder="your.email@example.com"
+                            class="w-full"
+                            #contactEmail="ngModel"
+                            name="email"
+                            ngModel
+                            email
+                        />
+                    </span>
+                    <small class="text-red-500" *ngIf="contactEmail.invalid && contactEmail.touched">
+                        Please enter a valid email address
+                    </small>
+                    <small class="text-500 block mt-1">
+                        Provide email if you want a response to your feedback
+                    </small>
+                </div>
+                <div class="col-12 md:col-6 p-fluid mt-3 md:mt-4">
+                    <label for="contactEmail" class="block text-sm md:text-base font-medium text-900 mb-2">
+                        Contact number(Optional)
+                    </label>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-phone"></i>
+                        <input 
+                            id="contactEmail"
+                            type="text" 
+                            pInputText 
+                            class="w-full"
+                            #contactEmail="ngModel"
+                            name="contact"
+                            ngModel
+                        />
+                    </span>
+                </div>
+
+                <!-- Simple Math Captcha Section -->
+                <div class="col-12 mt-4 md:mt-5">
+                    <label class="block text-sm md:text-base font-medium text-900 mb-3">
+                        Security Verification <span class="text-red-500">*</span>
+                    </label>
+                    
+                    <!-- Simple Math Captcha -->
+                    <div class="surface-100 border-round p-3 mb-3">
+                        <div class="flex flex-column md:flex-row align-items-start md:align-items-center gap-3">
+                            <div class="flex align-items-center gap-2">
+                                <span class="text-lg font-bold text-900">What is 5 + 3?</span>
+                                <button 
+                                    type="button" 
+                                    class="p-button-text p-button-sm" 
+                                    pButton 
+                                    icon="pi pi-refresh"
+                                    pTooltip="Generate new captcha"
+                                    title="Generate new captcha"
+                                ></button>
+                            </div>
+                            <div class="p-fluid" style="max-width: 150px;">
+                                <input 
+                                    type="number" 
+                                    pInputText 
+                                    placeholder="Answer"
+                                    #captchaAnswer="ngModel"
+                                    name="captchaAnswer"
+                                    ngModel
+                                    required
+                                    class="text-center"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <small class="text-red-500" *ngIf="captchaAnswer.invalid && captchaAnswer.touched">
+                        Please solve the math problem (Answer: 8)
+                    </small>
+                </div>
+
+                <!-- Terms and Conditions -->
+                <div class="col-12 mt-3 md:mt-4">
+                    <div class="flex align-items-start gap-2">
+                        <input 
+                            type="checkbox"
+                            id="agreeTerms"
+                            #agreeToTerms="ngModel"
+                            name="agreeToTerms"
+                            ngModel
+                            required
+                            class="mt-1"
+                        />
+                        <label for="agreeTerms" class="text-sm md:text-base text-900 cursor-pointer">
+                            I agree that my feedback may be used to improve services and may be shared with relevant departments for resolution purposes. <span class="text-red-500">*</span>
+                        </label>
+                    </div>
+                    <small class="text-red-500 block mt-1" *ngIf="agreeToTerms.invalid && agreeToTerms.touched">
+                        Please agree to the terms to submit your feedback
+                    </small>
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="col-12 mt-4 md:mt-6">
+                    <div class="flex flex-column md:flex-row gap-3 justify-content-center md:justify-content-start">
+                        <button 
+                            type="submit"
+                            pButton 
+                            label="Submit Feedback" 
+                            icon="pi pi-send"
+                            class="p-button-primary"
+                            [disabled]="feedbackForm.invalid"
+                        ></button>
+                        
+                        <button 
+                            type="button"
+                            pButton 
+                            label="Clear Form" 
+                            icon="pi pi-refresh"
+                            class="p-button-outlined"
+                            (click)="clearForm(feedbackForm)"
+                        ></button>
+                    </div>
+                </div>
+
+                <!-- Form Status -->
+                <div class="col-12 mt-3">
+                    <div class="surface-100 border-round p-3" *ngIf="feedbackForm.submitted && feedbackForm.valid">
+                        <p class="text-green-600 mb-0">
+                            <i class="pi pi-check-circle mr-2"></i>
+                            Thank you! Your feedback has been submitted successfully.
+                        </p>
+                    </div>
+                    
+                    <div class="surface-100 border-round p-3" *ngIf="feedbackForm.submitted && feedbackForm.invalid">
+                        <p class="text-red-600 mb-0">
+                            <i class="pi pi-exclamation-triangle mr-2"></i>
+                            Please fill in all required fields correctly.
+                        </p>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Additional Information -->
+        <div class="mt-4 md:mt-6">
+            <div class="grid">
+                <div class="col-12 md:col-4">
+                    <div class="text-center p-3 border-round surface-50">
+                        <i class="pi pi-clock text-2xl text-primary mb-2"></i>
+                        <h4 class="text-sm md:text-base font-semibold text-900 mb-1">Quick Response</h4>
+                        <p class="text-xs md:text-sm text-600">We aim to respond within 2-3 business days</p>
+                    </div>
+                </div>
+                <div class="col-12 md:col-4">
+                    <div class="text-center p-3 border-round surface-50">
+                        <i class="pi pi-shield text-2xl text-primary mb-2"></i>
+                        <h4 class="text-sm md:text-base font-semibold text-900 mb-1">Confidential</h4>
+                        <p class="text-xs md:text-sm text-600">Your feedback is handled confidentially</p>
+                    </div>
+                </div>
+                <div class="col-12 md:col-4">
+                    <div class="text-center p-3 border-round surface-50">
+                        <i class="pi pi-heart text-2xl text-primary mb-2"></i>
+                        <h4 class="text-sm md:text-base font-semibold text-900 mb-1">Valued Input</h4>
+                        <p class="text-xs md:text-sm text-600">Every feedback helps us improve</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

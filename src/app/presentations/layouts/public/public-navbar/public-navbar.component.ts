@@ -99,6 +99,7 @@ export class PublicNavbarComponent implements OnInit {
                     {
                         label: 'Feedbacks',
                         icon: 'pi pi-fw pi-user-plus',
+                        routerLink: ['help/feedbacks'],
                     },
                     // {
                     //     label: 'Technical Guide',
