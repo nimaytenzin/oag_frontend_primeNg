@@ -1,0 +1,119 @@
+<!-- filepath: /Users/kinleywangyel/Desktop/Projects/OAG/production/oag_frontend_primeNg/src/app/presentations/admin/view-feedback/view-feedback.component.html -->
+<div class="p-3 md:p-6 bg-white" style="min-height: 80vh">
+    <!-- Header Section -->
+    <div class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4 md:mb-6">
+        <div class="mb-3 md:mb-0">
+            <h1 class="font-serif text-xl md:text-3xl text-900 mb-2">Feedbacks</h1>
+            <p class="text-sm md:text-base text-600">View and manage user feedback submissions</p>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="grid mb-4 md:mb-6">
+        <div class="col-12 md:col-3">
+            <div class="surface-50 border-round p-3 text-center">
+                <div class="text-2xl font-bold text-blue-600">{{ feedbacks.length }}</div>
+                <div class="text-sm text-600">Total Feedbacks</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Table -->
+    <div class="surface-50 border-round p-3 md:p-4 shadow-2">
+        <p-table #dt [value]="feedbacks" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20, 50]"
+            [globalFilterFields]="['title', 'description', 'name', 'email','contact']" [responsiveLayout]="'scroll'"
+            sortField="createdDate" [sortOrder]="-1" class="p-datatable-sm">
+            <!-- Table Header -->
+            <ng-template pTemplate="caption">
+                <div class="flex flex-column md:flex-row md:align-items-center md:justify-content-between gap-3">
+                    <h3 class="font-serif text-lg md:text-xl text-900 mb-0">Feedback Submissions</h3>
+                </div>
+            </ng-template>
+
+            <!-- Table Headers -->
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="title">
+                        Title <p-sortIcon field="title"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="description">
+                        Description<p-sortIcon field="text"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="name" class="">
+                        Name <p-sortIcon field="name"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="email" class="">
+                        Email<p-sortIcon field="email"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="contact" class="">
+                        Contact <p-sortIcon field="contact"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="createdAt" class="">
+                        Date submitted<p-sortIcon field="createdAt"></p-sortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+
+            <!-- Table Body -->
+            <ng-template pTemplate="body" let-feedback>
+                <tr>
+                    <!-- Title Column -->
+                    <td>
+                        <div class="flex flex-column">
+                            <span class="font-medium text-sm md:text-base">{{ feedback.title }}</span>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="flex flex-column">
+                            <span class="font-medium text-sm md:text-base">{{ feedback.text}}</span>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="flex flex-column">
+                            <span class="font-medium text-sm md:text-base">{{ feedback.name}}</span>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="flex flex-column">
+                            <span class="font-medium text-sm md:text-base">{{ feedback.email}}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="flex flex-column">
+                            <span class="font-medium text-sm md:text-base">{{ feedback.contact}}</span>
+                        </div>
+                    </td>
+
+                    <!-- Created Date Column -->
+                    <td>
+                        <div class="flex flex-column">
+                            <span class="text-sm">{{ feedback.createdAt| date:'MMM dd, y' }}</span>
+                        </div>
+                    </td>
+
+                    <!-- Actions Column -->
+                </tr>
+            </ng-template>
+
+            <!-- Empty State -->
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8" class="text-center py-6">
+                        <div class="flex flex-column align-items-center">
+                            <i class="pi pi-inbox text-4xl text-400 mb-3"></i>
+                            <p class="text-lg text-600 mb-2">No feedbacks found</p>
+                            <p class="text-sm text-500">Try adjusting your search criteria or filters</p>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+
+    <!-- Confirmation Dialog -->
+    <p-confirmDialog></p-confirmDialog>
+</div>

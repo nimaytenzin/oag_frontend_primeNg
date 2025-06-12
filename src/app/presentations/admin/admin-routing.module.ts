@@ -19,6 +19,7 @@ import { AdminViewDraftAmendmentComponent } from './view/admin-view-draft-amendm
 import { AdminListCurrentDelegatedLegislationsComponent } from './list/published/delegated legislations/admin-list-current-delegated-legislations/admin-list-current-delegated-legislations.component';
 import { AdminListRevokedDelegatedLegislationsComponent } from './list/published/delegated legislations/admin-list-revoked-delegated-legislations/admin-list-revoked-delegated-legislations.component';
 import { AdminViewLegislationComponent } from './view/admin-view-legislation/admin-view-legislation.component';
+import { ViewFeedbackComponent } from './view-feedback/view-feedback.component';
 
 const routes: Routes = [
     {
@@ -128,6 +129,10 @@ const routes: Routes = [
                         path: 'all',
                         component: AdminUserAllComponent,
                     },
+                    {
+                        path:'view-feedbacks',
+                        component: ViewFeedbackComponent
+                    }
                 ],
             },
         ],

@@ -31,6 +31,7 @@ export interface FeedbackDTO {
     name?: string;
     email?: string;
     contact?: string;
+    createdAt:string;
 }
 
 export interface LegislationDto {

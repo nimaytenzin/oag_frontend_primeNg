@@ -112,12 +112,9 @@ export class AdminMenuComponent implements OnInit {
                         routerLink: ['/admin/user/all'],
                     },
                     {
-                        label: 'Global Settings',
-                        icon: 'pi pi-fw pi-cog',
-                    },
-                    {
-                        label: 'Technical Documentation',
+                        label: 'Feedbacks',
                         icon: 'pi pi-fw pi-file',
+                        routerLink: ['/admin/user/view-feedbacks'],
                     },
                 ],
             },
