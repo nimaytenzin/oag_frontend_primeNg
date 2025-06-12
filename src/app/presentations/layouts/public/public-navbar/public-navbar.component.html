@@ -128,11 +128,7 @@
     <div class="w-full flex justify-center px-2 lg:px-6" id="center-header">
         <div class="flex justify-between items-center py-4 px-2">
             <div class="flex gap-4">
-                <img
-                    src="assets/logo/oag_logo.png"
-                    class="h-4rem lg:h-7rem"
-                    alt=""
-                />
+                <img src="assets/logo/oag_logo.png" class="h-4rem lg:h-7rem" alt="" />
                 <div class="flex flex-column justify-content-between">
                     <p class="font-serif text-2xl lg:text-6xl text-black">
                         Depository of Laws
@@ -150,23 +146,17 @@
         </div>
     </div>
 
-    <div
-        class="hidden xl:flex flex-grow-1 align-items-end justify-content-end lg:px-6"
-    >
+    <div class="flex w-full  align-items-end justify-content-end lg:px-6">
         <p-menubar [model]="items" class="flex-grow-1"> </p-menubar>
     </div>
 
-    <div
-        class="block xl:hidden flex justify-content-center align-items-center pr-6"
-    >
-        <p-button
-            (click)="sidebarVisible = !sidebarVisible"
-            icon="pi pi-bars"
-        ></p-button>
-    </div>
+    <!-- <div class="block xl:hidden flex justify-content-center align-items-center pr-6">
+        <p-button (click)="sidebarVisible = !sidebarVisible" icon="pi pi-bars"></p-button>
+    </div> -->
 
-    <p-sidebar [(visible)]="sidebarVisible" showCloseIcon="false">
-        <div class="flex flex-column align-items-center gap-4">
+    <!-- <p-sidebar [(visible)]="sidebarVisible" showCloseIcon="false"> -->
+        <!-- <p-menubar [model]="items" class=""> </p-menubar> -->
+        <!-- <div class="flex flex-column align-items-center gap-4">
             <div>
                 <img
                     src="assets/logo/oag_logo.png"
@@ -244,6 +234,7 @@
             class="text-xl cursor-pointer hover:text-blue-400 font-bold"
         >
             Login
-        </p>
-    </p-sidebar>
+        </p> -->
+
+    <!-- </p-sidebar> -->
 </div>
