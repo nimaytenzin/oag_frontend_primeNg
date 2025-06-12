@@ -14,6 +14,7 @@ import { PublicListModifiedDelegatedLegislationsComponent } from './delegated-le
 import { PublicGuidesTechnicalDescriptionComponent } from './guides/public-guides-technical-description/public-guides-technical-description.component';
 import { PublicViewDelegatedLegislationComponent } from './delegated-legislations/view-delegated-legislations/public-view-delegated-legislation/public-view-delegated-legislation.component';
 import { PublicHomeSearchResultsComponent } from './home/public-home-search-results/public-home-search-results.component';
+import { FeedbacksComponent } from './feedbacks/feedbacks.component';
 
 const routes: Routes = [
     {
@@ -69,8 +70,8 @@ const routes: Routes = [
                 path: 'help',
                 children: [
                     {
-                        path: 'technical-guide',
-                        component: PublicGuidesTechnicalDescriptionComponent,
+                        path: 'feedbacks',
+                        component: FeedbacksComponent
                     },
                 ],
             },
